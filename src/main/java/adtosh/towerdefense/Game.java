@@ -12,9 +12,9 @@ public class Game {
     // todo scenebuilder, build game ui, eg tower select section, area for upgrades/stats, buy button, play controls, lives wave etc
     // todo with the canvas in the center of it all
 
-    Canvas canvas;
-
-    GraphicsContext context;
+    private Canvas canvas;
+    private GraphicsContext context;
+    private GraphicsContext backGround;
 
 
 
@@ -22,9 +22,9 @@ public class Game {
     public enum GameState {PAUSED, NORMAL_SPEED, FAST_SPEED, ROUND_INACTIVE}
 
     // stores current GameState
-    GameState currentState = GameState.ROUND_INACTIVE;
+    private GameState currentState = GameState.ROUND_INACTIVE;
     // map of all turrets currently in play, should all have unique id
-    HashMap<String, Turret> turrets;
+    private HashMap<String, Turret> turrets;
 
     // standard new game from a level object
     public Game(Level level) {
@@ -48,16 +48,27 @@ public class Game {
 
     private long then;
     private AnimationTimer timer;
+    private boolean running = true;
 
-    public void init() { // starts timer loop, calls tick() every frame
+    public void init() { // starts timer loop, calls update() every frame
+      this.canvas = new Canvas();
+      this.context  = canvas.getGraphicsContext2D();
+
+    }
+
+    public void start(){
+        init();
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                tick((float) (now - then) / 1000000000f);
-                then = (now);
+                if (running) {
+                    update((float) (now - then) / 1000000000f);
+                    render(context);
+                    then = (now);
+                }
+
             }
         };
-        then = System.nanoTime();
         timer.start();
     }
 
@@ -75,12 +86,13 @@ public class Game {
     }
 
     // called every frame, has render and update code
-    void tick(float delta) {
+    void update(float delta) {
         System.out.println(delta);
+
     }
 
     // all rendering code goes in here
-    void render(GraphicsContext ctx) {
+    public void render(GraphicsContext ctx) {
 
     }
 

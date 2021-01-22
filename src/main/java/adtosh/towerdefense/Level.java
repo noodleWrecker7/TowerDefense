@@ -1,11 +1,13 @@
 package adtosh.towerdefense;
 
+import adtosh.towerdefense.Entity.Balloon;
+
 // level class, stores data about map, current wave, lives etc
 public class Level {
 
-    int wave;
-    int lives;
-    Balloon[] baloons;
+    private int wave;
+    private int lives;
+    private Balloon[] balloons;
 
-    Object mapdata;
+    private Object mapData;
 }
