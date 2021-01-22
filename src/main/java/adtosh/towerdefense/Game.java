@@ -17,7 +17,6 @@ public class Game {
     private GraphicsContext backGround;
 
 
-
     // enum for states of game
     public enum GameState {PAUSED, NORMAL_SPEED, FAST_SPEED, ROUND_INACTIVE}
 
@@ -28,7 +27,7 @@ public class Game {
 
     // standard new game from a level object
     public Game(Level level) {
-        canvas =(Canvas) ScreenManager.getPane("game.fxml").lookup("#gameCanvas");
+        canvas = (Canvas) ScreenManager.getPane("game.fxml").lookup("#gameCanvas");
         // todo handle mouse input, maybe short cut keys?
 //        canvas.addEventHandler();
 
@@ -95,6 +94,4 @@ public class Game {
     public void render(GraphicsContext ctx) {
 
     }
-
-
 }

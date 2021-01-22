@@ -1,4 +1,4 @@
-package adtosh.towerdefense.Entity;
+package adtosh.towerdefense.entity;
 
 import javafx.scene.canvas.GraphicsContext;
 
@@ -9,6 +9,7 @@ public abstract class Entity {
     protected double height;
 
     public abstract void render(GraphicsContext g);
-    public abstract void update();
+
+    public abstract void update(float delta);
 
 }
