@@ -1,11 +1,9 @@
 package adtosh.towerdefense;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,7 +15,9 @@ public class App extends Application {
         launch(args);
     }
 
-    private String[] pages = {"menu.fxml"}; // list of fxml pages to be loaded
+    private String[] pages = {"menu.fxml", "game.fxml"}; // list of fxml pages to be loaded
+
+    public static Game currentGame;
 
     @Override
     public void start(Stage stage) throws Exception{
@@ -35,6 +35,23 @@ public class App extends Application {
         ScreenManager.activate("menu.fxml");
         stage.setScene(scene);
         stage.show();
+
+
+        // todo decide what level to load
+        Level level = new Level();
+        currentGame = new Game(level);
+        currentGame.init();
+    }
+
+
+    // called every time a new page is switched to
+    public static void enteringPage(String name){
+
+    }
+
+    // called every time a page is left
+    public static void leavingPage(String name){
+
     }
 
 

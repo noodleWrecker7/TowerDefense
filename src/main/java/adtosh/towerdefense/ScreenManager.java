@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class ScreenManager {
     static private HashMap<String, Pane> screenMap = new HashMap<>();
     static private Scene main;
+    static private String currentPage = null;
 
     public static void setRootScene(Scene _main) {
         main = _main;
@@ -29,7 +30,12 @@ public class ScreenManager {
         screenMap.remove(name);
     }
 
+
+    // calls enteredPage and leavingPage every time page is changed
     protected static void activate(String name) {
+        if(currentPage != null) App.leavingPage(currentPage);
         main.setRoot(screenMap.get(name));
+        currentPage = name;
+        App.enteringPage(name);
     }
 }
