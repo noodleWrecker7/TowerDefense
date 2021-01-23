@@ -38,6 +38,7 @@ public class Game {
     private Image bg;
 
     public Game(Level _level) {
+        //CANVAS IS NULL
         canvas = (Canvas) ScreenManager.getPane("game.fxml").lookup("#gameCanvas");
         context = canvas.getGraphicsContext2D();
         context.scale(.53, .53);
