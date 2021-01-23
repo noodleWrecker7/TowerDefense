@@ -20,12 +20,15 @@ public class Game {
     private GraphicsContext context;
     private Canvas backCanvas;
     private GraphicsContext backGround;
+    //are 2 seperate canvases neccessary?
 
     private Level level;
 
 
     // enum for states of game
-    public enum GameState {PAUSED, NORMAL_SPEED, FAST_SPEED, ROUND_INACTIVE}
+    public enum GameState {
+        PAUSED, NORMAL_SPEED, FAST_SPEED, ROUND_INACTIVE
+    }
     //STORES WHAT PHASE THE ACTUAL GAME IS IN
 
     // stores current GameState
@@ -38,11 +41,13 @@ public class Game {
     private Image bg;
 
     public Game(Level _level) {
-        //CANVAS IS NULL
+
         canvas = (Canvas) ScreenManager.getPane("game.fxml").lookup("#gameCanvas");
+
         context = canvas.getGraphicsContext2D();
         context.scale(.53, .53);
         level = _level;
+//        Assets.init();
         // todo dynamic scaling to window size
         // todo handle mouse input, maybe short cut keys?
 
@@ -51,12 +56,12 @@ public class Game {
 
         // todo get background image from level data
         try {
-            bg = new Image("file:grass.png", true);
+//            bg = new Image("file:grass.png", true);
+            bg = new Image("assets/grass.png");
 
         } catch (Exception e) {
             System.out.println("er");
         }
-
 
 
     }
@@ -80,6 +85,7 @@ public class Game {
 
     // todo can probably remove this
     public void init() { // starts timer loop, calls update() every frame
+        Assets.init();
 
     }
 
@@ -115,13 +121,11 @@ public class Game {
 
     // called every frame, has render and update code
     void update(float delta) {
-//        System.out.println(delta);
 
 //        render(context);
         //ADAM I COMMENTED LINE ABOVE OUT BUD
 
-        //THIS CLASS SHOULD ALSO LOAD SOME BUTTONSm
-//        System.out.println("tick");
+
 
     }
 
@@ -130,9 +134,11 @@ public class Game {
         this.context = canvas.getGraphicsContext2D();
 
         // todo MAKE THIS ACTUALLY DRAW
-        context.drawImage(bg,0,0);
+        context.drawImage(bg, 0, 0);
+        //bg is NULL
 //        context.drawImage();
-        context.drawImage(Assets.spike, 50, 50);
+//        context.drawImage(Assets.spike, 50, 50, 100, 100);
+
 //        System.out.println("draw");
 //        ctx.setFill(Color.BLACK);
 //        ctx.fillRect(0, 0, canvas.getWidth() / 0.53, canvas.getHeight() / 0.53);
