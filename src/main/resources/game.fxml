@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="adtosh.towerdefense.Game"
-            prefHeight="400.0" prefWidth="600.0">
-    <Canvas fx:id="gameCanvas" width="800" height="600"></Canvas>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adtosh.towerdefense.Controller">
+    <Canvas fx:id="gameCanvas" height="600" width="800" />
 </AnchorPane>
+

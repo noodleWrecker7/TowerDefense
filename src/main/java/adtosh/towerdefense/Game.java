@@ -1,10 +1,14 @@
 package adtosh.towerdefense;
 
+import adtosh.towerdefense.levels.Level;
 import adtosh.towerdefense.turrets.Turret;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class Game {
@@ -14,7 +18,10 @@ public class Game {
 
     private Canvas canvas;
     private GraphicsContext context;
+    private Canvas backCanvas;
     private GraphicsContext backGround;
+
+    private Level level;
 
 
     // enum for states of game
@@ -27,10 +34,29 @@ public class Game {
     private HashMap<String, Turret> turrets;
 
     // standard new game from a level object
-    public Game(Level level) {
+
+    private Image bg;
+
+    public Game(Level _level) {
         canvas = (Canvas) ScreenManager.getPane("game.fxml").lookup("#gameCanvas");
+        context = canvas.getGraphicsContext2D();
+        context.scale(.53, .53);
+        level = _level;
+        // todo dynamic scaling to window size
         // todo handle mouse input, maybe short cut keys?
+
 //        canvas.addEventHandler();
+
+
+        // todo get background image from level data
+        try {
+            bg = new Image("file:grass.png", true);
+
+        } catch (Exception e) {
+            System.out.println("er");
+        }
+
+
 
     }
 
@@ -50,14 +76,15 @@ public class Game {
     private AnimationTimer timer;
     private boolean running = true;
 
+
+    // todo can probably remove this
     public void init() { // starts timer loop, calls update() every frame
-      this.canvas = new Canvas();
-      this.context  = canvas.getGraphicsContext2D();
 
     }
 
-    public void start(){
+    public void start() {
         init();
+        then = System.nanoTime();
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -87,12 +114,21 @@ public class Game {
 
     // called every frame, has render and update code
     void update(float delta) {
-        System.out.println(delta);
+//        System.out.println(delta);
+
+        render(context);
+//        System.out.println("tick");
 
     }
 
     // all rendering code goes in here
     public void render(GraphicsContext ctx) {
 
+        // todo MAKE THIS ACTUALLY DRAW
+        ctx.drawImage(bg,0,0);
+//        System.out.println("draw");
+//        ctx.setFill(Color.BLACK);
+//        ctx.fillRect(0, 0, canvas.getWidth() / 0.53, canvas.getHeight() / 0.53);
+        level.drawPath(ctx);
     }
 }

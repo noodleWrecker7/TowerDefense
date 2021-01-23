@@ -1,5 +1,6 @@
 package adtosh.towerdefense;
 
+import adtosh.towerdefense.levels.Level;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,12 +19,13 @@ public class App extends Application {
     private String[] pages = {"menu.fxml", "game.fxml"}; // list of fxml pages to be loaded
 
     public static Game currentGame;
+    public static ClassLoader classloader;
 
     @Override
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) throws Exception {
         System.out.println("Wag Wan!");
 
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        classloader = Thread.currentThread().getContextClassLoader();
         // blank fxml for root
         Parent root = new FXMLLoader().load(classloader.getResourceAsStream("root.fxml"));
         Scene scene = new Scene(root);
@@ -38,19 +40,17 @@ public class App extends Application {
 
 
         // todo decide what level to load
-        Level level = new Level();
-        currentGame = new Game(level);
-        currentGame.init();
+
     }
 
 
     // called every time a new page is switched to
-    public static void enteringPage(String name){
+    public static void enteringPage(String name) {
 
     }
 
     // called every time a page is left
-    public static void leavingPage(String name){
+    public static void leavingPage(String name) {
 
     }
 
@@ -59,9 +59,15 @@ public class App extends Application {
         for (String name : pages) {
             try {
                 // loads each page and adds it to screen manager
-                ScreenManager.addScreen(name, new FXMLLoader().load(classloader.getResourceAsStream("menu.fxml")));
+                ScreenManager.addScreen(name, new FXMLLoader().load(classloader.getResourceAsStream(name)));
             } catch (IOException e) {
                 System.out.println("Error loading page " + name + " game may be unstable");
+//                System.out.println(e.toString());
+                for (StackTraceElement line: e.getStackTrace()) {
+                    System.out.println(line.toString());
+                }
+
+                System.exit(1);
             }
         }
     }
