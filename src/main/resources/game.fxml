@@ -10,10 +10,10 @@
     <!--<Canvas fx:id="gameCanvas" height="600" width="800" />-->
 
 <!--</AnchorPane>-->
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adtosh.towerdefense.Controller">
-    <Canvas fx:id="gameCanvas" height="600" width="800" />
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adtosh.towerdefense.Controller">
+    <Canvas fx:id="gameCanvas" height="600" width="1000" />
 <children>
-    <VBox layoutX="657.0" layoutY="14.0" prefHeight="558.0" prefWidth="100.0">
+    <VBox layoutX="850.0" layoutY="14.0" prefHeight="558.0" prefWidth="100.0">
         <children>
             <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="102.0" text="Button" />
             <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="102.0" text="Button" />
@@ -21,9 +21,9 @@
             <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="102.0">
                 <graphic>
                     <ImageView fitHeight="65.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
-                        <!--<image>-->
-                            <!--<Image url="@assets/Defenses/Spikes.png" />-->
-                        <!--</image>-->
+                        <image>
+                            <Image url="@assets/Defenses/Spikes.png" />
+                        </image>
                     </ImageView>
                 </graphic>
             </Button>

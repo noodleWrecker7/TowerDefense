@@ -11,7 +11,6 @@ public class Controller {
 
     @FXML
     public void loadLevel1(MouseEvent event) {
-        System.out.println("Here");
         loadLevel(0);
 
   //       loads level and starts gameplay
@@ -27,6 +26,7 @@ public class Controller {
     @FXML
     public void loadLevel2(MouseEvent mouseEvent) {
         loadLevel(1);
+
     }
 
     @FXML

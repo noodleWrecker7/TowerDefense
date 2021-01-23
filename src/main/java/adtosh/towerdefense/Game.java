@@ -91,7 +91,7 @@ public class Game {
             public void handle(long now) {
                 if (running) {
                     update((float) (now - then) / 1000000000f);
-                    render(context);
+                    render();
                     then = (now);
                 }
 
@@ -116,20 +116,26 @@ public class Game {
     // called every frame, has render and update code
     void update(float delta) {
 //        System.out.println(delta);
-        render(context);
+
+//        render(context);
+        //ADAM I COMMENTED LINE ABOVE OUT BUD
+
         //THIS CLASS SHOULD ALSO LOAD SOME BUTTONSm
 //        System.out.println("tick");
 
     }
 
     // all rendering code goes in here
-    public void render(GraphicsContext ctx) {
+    public void render() {
+        this.context = canvas.getGraphicsContext2D();
 
         // todo MAKE THIS ACTUALLY DRAW
-        ctx.drawImage(bg,0,0);
+        context.drawImage(bg,0,0);
+//        context.drawImage();
+        context.drawImage(Assets.spike, 50, 50);
 //        System.out.println("draw");
 //        ctx.setFill(Color.BLACK);
 //        ctx.fillRect(0, 0, canvas.getWidth() / 0.53, canvas.getHeight() / 0.53);
-        level.drawPath(ctx);
+        level.drawPath(context);
     }
 }

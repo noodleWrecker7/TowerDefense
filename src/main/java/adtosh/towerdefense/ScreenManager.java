@@ -34,6 +34,7 @@ public class ScreenManager{
 
     // calls enteredPage and leavingPage every time page is changed
     protected static void activate(String name) {
+        //PROBLEM: WE NEED TO SWITCH SCENES TO HAVE THE ABILITY TO HAVE DIFFERENT SIZED WINDOWS
         if(currentPage != null) App.leavingPage(currentPage);
         main.setRoot(screenMap.get(name));
         currentPage = name;

@@ -59,7 +59,7 @@ public class App extends Application {
         for (String name : pages) {
             try {
                 // loads each page and adds it to screen manager
-                ScreenManager.addScreen(name, new FXMLLoader().load(classloader.getResourceAsStream(name)));
+                ScreenManager.addScreen(name, new FXMLLoader(getClass().getResource("/game.fxml")).load(classloader.getResourceAsStream(name)));
             } catch (IOException e) {
                 System.out.println("Error loading page " + name + " game may be unstable");
 //                System.out.println(e.toString());
