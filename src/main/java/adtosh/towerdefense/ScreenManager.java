@@ -5,7 +5,8 @@ import javafx.scene.layout.Pane;
 
 import java.util.HashMap;
 
-public class ScreenManager {
+public class ScreenManager{
+    //MY VERSION OF STATE
     static private HashMap<String, Pane> screenMap = new HashMap<>();
     static private Scene main;
     static private String currentPage = null;

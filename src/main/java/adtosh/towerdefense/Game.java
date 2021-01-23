@@ -19,6 +19,7 @@ public class Game {
 
     // enum for states of game
     public enum GameState {PAUSED, NORMAL_SPEED, FAST_SPEED, ROUND_INACTIVE}
+    //STORES WHAT PHASE THE ACTUAL GAME IS IN
 
     // stores current GameState
     private GameState currentState = GameState.ROUND_INACTIVE;
