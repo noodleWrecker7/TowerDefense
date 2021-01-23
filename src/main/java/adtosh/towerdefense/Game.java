@@ -83,7 +83,7 @@ public class Game {
     }
 
     public void start() {
-        init();
+//        init();
         then = System.nanoTime();
         timer = new AnimationTimer() {
             @Override
@@ -115,8 +115,8 @@ public class Game {
     // called every frame, has render and update code
     void update(float delta) {
 //        System.out.println(delta);
-
         render(context);
+        //THIS CLASS SHOULD ALSO LOAD SOME BUTTONSm
 //        System.out.println("tick");
 
     }

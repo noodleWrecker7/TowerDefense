@@ -18,6 +18,10 @@ public class Level {
     private int[][] mapPath;
     private Path path;
 
+    public Level() {
+
+    }
+
     public void loadPath(int level) {
 
         mapPath = LevelPaths.paths[level];
