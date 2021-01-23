@@ -12,23 +12,40 @@ public class Controller {
     @FXML
     public void loadLevel1(MouseEvent event) {
         System.out.println("Here");
+        loadLevel(0);
 
-        // loads level and starts gameplay
+  //       loads level and starts gameplay
+//        Level level = new Level();
+//        level.loadPath(0);
+//        App.currentGame = new Game(level);
+//        App.currentGame.start();
+//
+//        // then shows it
+//        ScreenManager.activate("game.fxml");
+    }
+
+    @FXML
+    public void loadLevel2(MouseEvent mouseEvent) {
+        loadLevel(1);
+    }
+
+    @FXML
+    public void loadLevel3(MouseEvent event) {
+
+    }
+
+    @FXML
+    public void loadLevel4(MouseEvent event) {
+    }
+
+    private void  loadLevel(int levelID){
         Level level = new Level();
-        level.loadPath(0);
+        level.loadPath(levelID);
         App.currentGame = new Game(level);
         App.currentGame.start();
 
         // then shows it
         ScreenManager.activate("game.fxml");
-    }
-
-    @FXML
-    public void loadLevel2(MouseEvent mouseEvent) {
-    }
-
-    @FXML
-    public void loadLevel3(ActionEvent event) {
 
     }
 }
