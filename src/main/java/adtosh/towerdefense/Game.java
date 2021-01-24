@@ -135,7 +135,7 @@ public class Game {
         // this line doesnt need to be there context gets declared in the Game() constructor
 
         // todo MAKE THIS ACTUALLY DRAW
-        context.drawImage(bg, 0, 0, 1800, 1150);
+        context.drawImage(bg, 0, 0, 1550, 1150);
 
 //        context.drawImage();
 //        context.drawImage(Assets.spike, 50, 50, 100, 100);
