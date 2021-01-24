@@ -134,7 +134,7 @@ public class Game {
         this.context = canvas.getGraphicsContext2D();
 
         // todo MAKE THIS ACTUALLY DRAW
-        context.drawImage(bg, 0, 0);
+        context.drawImage(bg, 0, 0, 1800, 1150);
 
 //        context.drawImage();
 //        context.drawImage(Assets.spike, 50, 50, 100, 100);
