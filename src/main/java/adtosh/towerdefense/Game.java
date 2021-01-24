@@ -1,5 +1,6 @@
 package adtosh.towerdefense;
 
+import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.levels.Level;
 import adtosh.towerdefense.turrets.Turret;
 import javafx.animation.AnimationTimer;
@@ -43,25 +44,15 @@ public class Game {
     public Game(Level _level) {
 
         canvas = (Canvas) ScreenManager.getPane("game.fxml").lookup("#gameCanvas");
-
         context = canvas.getGraphicsContext2D();
         context.scale(.53, .53);
         level = _level;
-//        Assets.init();
+        loadSaveData("level" + level.getLevelID());
         // todo dynamic scaling to window size
         // todo handle mouse input, maybe short cut keys?
-
 //        canvas.addEventHandler();
-
-
         // todo get background image from level data
-        try {
-//            bg = new Image("file:grass.png", true);
-//            bg = new Image("grass.png");
 
-        } catch (Exception e) {
-            System.out.println("er");
-        }
 
 
     }
@@ -74,6 +65,14 @@ public class Game {
 
     // load save data from file and edit game vars
     private void loadSaveData(String file) {
+        level.setStartX(100);
+        level.setStartY(500);
+        level.addBalloons();
+        //todo hardcoded for now only
+
+//        level.loadDataFromFile();
+        //maybe make this method in the level class becuase its responsible for storing data for the current level?
+        //i used setter for now
 
     }
 

@@ -17,21 +17,33 @@ public class Level {
     private int wave;
     private int lives;
 //    private Balloon[] balloons;
-
     private ArrayList<Balloon> balloons = new ArrayList<>();
     //arraylist would be easier in this situation?
 
     private int[][] mapPath;
     private Path path;
 
-    public Level() {
+    private int levelID;
+
+    private int startX;
+    private int startY;
+
+    public Level(int levelID) {
+        this.levelID = levelID;
 
     }
 
     public void loadDataFromFile(){
-        //called from controller class
+//        balloons.add(new Balloon(startX, startY, 50, 50, Assets.balloon ));
+        //todo create a timer so that each ballon is released seperately
+        //for now we should just work with one tho
 
     }
+
+    public void addBalloons(){
+        balloons.add(new Balloon(startX, startY, 50, 50, Assets.balloon ));
+    }
+
 
     public void loadPath(int level) {
 
@@ -71,4 +83,15 @@ public class Level {
 
     }
 
+    public int getLevelID() {
+        return levelID;
+    }
+
+    public void setStartX(int startX) {
+        this.startX = startX;
+    }
+
+    public void setStartY(int startY) {
+        this.startY = startY;
+    }
 }

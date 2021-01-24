@@ -39,7 +39,7 @@ public class Controller {
     }
 
     private void  loadLevel(int levelID){
-        Level level = new Level();
+        Level level = new Level(levelID);
         level.loadPath(levelID);
         App.currentGame = new Game(level);
         App.currentGame.start();
