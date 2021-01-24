@@ -85,7 +85,7 @@ public class Game {
 
     // todo can probably remove this
     public void init() { // starts timer loop, calls update() every frame
-        Assets.init();
+//        Assets.init();
 
     }
 
@@ -131,7 +131,8 @@ public class Game {
 
     // all rendering code goes in here
     public void render() {
-        this.context = canvas.getGraphicsContext2D();
+//        this.context = canvas.getGraphicsContext2D();
+        // this line doesnt need to be there context gets declared in the Game() constructor
 
         // todo MAKE THIS ACTUALLY DRAW
         context.drawImage(bg, 0, 0, 1800, 1150);
