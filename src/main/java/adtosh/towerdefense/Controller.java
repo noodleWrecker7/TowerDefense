@@ -2,6 +2,7 @@ package adtosh.towerdefense;
 
 
 import adtosh.towerdefense.levels.Level;
+import adtosh.towerdefense.turrets.Spike;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -50,6 +51,12 @@ public class Controller {
 
         // then shows it
         ScreenManager.activate("game.fxml");
+
+    }
+
+    public void buySpike(MouseEvent event) {
+        Spike spike = new Spike();
+
 
     }
 }

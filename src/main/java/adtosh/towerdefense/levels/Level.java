@@ -14,6 +14,15 @@ public class Level {
 
     // these are all fields that should be loaded from file
     private int wave;
+    private int lives;
+    //    private Balloon[] balloons;
+    private ArrayList<Balloon> balloons = new ArrayList<>();
+    //arraylist would be easier in this situation?
+
+    private int[][] mapPath;
+
+    private int levelID;
+
 
     public int getLives() {
         return lives;
@@ -23,14 +32,7 @@ public class Level {
         this.lives = lives;
     }
 
-    private int lives;
-    //    private Balloon[] balloons;
-    private ArrayList<Balloon> balloons = new ArrayList<>();
-    //arraylist would be easier in this situation?
 
-    private int[][] mapPath;
-
-    private int levelID;
 
     private int startX;
     private int startY;
