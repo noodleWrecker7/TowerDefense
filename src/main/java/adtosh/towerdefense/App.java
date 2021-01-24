@@ -33,7 +33,7 @@ public class App extends Application {
 
         // adds all pages to screen manager
         loadPages(classloader);
-
+        Assets.init();
         ScreenManager.activate("menu.fxml");
         stage.setScene(scene);
         stage.show();

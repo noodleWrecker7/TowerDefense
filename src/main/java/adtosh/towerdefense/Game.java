@@ -38,7 +38,7 @@ public class Game {
 
     // standard new game from a level object
 
-    private Image bg;
+//    private Image bg;
 
     public Game(Level _level) {
 
@@ -57,7 +57,7 @@ public class Game {
         // todo get background image from level data
         try {
 //            bg = new Image("file:grass.png", true);
-            bg = new Image("grass.png");
+//            bg = new Image("grass.png");
 
         } catch (Exception e) {
             System.out.println("er");
@@ -90,7 +90,7 @@ public class Game {
     }
 
     public void start() {
-//        init();
+        init();
         then = System.nanoTime();
         timer = new AnimationTimer() {
             @Override
@@ -122,27 +122,12 @@ public class Game {
     // called every frame, has render and update code
     void update(float delta) {
 
-//        render(context);
-        //ADAM I COMMENTED LINE ABOVE OUT BUD
-
-
-
     }
 
-    // all rendering code goes in here
     public void render() {
 //        this.context = canvas.getGraphicsContext2D();
-        // this line doesnt need to be there context gets declared in the Game() constructor
+        level.render(context);
 
-        // todo MAKE THIS ACTUALLY DRAW
-        context.drawImage(bg, 0, 0, 1550, 1150);
 
-//        context.drawImage();
-//        context.drawImage(Assets.spike, 50, 50, 100, 100);
-
-//        System.out.println("draw");
-//        ctx.setFill(Color.BLACK);
-//        ctx.fillRect(0, 0, canvas.getWidth() / 0.53, canvas.getHeight() / 0.53);
-        level.drawPath(context);
     }
 }
