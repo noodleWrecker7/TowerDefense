@@ -11,7 +11,7 @@ public class Balloon extends Entity {
 
     int balloonType;
     int currentPathPoint = 1;
-    double speed = 100; // pixels per second
+    double speed = 200; // pixels per second
 
     public Balloon(double x, double y, int type) {
         super(x, y);
@@ -33,14 +33,18 @@ public class Balloon extends Entity {
 
     @Override
     public void update(float delta) {
-        System.out.println(currentPathPoint);
         int[] pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
         double px = pointCoords[0] - x;
         double py = pointCoords[1] - y;
 
         double tanRes = Math.atan(py / px);
+        if(px == 0) {
+            tanRes = 90;
+        }
+
         if (Double.isNaN(tanRes)) {
             tanRes = 90;
+            System.out.println("nan");
         }
         double dX = Math.cos(tanRes) * speed * delta;
         double dY = Math.sin(tanRes) *speed * delta;
