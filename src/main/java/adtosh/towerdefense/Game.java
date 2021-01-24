@@ -42,7 +42,7 @@ public class Game {
 
         canvas = (Canvas) ScreenManager.getPane("game.fxml").lookup("#gameCanvas");
         context = canvas.getGraphicsContext2D();
-        context.scale(.53, .53);
+        context.scale(.5, .5);
         level = _level;
         loadSaveData("level" + level.getLevelID());
         // todo dynamic scaling to window size
