@@ -1,8 +1,7 @@
 package adtosh.towerdefense.levels;
 
-import adtosh.towerdefense.Assets;
+import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
@@ -16,7 +15,7 @@ public class Level {
 
     private int wave;
     private int lives;
-//    private Balloon[] balloons;
+    //    private Balloon[] balloons;
     private ArrayList<Balloon> balloons = new ArrayList<>();
     //arraylist would be easier in this situation?
 
@@ -33,15 +32,15 @@ public class Level {
 
     }
 
-    public void loadDataFromFile(){
+    public void loadDataFromFile() {
 //        balloons.add(new Balloon(startX, startY, 50, 50, Assets.balloon ));
         //todo create a timer so that each ballon is released seperately
         //for now we should just work with one tho
 
     }
 
-    public void addBalloons(){
-        balloons.add(new Balloon(startX, startY, 50, 50, Assets.balloon ));
+    public void addBalloons() {
+        balloons.add(new Balloon(startX, startY, 0));
     }
 
 
@@ -76,10 +75,12 @@ public class Level {
 
     }
 
-    public void render(GraphicsContext context){
-        context.drawImage(Assets.grass, 0, 0, 1550, 1150);
-        context.drawImage(Assets.balloon, 50, 50, 140, 40);
-        this.drawPath(context);
+    public void render(GraphicsContext g) {
+//        context.drawImage(TextureManager.grass, 0, 0, 1550, 1150);
+//        context.drawImage(TextureManager.balloon, 50, 50, 140, 40);
+        g.drawImage(TextureManager.getTexture("grass"), 0, 0);
+        balloons.get(0).render(g);
+        this.drawPath(g);
 
     }
 

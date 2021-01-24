@@ -19,9 +19,6 @@ public class Game {
 
     private Canvas canvas;
     private GraphicsContext context;
-    private Canvas backCanvas;
-    private GraphicsContext backGround;
-    //are 2 seperate canvases neccessary?
 
     private Level level;
 
@@ -36,6 +33,7 @@ public class Game {
     private GameState currentState = GameState.ROUND_INACTIVE;
     // map of all turrets currently in play, should all have unique id
     private HashMap<String, Turret> turrets;
+
 
     // standard new game from a level object
 
@@ -52,7 +50,6 @@ public class Game {
         // todo handle mouse input, maybe short cut keys?
 //        canvas.addEventHandler();
         // todo get background image from level data
-
 
 
     }

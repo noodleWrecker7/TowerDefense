@@ -1,6 +1,6 @@
 package adtosh.towerdefense.entity;
 
-import adtosh.towerdefense.Assets;
+import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -8,12 +8,14 @@ import javafx.scene.image.Image;
 import java.util.ArrayList;
 
 public class Balloon extends Entity {
-    private Image currentTexture;
-    private ArrayList<Image> textureList = new ArrayList<>();
 
-    public Balloon(double x, double y, double width, double height, Image currentTexture) {
-        super(x, y, width, height);
-        this.currentTexture = currentTexture;
+    static String balloonFilePrefix = "balloon-";
+
+    int balloonType;
+
+    public Balloon(double x, double y, int type) {
+        super(x, y);
+        balloonType = type;
 
     }
 
@@ -23,7 +25,11 @@ public class Balloon extends Entity {
 
     @Override
     public void render(GraphicsContext g) {
-        g.drawImage(Assets.balloon, x, y, width, height);
+        // this is what it should be
+         g.drawImage(TextureManager.getTexture(balloonFilePrefix+balloonType), x, y, width, height);
+
+        // just for testing
+//         g.drawImage(TextureManager.getTexture("balloon"), x, y);
     }
 
     @Override
