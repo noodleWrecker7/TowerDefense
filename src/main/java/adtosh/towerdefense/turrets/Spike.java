@@ -1,4 +1,4 @@
 package adtosh.towerdefense.turrets;
 
-public interface Turret {
+public class Spike {
 }

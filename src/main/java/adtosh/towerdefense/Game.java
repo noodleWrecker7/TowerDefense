@@ -1,15 +1,10 @@
 package adtosh.towerdefense;
 
-import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.levels.Level;
-import adtosh.towerdefense.turrets.Turret;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
-import java.io.File;
 import java.util.HashMap;
 
 public class Game {

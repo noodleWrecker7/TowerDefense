@@ -9,13 +9,16 @@ public class Balloon extends Entity {
 
     static String balloonFilePrefix = "balloon-";
 
-    int balloonType;
-    int currentPathPoint = 1;
-    double speed = 200; // pixels per second
+    private int layers;
+    private int currentPathPoint = 1;
+    private double speed = 200; // pixels per second
+
+    private int velX;
+    private int velY;
 
     public Balloon(double x, double y, int type) {
         super(x, y);
-        balloonType = type;
+        layers = type;
 
     }
 
@@ -25,7 +28,7 @@ public class Balloon extends Entity {
 
     @Override
     public void render(GraphicsContext g) {
-        g.drawImage(TextureManager.getTexture(balloonFilePrefix + balloonType), x, y);
+        g.drawImage(TextureManager.getTexture(balloonFilePrefix + layers), x, y);
 
         // just for testing
 //         g.drawImage(TextureManager.getTexture("balloon"), x, y);
@@ -34,30 +37,62 @@ public class Balloon extends Entity {
     @Override
     public void update(float delta) {
         int[] pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
-        double px = pointCoords[0] - x;
-        double py = pointCoords[1] - y;
-
-        double tanRes = Math.atan(py / px);
-        if(px == 0) {
-            tanRes = 90;
+        double px = pointCoords[0];
+        double py = pointCoords[1];
+        if (this.x>px){
+            //goLeft
+            velX = -2;
+        }
+        else if (velX<px){
+            //goRight
+            velX = 2;
+        }else{
+            velX=0;
         }
 
-        if (Double.isNaN(tanRes)) {
-            tanRes = 90;
-            System.out.println("nan");
+        if (this.y > py){
+            //go up
+            velY = -2;
         }
-        double dX = Math.cos(tanRes) * speed * delta;
-        double dY = Math.sin(tanRes) *speed * delta;
+        else if (this.y<py){
+            //goDown
+            velY=2;
+        }else {
+            velY=0;
+        }
 
-        if (dX > px || py > dY) {
-            x = pointCoords[0];
-            y = pointCoords[1];
+        if (this.x == px && this.y == py){
             currentPathPoint++;
-            return;
         }
 
-        x += dX;
-        y += dY;
+        this.x += velX;
+        this.y += velY;
+
+//        int[] pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
+//        double px = pointCoords[0] - x;
+//        double py = pointCoords[1] - y;
+//
+//        double tanRes = Math.atan(py / px);
+//        if(px == 0) {
+//            tanRes = 90;
+//        }
+//
+//        if (Double.isNaN(tanRes)) {
+//            tanRes = 90;
+//            System.out.println("nan");
+//        }
+//        double dX = Math.cos(tanRes) * speed * delta;
+//        double dY = Math.sin(tanRes) *speed * delta;
+//
+//        if (dX > px || py > dY) {
+//            x = pointCoords[0];
+//            y = pointCoords[1];
+//            currentPathPoint++;
+//            return;
+//        }
+//
+//        x += dX;
+//        y += dY;
 
 
     }
