@@ -57,7 +57,7 @@ public class Game {
         // todo get background image from level data
         try {
 //            bg = new Image("file:grass.png", true);
-            bg = new Image("assets/grass.png");
+            bg = new Image("grass.png");
 
         } catch (Exception e) {
             System.out.println("er");
@@ -136,7 +136,7 @@ public class Game {
 
         // todo MAKE THIS ACTUALLY DRAW
         context.drawImage(bg, 0, 0);
-        //bg is NULL
+
 //        context.drawImage();
 //        context.drawImage(Assets.spike, 50, 50, 100, 100);
 
