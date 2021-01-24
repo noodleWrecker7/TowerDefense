@@ -55,7 +55,7 @@ public class Controller {
     }
 
     public void buySpike(MouseEvent event) {
-        Spike spike = new Spike();
+        Spike spike = new Spike(event.getScreenX(), event.getScreenY());
 
 
     }

@@ -26,6 +26,7 @@ public class TextureManager {
 
     public static void init() {
         loadImage("grass", "grass.png");
+        loadImage("spike", "Spikes.png");
         System.out.println("loaded grass");
 
         // loads the balloon 50 pixels wide and keeps the aspect ratio

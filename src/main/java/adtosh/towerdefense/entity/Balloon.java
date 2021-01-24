@@ -45,8 +45,6 @@ public class Balloon extends Entity {
     public void render(GraphicsContext g) {
         g.drawImage(TextureManager.getTexture(balloonFilePrefix + layers), x - width / 2, y - height / 2);
 
-        // just for testing
-//         g.drawImage(TextureManager.getTexture("balloon"), x, y);
     }
 
     @Override

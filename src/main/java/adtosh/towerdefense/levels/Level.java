@@ -2,6 +2,7 @@ package adtosh.towerdefense.levels;
 
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
+import adtosh.towerdefense.entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -17,7 +18,8 @@ public class Level {
     private int lives;
     //    private Balloon[] balloons;
     private ArrayList<Balloon> balloons = new ArrayList<>();
-    //arraylist would be easier in this situation?
+    public static ArrayList<Entity> entities = new ArrayList<>();
+    //todo possibly pass a level object to every class so entities doesnt have to be static
 
     private int[][] mapPath;
 
@@ -96,10 +98,13 @@ public class Level {
 //        context.drawImage(TextureManager.grass, 0, 0, 1550, 1150);
 //        context.drawImage(TextureManager.balloon, 50, 50, 140, 40);
         g.drawImage(TextureManager.getTexture("grass"), 0, 0);
-
-        for (Balloon b : balloons) {
-            b.render(g);
+        for (Entity entity: entities){
+            entity.render(g);
         }
+
+//        for (Balloon b : balloons) {
+//            b.render(g);
+//        }
         this.drawPath(g);
     }
 
@@ -127,5 +132,7 @@ public class Level {
     public int getLevelID() {
         return levelID;
     }
+
+
 
 }
