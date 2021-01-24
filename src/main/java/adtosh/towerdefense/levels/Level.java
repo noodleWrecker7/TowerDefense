@@ -6,12 +6,23 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
 
 // level class, stores data about map, current wave, lives etc
 public class Level {
 
     // these are all fields that should be loaded from file
     private int wave;
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
     private int lives;
     //    private Balloon[] balloons;
     private ArrayList<Balloon> balloons = new ArrayList<>();
@@ -30,8 +41,16 @@ public class Level {
 
     }
 
+    public void removeBalloon(Balloon b) {
+        balloons.remove(b);
+    }
+
     public int[] getPathPoint(int index) {
         return mapPath[index];
+    }
+
+    public int pathLength() {
+        return mapPath.length;
     }
 
     public void loadDataFromFile() {
@@ -51,6 +70,8 @@ public class Level {
 
     public void loadPath(int level) {
         mapPath = LevelPaths.paths[level];
+        startX = mapPath[0][0];
+        startY = mapPath[0][1];
     }
 
     // debug method
@@ -80,9 +101,25 @@ public class Level {
         this.drawPath(g);
     }
 
+    float timeSinceSpawn = 0;
+    final float TimeTilSpawn = 0.5f;
+
     public void update(float delta) {
-        for (Balloon b : balloons) {
+        timeSinceSpawn += delta;
+        if (timeSinceSpawn > TimeTilSpawn) {
+            Random rand = new Random();
+            balloons.add(new Balloon(startX, startY, rand.nextInt(7)));
+            timeSinceSpawn = 0;
+        }
+
+        Iterator bIter = balloons.iterator();
+        while(bIter.hasNext()) {
+            Balloon b = (Balloon) bIter.next();
             b.update(delta);
+            if (b.getLayers() < 0) {
+//                balloons.remove(b);
+                bIter.remove();
+            }
         }
     }
 

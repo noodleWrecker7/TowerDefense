@@ -29,11 +29,15 @@ public class TextureManager {
         System.out.println("loaded grass");
 
         // loads the balloon 50 pixels wide and keeps the aspect ratio
-        loadImage("balloon", "balloon.png", 50, 0, true);
-        System.out.println("loaded balloon");
 
         loadImage("balloon-0", "balloon-0.png", 50, 0, true);
         System.out.println("loaded balloon-0");
+
+
+        for (int i = 0; i < 6; i++) {
+            loadImage("balloon-"+i, "balloon-"+i+".png", 50, 0, true);
+        }
+        loadImage("balloon-6", "balloon-6.png", 40, 0, true);
     }
 
 }

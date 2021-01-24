@@ -8,14 +8,21 @@ import javafx.scene.canvas.GraphicsContext;
 public class Balloon extends Entity {
 
     static String balloonFilePrefix = "balloon-";
+    double width;
+    double height;
 
-    int balloonType;
+    int layers;
     int currentPathPoint = 1;
-    double speed = 200; // pixels per second
+
+    final static double[] SPEEDS = { // pixels per seconds
+            75, 100, 125, 125, 200, 250, 700
+    };
 
     public Balloon(double x, double y, int type) {
         super(x, y);
-        balloonType = type;
+        layers = type;
+        width = TextureManager.getTexture(balloonFilePrefix + type).getWidth();
+        height = TextureManager.getTexture(balloonFilePrefix + type).getHeight();
 
     }
 
@@ -25,7 +32,7 @@ public class Balloon extends Entity {
 
     @Override
     public void render(GraphicsContext g) {
-        g.drawImage(TextureManager.getTexture(balloonFilePrefix + balloonType), x, y);
+        g.drawImage(TextureManager.getTexture(balloonFilePrefix + layers), x - width / 2, y - height / 2);
 
         // just for testing
 //         g.drawImage(TextureManager.getTexture("balloon"), x, y);
@@ -38,6 +45,8 @@ public class Balloon extends Entity {
         double py = pointCoords[1] - y;
         double dX = 0;
         double dY = 0;
+
+        double speed = SPEEDS[layers];
 
         if (py == 0) {
             if (px > 0) {
@@ -69,17 +78,23 @@ public class Balloon extends Entity {
             dY = Math.sin(tanRes) * speed * delta;
         }
 
-        if(Math.abs(dX) > Math.abs(px) || Math.abs(dY) > Math.abs(py)) {
+        if (Math.abs(dX) > Math.abs(px) || Math.abs(dY) > Math.abs(py)) {
 //        if ((dX > px && px > 0) || (dY > py && py > 0) || (dY < py && py < 0) || (dX < px && px < 0)) {
             x = pointCoords[0];
             y = pointCoords[1];
             currentPathPoint++;
+            if (currentPathPoint >= App.currentGame.getLevel().pathLength()) {
+                App.currentGame.takeLives(layers);
+                layers = -1;
+            }
             return;
         }
 
         x += dX;
         y += dY;
+    }
 
-
+    public int getLayers() {
+        return layers;
     }
 }
