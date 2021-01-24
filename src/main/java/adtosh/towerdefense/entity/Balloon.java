@@ -36,20 +36,41 @@ public class Balloon extends Entity {
         int[] pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
         double px = pointCoords[0] - x;
         double py = pointCoords[1] - y;
+        double dX = 0;
+        double dY = 0;
 
-        double tanRes = Math.atan(py / px);
-        if(px == 0) {
-            tanRes = 90;
+        if (py == 0) {
+            if (px > 0) {
+                dX = speed * delta;
+            } else {
+                dX = -speed * delta;
+            }
+
+        } else if (px == 0) {
+            if (py > 0) {
+                dY = speed * delta;
+            } else {
+                dY = -speed * delta;
+            }
+
+        } else {
+            System.out.println("trig");
+
+            double tanRes = Math.atan(py / px);
+            if (px == 0) {
+                tanRes = 90;
+            }
+
+            if (Double.isNaN(tanRes)) {
+                tanRes = 90;
+                System.out.println("nan");
+            }
+            dX = Math.cos(tanRes) * speed * delta;
+            dY = Math.sin(tanRes) * speed * delta;
         }
 
-        if (Double.isNaN(tanRes)) {
-            tanRes = 90;
-            System.out.println("nan");
-        }
-        double dX = Math.cos(tanRes) * speed * delta;
-        double dY = Math.sin(tanRes) *speed * delta;
-
-        if (dX > px || py > dY) {
+        if(Math.abs(dX) > Math.abs(px) || Math.abs(dY) > Math.abs(py)) {
+//        if ((dX > px && px > 0) || (dY > py && py > 0) || (dY < py && py < 0) || (dX < px && px < 0)) {
             x = pointCoords[0];
             y = pointCoords[1];
             currentPathPoint++;
