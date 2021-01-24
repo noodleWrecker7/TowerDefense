@@ -18,9 +18,20 @@ public class Balloon extends Entity {
             75, 100, 125, 125, 200, 250, 700
     };
 
-    public Balloon(double x, double y, int type) {
-        super(x, y);
-        layers = type;
+//    public Balloon(double x, double y, int type) {
+////        super(x, y);
+////        layers = type;
+////        width = TextureManager.getTexture(balloonFilePrefix + type).getWidth();
+////        height = TextureManager.getTexture(balloonFilePrefix + type).getHeight();
+////
+////    }
+    public Balloon(int type){
+        super();
+        this.x = App.currentGame.getLevel().getPathPoint(0)[0];
+        this.y = App.currentGame.getLevel().getPathPoint(0)[1];
+
+
+        this.layers = type;
         width = TextureManager.getTexture(balloonFilePrefix + type).getWidth();
         height = TextureManager.getTexture(balloonFilePrefix + type).getHeight();
 

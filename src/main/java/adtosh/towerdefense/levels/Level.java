@@ -64,7 +64,7 @@ public class Level {
     }
 
     public void addBalloons() {
-        balloons.add(new Balloon(startX, startY, 0));
+//        balloons.add(new Balloon(startX, startY, 0));
     }
 
 
@@ -108,16 +108,15 @@ public class Level {
         timeSinceSpawn += delta;
         if (timeSinceSpawn > TimeTilSpawn) {
             Random rand = new Random();
-            balloons.add(new Balloon(startX, startY, rand.nextInt(7)));
+            balloons.add(new Balloon( rand.nextInt(7)));
             timeSinceSpawn = 0;
         }
 
-        Iterator bIter = balloons.iterator();
+        Iterator <Balloon>bIter = balloons.iterator();
         while(bIter.hasNext()) {
-            Balloon b = (Balloon) bIter.next();
+            Balloon b =  bIter.next();
             b.update(delta);
             if (b.getLayers() < 0) {
-//                balloons.remove(b);
                 bIter.remove();
             }
         }

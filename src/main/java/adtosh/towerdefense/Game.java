@@ -62,12 +62,10 @@ public class Game {
 
     // load save data from file and edit game vars
     private void loadSaveData(String file) {
-        level.addBalloons();
+//        level.addBalloons();
         //todo hardcoded for now only
 
-//        level.loadDataFromFile();
-        //maybe make this method in the level class becuase its responsible for storing data for the current level?
-        //i used setter for now
+
 
     }
 
