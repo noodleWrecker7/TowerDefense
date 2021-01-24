@@ -39,10 +39,14 @@ public class Controller {
     }
 
     private void  loadLevel(int levelID){
+        if(App.currentGame == null) {
         Level level = new Level(levelID);
         level.loadPath(levelID);
         App.currentGame = new Game(level);
         App.currentGame.start();
+        } else {
+            App.currentGame.resume();
+        }
 
         // then shows it
         ScreenManager.activate("game.fxml");

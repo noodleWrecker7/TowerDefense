@@ -1,17 +1,17 @@
 package adtosh.towerdefense.entity;
 
+import adtosh.towerdefense.App;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-
-import java.util.ArrayList;
 
 public class Balloon extends Entity {
 
     static String balloonFilePrefix = "balloon-";
 
     int balloonType;
+    int currentPathPoint = 1;
+    double speed = 100; // pixels per second
 
     public Balloon(double x, double y, int type) {
         super(x, y);
@@ -25,8 +25,7 @@ public class Balloon extends Entity {
 
     @Override
     public void render(GraphicsContext g) {
-        // this is what it should be
-         g.drawImage(TextureManager.getTexture(balloonFilePrefix+balloonType), x, y, width, height);
+        g.drawImage(TextureManager.getTexture(balloonFilePrefix + balloonType), x, y);
 
         // just for testing
 //         g.drawImage(TextureManager.getTexture("balloon"), x, y);
@@ -34,6 +33,27 @@ public class Balloon extends Entity {
 
     @Override
     public void update(float delta) {
+        System.out.println(currentPathPoint);
+        int[] pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
+        double px = pointCoords[0] - x;
+        double py = pointCoords[1] - y;
+
+        double tanRes = Math.atan(py / px);
+        if (Double.isNaN(tanRes)) {
+            tanRes = 90;
+        }
+        double dX = Math.cos(tanRes) * speed * delta;
+        double dY = Math.sin(tanRes) *speed * delta;
+
+        if (dX > px || py > dY) {
+            x = pointCoords[0];
+            y = pointCoords[1];
+            currentPathPoint++;
+            return;
+        }
+
+        x += dX;
+        y += dY;
 
 
     }
