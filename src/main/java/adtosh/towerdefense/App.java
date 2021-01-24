@@ -1,6 +1,5 @@
 package adtosh.towerdefense;
 
-import adtosh.towerdefense.levels.Level;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -33,7 +32,7 @@ public class App extends Application {
 
         // adds all pages to screen manager
         loadPages(classloader);
-        Assets.init();
+        TextureManager.init();
         ScreenManager.activate("menu.fxml");
         stage.setScene(scene);
         stage.show();

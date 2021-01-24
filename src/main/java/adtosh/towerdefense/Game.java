@@ -19,9 +19,6 @@ public class Game {
 
     private Canvas canvas;
     private GraphicsContext context;
-    private Canvas backCanvas;
-    private GraphicsContext backGround;
-    //are 2 seperate canvases neccessary?
 
     private Level level;
 
@@ -37,9 +34,14 @@ public class Game {
     // map of all turrets currently in play, should all have unique id
     private HashMap<String, Turret> turrets;
 
+
     // standard new game from a level object
 
 //    private Image bg;
+
+    public void resume() {
+        currentState = GameState.NORMAL_SPEED;
+    }
 
     public Game(Level _level) {
 
@@ -54,7 +56,6 @@ public class Game {
         // todo get background image from level data
 
 
-
     }
 
     // used to create new game from level and saveFile
@@ -65,8 +66,6 @@ public class Game {
 
     // load save data from file and edit game vars
     private void loadSaveData(String file) {
-        level.setStartX(100);
-        level.setStartY(500);
         level.addBalloons();
         //todo hardcoded for now only
 
@@ -121,6 +120,8 @@ public class Game {
     // called every frame, has render and update code
     void update(float delta) {
 
+        level.update(delta);
+
     }
 
     public void render() {
@@ -128,5 +129,9 @@ public class Game {
         level.render(context);
 
 
+    }
+
+    public Level getLevel() {
+        return level;
     }
 }

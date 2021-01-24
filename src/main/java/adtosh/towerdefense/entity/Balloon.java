@@ -1,19 +1,21 @@
 package adtosh.towerdefense.entity;
 
-import adtosh.towerdefense.Assets;
+import adtosh.towerdefense.App;
+import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-
-import java.util.ArrayList;
 
 public class Balloon extends Entity {
-    private Image currentTexture;
-    private ArrayList<Image> textureList = new ArrayList<>();
 
-    public Balloon(double x, double y, double width, double height, Image currentTexture) {
-        super(x, y, width, height);
-        this.currentTexture = currentTexture;
+    static String balloonFilePrefix = "balloon-";
+
+    int balloonType;
+    int currentPathPoint = 1;
+    double speed = 100; // pixels per second
+
+    public Balloon(double x, double y, int type) {
+        super(x, y);
+        balloonType = type;
 
     }
 
@@ -23,11 +25,35 @@ public class Balloon extends Entity {
 
     @Override
     public void render(GraphicsContext g) {
-        g.drawImage(Assets.balloon, x, y, width, height);
+        g.drawImage(TextureManager.getTexture(balloonFilePrefix + balloonType), x, y);
+
+        // just for testing
+//         g.drawImage(TextureManager.getTexture("balloon"), x, y);
     }
 
     @Override
     public void update(float delta) {
+        System.out.println(currentPathPoint);
+        int[] pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
+        double px = pointCoords[0] - x;
+        double py = pointCoords[1] - y;
+
+        double tanRes = Math.atan(py / px);
+        if (Double.isNaN(tanRes)) {
+            tanRes = 90;
+        }
+        double dX = Math.cos(tanRes) * speed * delta;
+        double dY = Math.sin(tanRes) *speed * delta;
+
+        if (dX > px || py > dY) {
+            x = pointCoords[0];
+            y = pointCoords[1];
+            currentPathPoint++;
+            return;
+        }
+
+        x += dX;
+        y += dY;
 
 
     }
