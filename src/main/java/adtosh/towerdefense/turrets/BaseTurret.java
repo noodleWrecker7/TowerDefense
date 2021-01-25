@@ -1,9 +1,11 @@
 package adtosh.towerdefense.turrets;
 
 import adtosh.towerdefense.App;
+import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.entity.Entity;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public abstract class BaseTurret extends Entity {
@@ -23,8 +25,11 @@ public abstract class BaseTurret extends Entity {
         canvas.setOnMouseMoved(e->{
             y= (e.getY() *2);
             x=(e.getX()*2);
-            this.hitBox.setX(this.x/2);
-            this.hitBox.setY(this.y/2);
+            this.hitBox.setX(e.getX());
+            this.hitBox.setY(e.getY());
+            this.hitBox.setFill(Color.RED);
+
+
             //
         });
 
@@ -45,16 +50,6 @@ public abstract class BaseTurret extends Entity {
 
         });
     }
-//        canvas.setOnMouseMoved(e-> {
-//            turret.setY(e.getY()*2);
-//            turret.setX(e.getX()*2);
-//        });
-//        canvas.setOnMouseClicked(event -> {
-//            if (touching)
-//                canvas.setOnMouseMoved(e->{
-//
-//                    //so nothing
-//                });
-//        });
+
 
 }

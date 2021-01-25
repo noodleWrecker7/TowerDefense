@@ -40,7 +40,8 @@ public abstract class Entity {
         this();
         this.width = texture.getWidth();
         this.height = texture.getHeight();
-        hitBox= new Rectangle(x, y, width, height );
+        hitBox= new Rectangle(x, y, width/2, height/2 );
+
     }
 
 

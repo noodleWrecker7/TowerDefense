@@ -8,12 +8,12 @@ import javafx.scene.image.Image;
 
 public class Balloon extends Entity {
 
-    static String balloonFilePrefix = "balloon-";
-    double width;
-    double height;
+    public static String balloonFilePrefix = "balloon-";
+//    double width;
+//    double height;
 
-    int layers;
-    int currentPathPoint = 1;
+    private int layers;
+    private int currentPathPoint = 1;
 
     final static double[] SPEEDS = { // pixels per seconds
             75, 100, 125, 125, 200, 250, 700
@@ -26,15 +26,15 @@ public class Balloon extends Entity {
 ////        height = TextureManager.getTexture(balloonFilePrefix + type).getHeight();
 ////
 ////    }
+
     public Balloon(int type, Image texture){
         super(texture);
         this.x = App.currentGame.getLevel().getPathPoint(0)[0];
         this.y = App.currentGame.getLevel().getPathPoint(0)[1];
-
-
         this.layers = type;
-        width = TextureManager.getTexture(balloonFilePrefix + type).getWidth();
-        height = TextureManager.getTexture(balloonFilePrefix + type).getHeight();
+        //WIDTH AND HEIGHT IS IN ENTITY
+//        width = TextureManager.getTexture(balloonFilePrefix + type).getWidth();
+//        height = TextureManager.getTexture(balloonFilePrefix + type).getHeight();
 
     }
 

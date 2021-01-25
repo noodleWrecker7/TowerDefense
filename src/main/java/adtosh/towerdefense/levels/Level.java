@@ -84,29 +84,16 @@ public class Level {
         for (int i = 1; i <mapPath.length ; i++) {
             Line line = new Line(mapPath[i-1][0]/2, mapPath[i-1][1]/2, mapPath[i][0]/2, mapPath[i][1]/2);
             line.setStrokeWidth(4);
-            line.setStroke(Color.TRANSPARENT);
+//            line.setStroke(Color.TRANSPARENT);
             path.add(line);
-            ScreenManager.addRoot(ScreenManager.getCurrentPage(), line);
+//            ScreenManager.addRoot(ScreenManager.getCurrentPage(), line);
         }
 
     }
 
     // debug method
     public void drawPath(GraphicsContext g) {
-
-//        //todo ADAM THIS IS FOR CHECKING IF THE SPIKES INTERSECT WITH THE GROUND, so I can check if they are supposed to be placed
-//        //todo make this check intersection
-//        for (int i = 1; i <mapPath.length ; i++) {
-//            Line line = new Line(mapPath[i-1][0]/2, mapPath[i-1][1]/2, mapPath[i][0]/2, mapPath[i][1]/2);
-//            line.setStrokeWidth(4);
-//            line.setStroke(Color.TRANSPARENT);
-//            ScreenManager.addRoot(ScreenManager.getCurrentPage(), line);
-//        }
-
-
-
-
-        // below is temporary for debugging
+//         below is temporary for debugging
         g.setStroke(Color.GREEN);
         g.setLineWidth(4);
         g.beginPath();
@@ -121,16 +108,12 @@ public class Level {
     }
 
     public void render(GraphicsContext g) {
-//        context.drawImage(TextureManager.grass, 0, 0, 1550, 1150);
-//        context.drawImage(TextureManager.balloon, 50, 50, 140, 40);
+
         g.drawImage(TextureManager.getTexture("grass"), 0, 0);
         for (Entity entity: entities){
             entity.render(g);
         }
 
-//        for (Balloon b : balloons) {
-//            b.render(g);
-//        }
         this.drawPath(g);
     }
 
