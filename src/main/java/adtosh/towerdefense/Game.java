@@ -13,8 +13,8 @@ public class Game {
     // todo scenebuilder, build game ui, eg tower select section, area for upgrades/stats, buy button, play controls, lives wave etc
     // todo with the canvas in the center of it all
 
-    private Canvas canvas;
-    private GraphicsContext context;
+    private static Canvas canvas;
+    private static GraphicsContext context;
 
     private Level level;
 
@@ -59,6 +59,25 @@ public class Game {
         this(level);
         // todo load save data
     }
+
+    public static void setMouseMoved(BaseTurret turret){
+        canvas.setOnMouseMoved(e-> {
+            turret.setY(e.getY()*2);
+            turret.setX(e.getX()*2);
+        });
+        canvas.setOnMouseClicked(event -> {
+            canvas.setOnMouseMoved(e->{
+                //so nothing
+            });
+        });
+        //todo is there a nicer way?
+
+
+    }
+
+
+
+
 
     // load save data from file and edit game vars
     private void loadSaveData(String file) {

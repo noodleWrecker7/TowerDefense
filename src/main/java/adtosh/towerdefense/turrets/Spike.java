@@ -1,20 +1,25 @@
 package adtosh.towerdefense.turrets;
 
-import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
-import adtosh.towerdefense.entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 
-public class Spike extends Entity {
+public class Spike extends BaseTurret {
 
     public Spike(double x, double y) {
         super(x, y);
     }
 
+    public Spike() {
+        super();
+    }
+
     @Override
     public void render(GraphicsContext g) {
-        System.out.println( x);
-        g.drawImage(TextureManager.getTexture("spike"), x, y);
+        System.out.println(x);
+        if (x<800*2 - TextureManager.getTexture("spike").getWidth()) {
+            g.drawImage(TextureManager.getTexture("spike"), x, y);
+        }
 
     }
 
@@ -23,3 +28,4 @@ public class Spike extends Entity {
 
     }
 }
+;
