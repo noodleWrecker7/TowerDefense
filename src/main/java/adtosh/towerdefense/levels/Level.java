@@ -1,10 +1,12 @@
 package adtosh.towerdefense.levels;
 
+import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -78,8 +80,28 @@ public class Level {
         startY = mapPath[0][1];
     }
 
+    public void initialisePath(){
+//        Line line = new Line(20, 40, 120, 40);
+//        line.setStroke(Color.RED);
+//        line.setStrokeWidth(4);
+//        ScreenManager.addRoot("menu.fxml", line);
+    }
+
     // debug method
     public void drawPath(GraphicsContext g) {
+
+        //todo ADAM THIS IS FOR CHECKING IF THE SPIKES INTERSECT WITH THE GROUND, so I can check if they are supposed to be placed
+        //todo make this check intersection
+        for (int i = 1; i <mapPath.length ; i++) {
+            Line line = new Line(mapPath[i-1][0]/2, mapPath[i-1][1]/2, mapPath[i][0]/2, mapPath[i][1]/2);
+            line.setStrokeWidth(4);
+            line.setStroke(Color.TRANSPARENT);
+            ScreenManager.addRoot(ScreenManager.getCurrentPage(), line);
+        }
+
+
+
+
         // below is temporary for debugging
         g.setStroke(Color.GREEN);
         g.setLineWidth(4);

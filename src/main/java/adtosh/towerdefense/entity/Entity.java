@@ -4,10 +4,13 @@ import adtosh.towerdefense.levels.Level;
 import adtosh.towerdefense.turrets.Spike;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 public abstract class Entity {
     protected double x;
     protected double y;
+
+    protected Rectangle hitBox;
 
 
 

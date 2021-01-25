@@ -1,5 +1,7 @@
 package adtosh.towerdefense;
 
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
@@ -19,9 +21,21 @@ public class ScreenManager{
         screenMap.put(name, pane);
     }
 
+    public static String getCurrentPage() {
+        return currentPage;
+    }
+
     public static Pane getPane(String name) {
         return screenMap.get(name);
     }
+
+    public static void addRoot(String name, Node root){
+        screenMap.get(name).getChildren().add(root);
+    }
+    public static void addAllRoots(String name, Node ... roots){
+        screenMap.get(name).getChildren().addAll(roots);
+    }
+
 
     public static Scene getCurrentScene() {
         return main;
@@ -30,6 +44,7 @@ public class ScreenManager{
     protected static void removeScreen(String name) {
         screenMap.remove(name);
     }
+
 
 
     // calls enteredPage and leavingPage every time page is changed

@@ -60,24 +60,6 @@ public class Game {
         // todo load save data
     }
 
-    public  void setMouseMoved(BaseTurret turret){
-        canvas.setOnMouseMoved(e-> {
-            turret.setY(e.getY()*2);
-            turret.setX(e.getX()*2);
-        });
-        canvas.setOnMouseClicked(event -> {
-            canvas.setOnMouseMoved(e->{
-                //so nothing
-            });
-        });
-        //todo is there a nicer way?
-
-
-    }
-
-
-
-
 
     // load save data from file and edit game vars
     private void loadSaveData(String file) {
@@ -96,8 +78,7 @@ public class Game {
 
     // todo can probably remove this
     public void init() { // starts timer loop, calls update() every frame
-//        Assets.init();
-
+        level.initialisePath();
     }
 
     public void start() {
@@ -150,5 +131,9 @@ public class Game {
 
     public void takeLives(int lives) {
         level.setLives(level.getLives() - lives);;
+    }
+
+    public Canvas getCanvas() {
+        return canvas;
     }
 }
