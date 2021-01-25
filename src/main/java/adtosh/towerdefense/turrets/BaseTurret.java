@@ -23,8 +23,8 @@ public abstract class BaseTurret extends Entity {
         canvas.setOnMouseMoved(e->{
             y= (e.getY() *2);
             x=(e.getX()*2);
-            this.hitBox.setX(this.x);
-            this.hitBox.setY(this.y);
+            this.hitBox.setX(this.x/2);
+            this.hitBox.setY(this.y/2);
         });
 
         canvas.setOnMouseClicked(e ->{
