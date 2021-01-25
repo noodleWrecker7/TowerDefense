@@ -59,7 +59,8 @@ public class Controller {
 
     public void buySpike(MouseEvent event) {
         Spike spike = new Spike(event.getSceneX()*2, event.getSceneY()*2);
-        Game.setMouseMoved(spike);
+        App.currentGame.setMouseMoved(spike);
+
 
 
     }

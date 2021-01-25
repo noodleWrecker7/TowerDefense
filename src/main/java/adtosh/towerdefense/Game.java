@@ -13,8 +13,8 @@ public class Game {
     // todo scenebuilder, build game ui, eg tower select section, area for upgrades/stats, buy button, play controls, lives wave etc
     // todo with the canvas in the center of it all
 
-    private static Canvas canvas;
-    private static GraphicsContext context;
+    private  Canvas canvas;
+    private  GraphicsContext context;
 
     private Level level;
 
@@ -60,7 +60,7 @@ public class Game {
         // todo load save data
     }
 
-    public static void setMouseMoved(BaseTurret turret){
+    public  void setMouseMoved(BaseTurret turret){
         canvas.setOnMouseMoved(e-> {
             turret.setY(e.getY()*2);
             turret.setX(e.getX()*2);
