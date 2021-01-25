@@ -4,6 +4,7 @@ import adtosh.towerdefense.App;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 public class Balloon extends Entity {
 
@@ -25,8 +26,8 @@ public class Balloon extends Entity {
 ////        height = TextureManager.getTexture(balloonFilePrefix + type).getHeight();
 ////
 ////    }
-    public Balloon(int type){
-        super();
+    public Balloon(int type, Image texture){
+        super(texture);
         this.x = App.currentGame.getLevel().getPathPoint(0)[0];
         this.y = App.currentGame.getLevel().getPathPoint(0)[1];
 

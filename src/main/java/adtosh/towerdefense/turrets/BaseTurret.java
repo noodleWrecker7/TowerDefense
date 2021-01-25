@@ -3,12 +3,14 @@ package adtosh.towerdefense.turrets;
 import adtosh.towerdefense.App;
 import adtosh.towerdefense.entity.Entity;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
+import javafx.scene.shape.Line;
 
 public abstract class BaseTurret extends Entity {
 
 
-    public BaseTurret(double x, double y) {
-        super(x, y);
+    public BaseTurret(double x, double y, Image texture) {
+        super(x, y, texture);
     }
 
     public BaseTurret() {
@@ -19,17 +21,27 @@ public abstract class BaseTurret extends Entity {
         Canvas canvas = App.currentGame.getCanvas();
 
         canvas.setOnMouseMoved(e->{
-            this.setY(e.getY() *2);
-            this.setX(e.getX()*2);
+            y= (e.getY() *2);
+            x=(e.getX()*2);
+            this.hitBox.setX(this.x);
+            this.hitBox.setY(this.y);
         });
 
         canvas.setOnMouseClicked(e ->{
-            //check if touching the path
-//            if (this.hitBox.intersects())
-            canvas.setOnMouseMoved(event -> {
-                //do nothing
+            //check collision of path and hitbox
+            for (Line line: App.currentGame.getLevel().getPath()){
 
-            });
+
+                if (this.hitBox.intersects(line.getLayoutBounds())){
+                    //todo find a way to work round scaled coordinates or do something better
+                    System.out.println("HERE");
+                    canvas.setOnMouseMoved(event -> {});
+                    //do nothing
+                    break;
+
+                }
+            }
+
         });
     }
 //        canvas.setOnMouseMoved(e-> {

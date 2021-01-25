@@ -58,7 +58,7 @@ public class Controller {
     }
 
     public void buySpike(MouseEvent event) {
-        Spike spike = new Spike(event.getSceneX()*2, event.getSceneY()*2);
+        Spike spike = new Spike(event.getSceneX()*2, event.getSceneY()*2, TextureManager.getTexture("spike"));
         spike.setMouseMoved();
 
 

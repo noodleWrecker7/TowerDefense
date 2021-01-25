@@ -24,6 +24,7 @@ public class Level {
     //todo possibly pass a level object to every class so entities doesnt have to be static
 
     private int[][] mapPath;
+    private ArrayList<Line> path = new ArrayList<>();
 
     private int levelID;
 
@@ -60,18 +61,15 @@ public class Level {
     }
 
     public void loadDataFromFile() {
-//        balloons.add(new Balloon(startX, startY, 50, 50, Assets.balloon ));
-        //todo create a timer so that each ballon is released seperately
-        //for now we should just work with one tho
+        //todo acc make a file
+
 
         startX = 0;
         startY = 540;
 
     }
 
-    public void addBalloons() {
-//        balloons.add(new Balloon(startX, startY, 0));
-    }
+
 
 
     public void loadPath(int level) {
@@ -81,23 +79,29 @@ public class Level {
     }
 
     public void initialisePath(){
-//        Line line = new Line(20, 40, 120, 40);
-//        line.setStroke(Color.RED);
-//        line.setStrokeWidth(4);
-//        ScreenManager.addRoot("menu.fxml", line);
-    }
-
-    // debug method
-    public void drawPath(GraphicsContext g) {
-
         //todo ADAM THIS IS FOR CHECKING IF THE SPIKES INTERSECT WITH THE GROUND, so I can check if they are supposed to be placed
         //todo make this check intersection
         for (int i = 1; i <mapPath.length ; i++) {
             Line line = new Line(mapPath[i-1][0]/2, mapPath[i-1][1]/2, mapPath[i][0]/2, mapPath[i][1]/2);
             line.setStrokeWidth(4);
             line.setStroke(Color.TRANSPARENT);
+            path.add(line);
             ScreenManager.addRoot(ScreenManager.getCurrentPage(), line);
         }
+
+    }
+
+    // debug method
+    public void drawPath(GraphicsContext g) {
+
+//        //todo ADAM THIS IS FOR CHECKING IF THE SPIKES INTERSECT WITH THE GROUND, so I can check if they are supposed to be placed
+//        //todo make this check intersection
+//        for (int i = 1; i <mapPath.length ; i++) {
+//            Line line = new Line(mapPath[i-1][0]/2, mapPath[i-1][1]/2, mapPath[i][0]/2, mapPath[i][1]/2);
+//            line.setStrokeWidth(4);
+//            line.setStroke(Color.TRANSPARENT);
+//            ScreenManager.addRoot(ScreenManager.getCurrentPage(), line);
+//        }
 
 
 
@@ -137,7 +141,7 @@ public class Level {
         timeSinceSpawn += delta;
         if (timeSinceSpawn > TimeTilSpawn) {
             Random rand = new Random();
-            balloons.add(new Balloon( rand.nextInt(7)));
+            balloons.add(new Balloon( rand.nextInt(7), TextureManager.getTexture("balloon-0")));
             timeSinceSpawn = 0;
         }
 
@@ -155,6 +159,7 @@ public class Level {
         return levelID;
     }
 
-
-
+    public ArrayList<Line> getPath() {
+        return path;
+    }
 }
