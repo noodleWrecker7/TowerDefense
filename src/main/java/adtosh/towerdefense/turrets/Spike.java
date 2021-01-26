@@ -6,23 +6,17 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public class Spike extends BaseTurret {
 
-    public Spike(double x, double y, Image texture) {
+    public Spike(double x, double y, String texture) {
         super(x, y, texture);
     }
 
-    public Spike() {
-        super();
-    }
-
     @Override
-    public void render(GraphicsContext g) {
-        if (x< App.currentGame.getCanvas().getWidth() *2 - TextureManager.getTexture("spike").getWidth()) {
-            g.drawImage(TextureManager.getTexture("spike"), x, y);
-        }
-
+    public Shape getBounds() {
+        return null;
     }
 
     @Override

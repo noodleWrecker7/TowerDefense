@@ -3,11 +3,7 @@ package adtosh.towerdefense;
 
 import adtosh.towerdefense.levels.Level;
 import adtosh.towerdefense.turrets.Spike;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
 // main controller class for all fxml files to go through
@@ -58,11 +54,8 @@ public class Controller {
     }
 
     public void buySpike(MouseEvent event) {
-        Spike spike = new Spike(event.getSceneX()*2, event.getSceneY()*2, TextureManager.getTexture("spike"));
-        spike.setMouseMoved();
-
-
-
+        Spike spike = new Spike(event.getSceneX()*2, event.getSceneY()*2, "spike");
+        spike.setMouseMoveListener();
 
     }
 }

@@ -1,11 +1,12 @@
 package adtosh.towerdefense.entity;
 
 import adtosh.towerdefense.ScreenManager;
+import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.levels.Level;
-import adtosh.towerdefense.turrets.Spike;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public abstract class Entity {
     protected double x;
@@ -14,18 +15,15 @@ public abstract class Entity {
     protected double width;
     protected double height;
 
+    protected Rectangle hitBox;
 
-    protected Rectangle hitBox ;
+    private String textureName;
 
+//    public Entity() {
+//
+//    }
 
-
-
-    public Entity(){
-        Level.entities.add(this);
-
-    }
-
-    public Entity(double x, double y, Image texture){
+    public Entity(double x, double y, String texture) {
         this(texture);
         this.x = x;
         this.y = y;
@@ -36,17 +34,23 @@ public abstract class Entity {
 
     }
 
-    public Entity(Image texture){
-        this();
+    public Entity(String textureName) {
+        Level.entities.add(this);
+        Image texture = TextureManager.getTexture(textureName);
         this.width = texture.getWidth();
         this.height = texture.getHeight();
-        hitBox= new Rectangle(x, y, width/2, height/2 );
 
+//        this doesnt actually work because x and y arent defined when its run and it would become irrelevant as soon as it moves too
+        hitBox = new Rectangle(x, y, width / 2, height / 2);
+//        instead we should use getBounds to return a new shape every time
     }
 
 
+    public abstract Shape getBounds();
 
-    public abstract void render(GraphicsContext g);
+    public void render(GraphicsContext g){
+        g.drawImage(TextureManager.getTexture(textureName), x - width / 2, y - height / 2);
+    }
 
     public abstract void update(float delta);
 

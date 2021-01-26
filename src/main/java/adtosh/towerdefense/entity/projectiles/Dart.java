@@ -1,18 +1,25 @@
 package adtosh.towerdefense.entity.projectiles;
 
 import adtosh.towerdefense.entity.Balloon;
+import adtosh.towerdefense.entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.shape.Shape;
 
-public class Dart implements Projectile{
+public class Dart extends Projectile{
+
+
+    public Dart(double x, double y, String texture) {
+        super(x, y, texture);
+    }
 
 
     @Override
-    public void handleCollision(Balloon b) {
-
+    public Shape getBounds() {
+        return null;
     }
 
     @Override
-    public void draw(GraphicsContext g) {}
+    public void update(float delta) {
 
-
+    }
 }

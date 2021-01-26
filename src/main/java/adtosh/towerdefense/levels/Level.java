@@ -124,7 +124,7 @@ public class Level {
         timeSinceSpawn += delta;
         if (timeSinceSpawn > TimeTilSpawn) {
             Random rand = new Random();
-            balloons.add(new Balloon( rand.nextInt(7), TextureManager.getTexture("balloon-0")));
+            balloons.add(new Balloon( rand.nextInt(7), "balloon-0"));
             timeSinceSpawn = 0;
         }
 

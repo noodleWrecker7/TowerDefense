@@ -5,6 +5,7 @@ import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 public class Balloon extends Entity {
 
@@ -14,6 +15,8 @@ public class Balloon extends Entity {
 
     private int layers;
     private int currentPathPoint = 1;
+
+    private String textureName;
 
     final static double[] SPEEDS = { // pixels per seconds
             75, 100, 125, 125, 200, 250, 700
@@ -27,11 +30,13 @@ public class Balloon extends Entity {
 ////
 ////    }
 
-    public Balloon(int type, Image texture){
+    public Balloon(int layers, String texture) {
         super(texture);
         this.x = App.currentGame.getLevel().getPathPoint(0)[0];
         this.y = App.currentGame.getLevel().getPathPoint(0)[1];
-        this.layers = type;
+        this.layers = layers;
+
+        textureName = balloonFilePrefix + layers;
         //WIDTH AND HEIGHT IS IN ENTITY
 //        width = TextureManager.getTexture(balloonFilePrefix + type).getWidth();
 //        height = TextureManager.getTexture(balloonFilePrefix + type).getHeight();
@@ -43,10 +48,10 @@ public class Balloon extends Entity {
     }
 
     @Override
-    public void render(GraphicsContext g) {
-        g.drawImage(TextureManager.getTexture(balloonFilePrefix + layers), x - width / 2, y - height / 2);
-
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width / 2, height / 2);
     }
+
 
     @Override
     public void update(float delta) {
