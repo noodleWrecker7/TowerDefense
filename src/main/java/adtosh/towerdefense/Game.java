@@ -132,7 +132,7 @@ public class Game {
             for (Spike spike: level.getSpikes()){
                 if (balloon.getBounds().intersects(spike.getBounds().getLayoutBounds())){
                     System.out.println("HERE");
-                    spike.handleBalloonCollision();
+//                    spike.handleBalloonCollision();
                     balloon.handleDefenseCollision();
                 }
             }
