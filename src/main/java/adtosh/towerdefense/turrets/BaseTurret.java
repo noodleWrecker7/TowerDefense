@@ -24,8 +24,6 @@ public abstract class BaseTurret extends Entity {
             this.hitBox.setY(e.getY());
             this.hitBox.setFill(Color.RED);
 
-
-            //
         });
 
         canvas.setOnMouseClicked(e -> {

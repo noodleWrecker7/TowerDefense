@@ -17,7 +17,7 @@ public abstract class Entity {
 
     protected Rectangle hitBox;
 
-    private String textureName;
+    String textureName;
 
 //    public Entity() {
 //
@@ -34,11 +34,13 @@ public abstract class Entity {
 
     }
 
-    public Entity(String textureName) {
+    public Entity(String _textureName) {
         Level.entities.add(this);
-        Image texture = TextureManager.getTexture(textureName);
+        Image texture = TextureManager.getTexture(_textureName);
         this.width = texture.getWidth();
         this.height = texture.getHeight();
+
+        textureName = _textureName;
 
 //        this doesnt actually work because x and y arent defined when its run and it would become irrelevant as soon as it moves too
         hitBox = new Rectangle(x, y, width / 2, height / 2);

@@ -16,8 +16,6 @@ public class Balloon extends Entity {
     private int layers;
     private int currentPathPoint = 1;
 
-    private String textureName;
-
     final static double[] SPEEDS = { // pixels per seconds
             75, 100, 125, 125, 200, 250, 700
     };
