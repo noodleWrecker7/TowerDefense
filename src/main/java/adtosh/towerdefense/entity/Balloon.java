@@ -30,10 +30,10 @@ public class Balloon extends Entity {
 
     public Balloon(int layers, String texture) {
         super(texture);
+        App.currentGame.getLevel().addToBalloons(this);
         this.x = App.currentGame.getLevel().getPathPoint(0)[0];
         this.y = App.currentGame.getLevel().getPathPoint(0)[1];
         this.layers = layers;
-
         textureName = balloonFilePrefix + layers;
         //WIDTH AND HEIGHT IS IN ENTITY
 //        width = TextureManager.getTexture(balloonFilePrefix + type).getWidth();
@@ -43,16 +43,31 @@ public class Balloon extends Entity {
 
     public void handleCollision(Projectile p) { // todo
 
+
+    }
+    private void handleSpike(){
+
+    }
+
+    public void handleDefenseCollision(){
+        this.layers--;
+        if (layers==0){
+            this.remove();
+            App.currentGame.getLevel().removeFromBalloons(this);
+        }
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x, y, width / 2, height / 2);
+//        return new Rectangle(x, y, width / 2, height / 2);
+        return new Rectangle(x/2, y/2, width / 2, height / 2);
+
     }
 
 
     @Override
     public void update(float delta) {
+        //todo current path point goes to 12 when balloon gets destroyed
         int[] pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
         double px = pointCoords[0] - x;
         double py = pointCoords[1] - y;
@@ -92,6 +107,8 @@ public class Balloon extends Entity {
         }
 
         if (Math.abs(dX) > Math.abs(px) || Math.abs(dY) > Math.abs(py)) {
+            //This gets called somehow when the ballons gets destroyed and add to current paths points
+            //todo why take away lives when we already have layers
 //        if ((dX > px && px > 0) || (dY > py && py > 0) || (dY < py && py < 0) || (dX < px && px < 0)) {
             x = pointCoords[0];
             y = pointCoords[1];
@@ -105,7 +122,10 @@ public class Balloon extends Entity {
 
         x += dX;
         y += dY;
+
     }
+
+
 
     public int getLayers() {
         return layers;

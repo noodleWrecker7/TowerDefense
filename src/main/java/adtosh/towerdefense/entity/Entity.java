@@ -49,6 +49,10 @@ public abstract class Entity {
 //        instead we should use getBounds to return a new shape every time
     }
 
+    public void remove(){
+        App.currentGame.removeFromEntity(this);
+    }
+
 
     public abstract Shape getBounds();
 

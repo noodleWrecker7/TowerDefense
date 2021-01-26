@@ -1,8 +1,11 @@
 package adtosh.towerdefense;
 
+import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Entity;
+import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.levels.Level;
 import adtosh.towerdefense.turrets.BaseTurret;
+import adtosh.towerdefense.turrets.Spike;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -15,8 +18,8 @@ public class Game {
     // todo scenebuilder, build game ui, eg tower select section, area for upgrades/stats, buy button, play controls, lives wave etc
     // todo with the canvas in the center of it all
 
-    private  Canvas canvas;
-    private  GraphicsContext context;
+    private Canvas canvas;
+    private GraphicsContext context;
 
     private Level level;
 
@@ -69,7 +72,6 @@ public class Game {
         //todo hardcoded for now only
 
 
-
     }
 
 
@@ -100,10 +102,9 @@ public class Game {
         timer.start();
     }
 
-    public void addToEntity(Entity entity){
+    public void addToEntity(Entity entity) {
         this.entities.add(entity);
     }
-
 
 
     // takes centre coordinates for a turret and tries to place, returns false if invalid, also selects turret,
@@ -121,16 +122,43 @@ public class Game {
 
     // called every frame, has render and update code
     void update(float delta) {
-
         level.update(delta);
+        checkCollision();
 
+    }
+
+    private void checkCollision() {
+        for (Balloon balloon: level.getBalloons()){
+            for (Spike spike: level.getSpikes()){
+                if (balloon.getBounds().intersects(spike.getBounds().getLayoutBounds())){
+                    System.out.println("HERE");
+                    spike.handleBalloonCollision();
+                    balloon.handleDefenseCollision();
+                }
+            }
+        }
+//        for (Entity entity : entities) {
+//            for (Entity entity1 : entities) {
+//                if (entity instanceof Balloon) {
+//                    if (entity1 instanceof Projectile || entity1 instanceof Spike) {
+//                        if (entity.getBounds().intersects(entity1.getBounds().getLayoutBounds())){
+//                            if (((Spike)entity1).isPlaced()) {
+//                                System.out.println("OKAY OKAY");
+//                            }
+//
+//                        }
+//                    }
+//
+//                }
+//            }
+//        }
     }
 
     public void render() {
 //        this.context = canvas.getGraphicsContext2D();
         level.render(context);
 
-        for (Entity entity: entities){
+        for (Entity entity : entities) {
             entity.render(context);
         }
 
@@ -142,10 +170,16 @@ public class Game {
     }
 
     public void takeLives(int lives) {
-        level.setLives(level.getLives() - lives);;
+        level.setLives(level.getLives() - lives);
+        ;
     }
 
     public Canvas getCanvas() {
         return canvas;
+    }
+
+    public void removeFromEntity(Entity e){
+        this.entities.remove(e);
+
     }
 }

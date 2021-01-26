@@ -3,6 +3,7 @@ package adtosh.towerdefense.levels;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Entity;
+import adtosh.towerdefense.turrets.Spike;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -19,6 +20,7 @@ public class Level {
     private int lives;
     //    private Balloon[] balloons;
     private ArrayList<Balloon> balloons = new ArrayList<>();
+    private ArrayList<Spike> spikes = new ArrayList<>();
 
     //todo possibly pass a level object to every class so entities doesnt have to be static
 
@@ -73,11 +75,11 @@ public class Level {
         startY = mapPathPoints[0][1];
     }
 
-    public void initialisePath(){
+    public void initialisePath() {
         //todo ADAM THIS IS FOR CHECKING IF THE SPIKES INTERSECT WITH THE GROUND, so I can check if they are supposed to be placed
         //todo make this check intersection
-        for (int i = 1; i < mapPathPoints.length ; i++) {
-            Line line = new Line(mapPathPoints[i-1][0]/2, mapPathPoints[i-1][1]/2, mapPathPoints[i][0]/2, mapPathPoints[i][1]/2);
+        for (int i = 1; i < mapPathPoints.length; i++) {
+            Line line = new Line(mapPathPoints[i - 1][0] / 2, mapPathPoints[i - 1][1] / 2, mapPathPoints[i][0] / 2, mapPathPoints[i][1] / 2);
             line.setStrokeWidth(4);
 //            line.setStroke(Color.TRANSPARENT);
             path.add(line);
@@ -117,13 +119,13 @@ public class Level {
         timeSinceSpawn += delta;
         if (timeSinceSpawn > TimeTilSpawn) {
             Random rand = new Random();
-            balloons.add(new Balloon( rand.nextInt(7), "balloon-0"));
+            balloons.add(new Balloon(rand.nextInt(7), "balloon-0"));
             timeSinceSpawn = 0;
         }
 
-        Iterator <Balloon>bIter = balloons.iterator();
-        while(bIter.hasNext()) {
-            Balloon b =  bIter.next();
+        Iterator<Balloon> bIter = balloons.iterator();
+        while (bIter.hasNext()) {
+            Balloon b = bIter.next();
             b.update(delta);
             if (b.getLayers() < 0) {
                 bIter.remove();
@@ -137,5 +139,44 @@ public class Level {
 
     public ArrayList<Line> getPath() {
         return path;
+    }
+
+    public ArrayList<Balloon> getBalloons() {
+        return balloons;
+    }
+
+    public ArrayList<Spike> getSpikes() {
+        return spikes;
+    }
+
+    //todo good or bad idea with generic? we dont need adders and removers for every array list now
+
+    public <T extends Entity> void addTo(ArrayList<T> specificList, T adder) {
+        specificList.add(adder);
+    }
+
+    public <T extends Entity> void RemoveFrom(ArrayList<T> specificList, T adder) {
+        specificList.remove(adder);
+        adder.remove();
+    }
+
+    public void addToSpikes(Spike spike) {
+        this.spikes.add(spike);
+
+    }
+
+    public void removeFromSpikes(Spike spike) {
+        this.spikes.remove(spike);
+
+    }
+
+    public void addToBalloons(Balloon balloon) {
+        this.balloons.add(balloon);
+
+    }
+
+    public void removeFromBalloons(Balloon balloon) {
+        this.balloons.remove(balloon);
+
     }
 }

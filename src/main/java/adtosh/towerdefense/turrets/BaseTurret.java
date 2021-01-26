@@ -8,7 +8,7 @@ import javafx.scene.shape.Line;
 
 public abstract class BaseTurret extends Entity {
 
-    boolean isPlaced = false;
+    private boolean isPlaced = false;
 
     public BaseTurret(double x, double y, String texture) {
         super(x, y, texture);
@@ -18,14 +18,10 @@ public abstract class BaseTurret extends Entity {
         Canvas canvas = App.currentGame.getCanvas();
 
 
-        canvas.setOnMouseMoved(e -> {
-            handleMouseMove(e);
-        });
+        canvas.setOnMouseMoved(this::handleMouseMove);
 
-        canvas.setOnMouseClicked(e -> {
-            //check collision of path and hitbox
-            handleMouseClick(e);
-            });
+        //check collision of path and hitbox
+        canvas.setOnMouseClicked(this::handleMouseClick);
     }
 
     private void handleMouseClick(MouseEvent e){
@@ -33,8 +29,7 @@ public abstract class BaseTurret extends Entity {
         for (Line line : App.currentGame.getLevel().getPath()) {
             if (this.getBounds().intersects(line.getLayoutBounds())) {
                 //todo find a way to work round scaled coordinates or do something better
-                App.currentGame.getCanvas().setOnMouseMoved(event -> {
-                });
+                App.currentGame.getCanvas().setOnMouseMoved(event -> { });
                 isPlaced = true;
                 break;
             }
@@ -46,5 +41,9 @@ public abstract class BaseTurret extends Entity {
         if (isPlaced) return;
         y = (e.getY() * 2);
         x = (e.getX() * 2);
+    }
+
+    public boolean isPlaced() {
+        return isPlaced;
     }
 }
