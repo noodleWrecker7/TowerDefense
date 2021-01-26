@@ -29,20 +29,18 @@ public abstract class BaseTurret extends Entity {
         canvas.setOnMouseClicked(e -> {
             //check collision of path and hitbox
             for (Line line : App.currentGame.getLevel().getPath()) {
-
-
                 if (this.hitBox.intersects(line.getLayoutBounds())) {
                     //todo find a way to work round scaled coordinates or do something better
-                    System.out.println("HERE");
                     canvas.setOnMouseMoved(event -> {
                     });
                     //do nothing
                     break;
-
                 }
             }
         });
     }
+
+
 
 
 }

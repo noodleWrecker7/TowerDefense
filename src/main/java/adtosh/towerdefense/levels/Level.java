@@ -1,6 +1,5 @@
 package adtosh.towerdefense.levels;
 
-import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Entity;
@@ -20,10 +19,10 @@ public class Level {
     private int lives;
     //    private Balloon[] balloons;
     private ArrayList<Balloon> balloons = new ArrayList<>();
-    public static ArrayList<Entity> entities = new ArrayList<>();
+
     //todo possibly pass a level object to every class so entities doesnt have to be static
 
-    private int[][] mapPath;
+    private int[][] mapPathPoints;
     private ArrayList<Line> path = new ArrayList<>();
 
     private int levelID;
@@ -36,7 +35,6 @@ public class Level {
     public void setLives(int lives) {
         this.lives = lives;
     }
-
 
 
     private int startX;
@@ -53,11 +51,11 @@ public class Level {
     }
 
     public int[] getPathPoint(int index) {
-        return mapPath[index];
+        return mapPathPoints[index];
     }
 
     public int pathLength() {
-        return mapPath.length;
+        return mapPathPoints.length;
     }
 
     public void loadDataFromFile() {
@@ -69,20 +67,17 @@ public class Level {
 
     }
 
-
-
-
     public void loadPath(int level) {
-        mapPath = LevelPaths.paths[level];
-        startX = mapPath[0][0];
-        startY = mapPath[0][1];
+        mapPathPoints = LevelPaths.paths[level];
+        startX = mapPathPoints[0][0];
+        startY = mapPathPoints[0][1];
     }
 
     public void initialisePath(){
         //todo ADAM THIS IS FOR CHECKING IF THE SPIKES INTERSECT WITH THE GROUND, so I can check if they are supposed to be placed
         //todo make this check intersection
-        for (int i = 1; i <mapPath.length ; i++) {
-            Line line = new Line(mapPath[i-1][0]/2, mapPath[i-1][1]/2, mapPath[i][0]/2, mapPath[i][1]/2);
+        for (int i = 1; i < mapPathPoints.length ; i++) {
+            Line line = new Line(mapPathPoints[i-1][0]/2, mapPathPoints[i-1][1]/2, mapPathPoints[i][0]/2, mapPathPoints[i][1]/2);
             line.setStrokeWidth(4);
 //            line.setStroke(Color.TRANSPARENT);
             path.add(line);
@@ -98,10 +93,10 @@ public class Level {
         g.setLineWidth(4);
         g.beginPath();
 
-        g.moveTo(mapPath[0][0], mapPath[0][1]);
+        g.moveTo(mapPathPoints[0][0], mapPathPoints[0][1]);
 
-        for (int i = 1; i < mapPath.length; i++) {
-            g.lineTo(mapPath[i][0], mapPath[i][1]);
+        for (int i = 1; i < mapPathPoints.length; i++) {
+            g.lineTo(mapPathPoints[i][0], mapPathPoints[i][1]);
         }
         g.stroke();
 
@@ -110,9 +105,7 @@ public class Level {
     public void render(GraphicsContext g) {
 
         g.drawImage(TextureManager.getTexture("grass"), 0, 0);
-        for (Entity entity: entities){
-            entity.render(g);
-        }
+
 
         this.drawPath(g);
     }

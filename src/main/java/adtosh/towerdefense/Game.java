@@ -1,11 +1,13 @@
 package adtosh.towerdefense;
 
+import adtosh.towerdefense.entity.Entity;
 import adtosh.towerdefense.levels.Level;
 import adtosh.towerdefense.turrets.BaseTurret;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Game {
@@ -29,7 +31,7 @@ public class Game {
     private GameState currentState = GameState.ROUND_INACTIVE;
     // map of all turrets currently in play, should all have unique id
     private HashMap<String, BaseTurret> turrets;
-
+    public ArrayList<Entity> entities = new ArrayList<>();
 
     // standard new game from a level object
 
@@ -121,6 +123,10 @@ public class Game {
     public void render() {
 //        this.context = canvas.getGraphicsContext2D();
         level.render(context);
+
+        for (Entity entity: entities){
+            entity.render(context);
+        }
 
 
     }

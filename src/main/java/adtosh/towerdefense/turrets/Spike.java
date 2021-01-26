@@ -1,12 +1,7 @@
 package adtosh.towerdefense.turrets;
 
-import adtosh.towerdefense.App;
 import adtosh.towerdefense.TextureManager;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
+import javafx.scene.shape.Circle;
 
 public class Spike extends BaseTurret {
 
@@ -15,8 +10,10 @@ public class Spike extends BaseTurret {
     }
 
     @Override
-    public Shape getBounds() {
-        return null;
+    public Circle getBounds() {
+        double radius = TextureManager.getTexture(this.textureName).getWidth() / 2;
+
+        return new Circle(radius);
     }
 
     @Override

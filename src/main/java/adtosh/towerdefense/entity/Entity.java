@@ -1,5 +1,6 @@
 package adtosh.towerdefense.entity;
 
+import adtosh.towerdefense.App;
 import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.levels.Level;
@@ -17,7 +18,7 @@ public abstract class Entity {
 
     protected Rectangle hitBox;
 
-    String textureName;
+    protected String textureName;
 
 //    public Entity() {
 //
@@ -35,7 +36,7 @@ public abstract class Entity {
     }
 
     public Entity(String _textureName) {
-        Level.entities.add(this);
+        App.currentGame.entities.add(this);
         Image texture = TextureManager.getTexture(_textureName);
         this.width = texture.getWidth();
         this.height = texture.getHeight();
