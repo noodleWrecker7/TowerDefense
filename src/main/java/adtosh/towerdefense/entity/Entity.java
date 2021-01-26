@@ -28,6 +28,9 @@ public abstract class Entity {
         this(texture);
         this.x = x;
         this.y = y;
+//        hitBox = new Rectangle(x, y, width / 2, height / 2);
+
+
 //        this.width = texture.getWidth();
 //        this.height = texture.getHeight();
 //        hitBox= new Rectangle(x, y, width, height );
@@ -36,15 +39,14 @@ public abstract class Entity {
     }
 
     public Entity(String _textureName) {
-        App.currentGame.entities.add(this);
+        App.currentGame.addToEntity(this);
         Image texture = TextureManager.getTexture(_textureName);
         this.width = texture.getWidth();
         this.height = texture.getHeight();
-
         textureName = _textureName;
 
 //        this doesnt actually work because x and y arent defined when its run and it would become irrelevant as soon as it moves too
-        hitBox = new Rectangle(x, y, width / 2, height / 2);
+//        hitBox = new Rectangle(x, y, width / 2, height / 2);
 //        instead we should use getBounds to return a new shape every time
     }
 

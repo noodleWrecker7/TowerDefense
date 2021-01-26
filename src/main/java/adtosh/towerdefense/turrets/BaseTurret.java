@@ -16,20 +16,19 @@ public abstract class BaseTurret extends Entity {
 
     public void setMouseMoveListener() {
         Canvas canvas = App.currentGame.getCanvas();
-
         canvas.setOnMouseMoved(e -> {
             y = (e.getY() * 2);
             x = (e.getX() * 2);
-            this.hitBox.setX(e.getX());
-            this.hitBox.setY(e.getY());
-            this.hitBox.setFill(Color.RED);
+//            this.hitBox.setX(e.getX()- width/2);
+//            this.hitBox.setY(e.getY()- height/2);
+//            this.hitBox.setFill(Color.RED);
 
         });
 
         canvas.setOnMouseClicked(e -> {
             //check collision of path and hitbox
             for (Line line : App.currentGame.getLevel().getPath()) {
-                if (this.hitBox.intersects(line.getLayoutBounds())) {
+                if (this.getBounds().intersects(line.getLayoutBounds())) {
                     //todo find a way to work round scaled coordinates or do something better
                     canvas.setOnMouseMoved(event -> {
                     });
