@@ -31,7 +31,7 @@ public class Game {
     private GameState currentState = GameState.ROUND_INACTIVE;
     // map of all turrets currently in play, should all have unique id
     private HashMap<String, BaseTurret> turrets;
-    public ArrayList<Entity> entities = new ArrayList<>();
+    private ArrayList<Entity> entities = new ArrayList<>();
 
     // standard new game from a level object
 
@@ -99,6 +99,12 @@ public class Game {
         };
         timer.start();
     }
+
+    public void addToEntity(Entity entity){
+        this.entities.add(entity);
+    }
+
+
 
     // takes centre coordinates for a turret and tries to place, returns false if invalid, also selects turret,
     boolean placeTurret(float x, float y) {

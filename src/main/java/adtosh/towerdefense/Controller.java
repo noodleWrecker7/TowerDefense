@@ -58,4 +58,8 @@ public class Controller {
         spike.setMouseMoveListener();
 
     }
+
+    private void buyDefense(){
+
+    }
 }

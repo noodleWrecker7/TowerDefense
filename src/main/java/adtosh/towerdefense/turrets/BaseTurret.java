@@ -4,8 +4,6 @@ import adtosh.towerdefense.App;
 import adtosh.towerdefense.entity.Entity;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 
 public abstract class BaseTurret extends Entity {
 
@@ -14,7 +12,6 @@ public abstract class BaseTurret extends Entity {
     public BaseTurret(double x, double y, String texture) {
         super(x, y, texture);
     }
-
 
     public void setMouseMoveListener() {
         Canvas canvas = App.currentGame.getCanvas();
@@ -52,6 +49,4 @@ public abstract class BaseTurret extends Entity {
         this.hitBox.setY(e.getY());
         this.hitBox.setFill(Color.RED);
     }
-
-
 }
