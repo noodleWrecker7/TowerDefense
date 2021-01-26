@@ -32,7 +32,6 @@ public abstract class Entity {
 //        this.height = texture.getHeight();
 //        hitBox= new Rectangle(x, y, width, height );
         //constructor chaining so that not every entity needs an x and y passed
-
     }
 
     public Entity(String _textureName) {
