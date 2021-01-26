@@ -14,7 +14,7 @@ public class Spike extends BaseTurret {
     @Override
     public Circle getBounds() {
         double radius = TextureManager.getTexture(this.textureName).getWidth() / 2;
-        Circle circle = new Circle(radius, x/2, y/2);
+        Circle circle = new Circle(x/2, y/2, radius/2);
         ScreenManager.addRoot("game.fxml", circle);
         return circle;
 //        return new Circle(radius, x/2, y/2);
