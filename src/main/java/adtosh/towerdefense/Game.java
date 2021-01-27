@@ -137,8 +137,7 @@ public class Game {
             while (spikeIterator.hasNext()){
                 Spike spike = spikeIterator.next();
 
-                if (balloon.getBounds().intersects(spike.getBounds().getLayoutBounds())){
-//                    System.out.println("HERE");
+                if (balloon.getBounds().intersects(spike.getBounds().getLayoutBounds()) && spike.isPlaced()){
                     spike.handleBalloonCollision(spikeIterator);
                     balloon.handleDefenseCollision(balloonIterator);
                 }
@@ -146,30 +145,7 @@ public class Game {
             }
 
         }
-//        for (Balloon balloon: level.getBalloons()){
-//            for (Spike spike: level.getSpikes()){
-//                if (balloon.getBounds().intersects(spike.getBounds().getLayoutBounds())){
-//                    System.out.println("HERE");
-////                    spike.handleBalloonCollision();
-//                    balloon.handleDefenseCollision();
-//                }
-//            }
-//        }
-//        for (Entity entity : entities) {
-//            for (Entity entity1 : entities) {
-//                if (entity instanceof Balloon) {
-//                    if (entity1 instanceof Projectile || entity1 instanceof Spike) {
-//                        if (entity.getBounds().intersects(entity1.getBounds().getLayoutBounds())){
-//                            if (((Spike)entity1).isPlaced()) {
-//                                System.out.println("OKAY OKAY");
-//                            }
-//
-//                        }
-//                    }
-//
-//                }
-//            }
-//        }
+
     }
 
     public void render() {

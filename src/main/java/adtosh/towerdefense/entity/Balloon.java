@@ -55,10 +55,11 @@ public class Balloon extends Entity {
     public void handleDefenseCollision(Iterator<Balloon> iterator) {
 
         this.layers--;
-        //todo change this from 11 to the number of path points
-        if (layers == 0) {
-            this.remove(iterator);
 
+        if (layers <= 0) {
+            this.remove(iterator);
+        }else {
+            this.textureName = balloonFilePrefix + layers;
 
         }
     }
@@ -70,8 +71,10 @@ public class Balloon extends Entity {
     }
 
 
+
     @Override
     public void update(float delta) {
+
 
         int[] pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
         double px = pointCoords[0] - x;
@@ -79,7 +82,9 @@ public class Balloon extends Entity {
         double dX = 0;
         double dY = 0;
 
-        double speed = SPEEDS[layers];
+
+         double speed = SPEEDS[layers];
+         //todo after spamming spikes array index out of bounds exception -1
 
         if (py == 0) {
             if (px > 0) {
@@ -119,14 +124,13 @@ public class Balloon extends Entity {
             y = pointCoords[1];
 
             currentPathPoint++;
-            if (currentPathPoint > 11) {
-                System.out.println("LATER STOP");
-            }
+
             if (currentPathPoint >= App.currentGame.getLevel().pathLength()) {
                 App.currentGame.takeLives(layers);
+                //todo sometimes doesnt get removed properly because array out of bound -1
                 layers = -1;
-//                this.remove();
-            }
+
+        }
             return;
         }
 
@@ -135,12 +139,6 @@ public class Balloon extends Entity {
 
     }
 
-//    @Override
-//    public void remove() {
-//        super.remove();
-////        App.currentGame.getLevel().removeFromBalloons(this);
-//
-//    }
 
 
     public int getLayers() {

@@ -116,6 +116,7 @@ public class Level {
 
 
     public void update(float delta) {
+
         timeSinceSpawn += delta;
 
         if (timeSinceSpawn > TimeTilSpawn) {
@@ -130,8 +131,8 @@ public class Level {
             Balloon b = bIter.next();
             b.update(delta);
             if (b.getLayers()<0){
-                b.remove();
-                bIter.remove();
+                b.remove(bIter);
+
             }
         }
     }
