@@ -81,14 +81,13 @@ public class Level {
         for (int i = 1; i < mapPathPoints.length; i++) {
             Line line = new Line(mapPathPoints[i - 1][0] / 2, mapPathPoints[i - 1][1] / 2, mapPathPoints[i][0] / 2, mapPathPoints[i][1] / 2);
             line.setStrokeWidth(4);
-//            line.setStroke(Color.TRANSPARENT);
             path.add(line);
-//            ScreenManager.addRoot(ScreenManager.getCurrentPage(), line);
+
         }
 
     }
 
-    // debug method
+
     public void drawPath(GraphicsContext g) {
 //         below is temporary for debugging
         g.setStroke(Color.GREEN);
@@ -115,10 +114,13 @@ public class Level {
     float timeSinceSpawn = 0;
     final float TimeTilSpawn = 0.5f;
 
+
     public void update(float delta) {
         timeSinceSpawn += delta;
+
         if (timeSinceSpawn > TimeTilSpawn) {
             Random rand = new Random();
+            //todo possibly move add balloon to contructor
             balloons.add(new Balloon(rand.nextInt(7), "balloon-0"));
             timeSinceSpawn = 0;
         }
@@ -127,7 +129,8 @@ public class Level {
         while (bIter.hasNext()) {
             Balloon b = bIter.next();
             b.update(delta);
-            if (b.getLayers() < 0) {
+            if (b.getLayers()<0){
+                b.remove();
                 bIter.remove();
             }
         }
@@ -149,16 +152,6 @@ public class Level {
         return spikes;
     }
 
-    //todo good or bad idea with generic? we dont need adders and removers for every array list now
-
-    public <T extends Entity> void addTo(ArrayList<T> specificList, T adder) {
-        specificList.add(adder);
-    }
-
-    public <T extends Entity> void RemoveFrom(ArrayList<T> specificList, T adder) {
-        specificList.remove(adder);
-        adder.remove();
-    }
 
     public void addToSpikes(Spike spike) {
         this.spikes.add(spike);
@@ -176,6 +169,8 @@ public class Level {
     }
 
     public void removeFromBalloons(Balloon balloon) {
+
+        //todo each balloon has its own duplivate
         this.balloons.remove(balloon);
 
     }

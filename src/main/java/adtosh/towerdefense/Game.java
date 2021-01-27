@@ -12,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Game {
 
@@ -128,15 +129,32 @@ public class Game {
     }
 
     private void checkCollision() {
-        for (Balloon balloon: level.getBalloons()){
-            for (Spike spike: level.getSpikes()){
+        Iterator<Balloon> balloonIterator = level.getBalloons().iterator();
+        while (balloonIterator.hasNext()){
+            Balloon balloon = balloonIterator.next();
+
+            Iterator<Spike> spikeIterator = level.getSpikes().iterator();
+            while (spikeIterator.hasNext()){
+                Spike spike = spikeIterator.next();
+
                 if (balloon.getBounds().intersects(spike.getBounds().getLayoutBounds())){
-                    System.out.println("HERE");
-//                    spike.handleBalloonCollision();
-                    balloon.handleDefenseCollision();
+//                    System.out.println("HERE");
+                    spike.handleBalloonCollision(spikeIterator);
+                    balloon.handleDefenseCollision(balloonIterator);
                 }
+
             }
+
         }
+//        for (Balloon balloon: level.getBalloons()){
+//            for (Spike spike: level.getSpikes()){
+//                if (balloon.getBounds().intersects(spike.getBounds().getLayoutBounds())){
+//                    System.out.println("HERE");
+////                    spike.handleBalloonCollision();
+//                    balloon.handleDefenseCollision();
+//                }
+//            }
+//        }
 //        for (Entity entity : entities) {
 //            for (Entity entity1 : entities) {
 //                if (entity instanceof Balloon) {

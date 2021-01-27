@@ -19,8 +19,6 @@ public abstract class BaseTurret extends Entity {
 
 
         canvas.setOnMouseMoved(this::handleMouseMove);
-
-        //check collision of path and hitbox
         canvas.setOnMouseClicked(this::handleMouseClick);
     }
 
@@ -28,7 +26,6 @@ public abstract class BaseTurret extends Entity {
         if(isPlaced) return;
         for (Line line : App.currentGame.getLevel().getPath()) {
             if (this.getBounds().intersects(line.getLayoutBounds())) {
-                //todo find a way to work round scaled coordinates or do something better
                 App.currentGame.getCanvas().setOnMouseMoved(event -> { });
                 isPlaced = true;
                 break;

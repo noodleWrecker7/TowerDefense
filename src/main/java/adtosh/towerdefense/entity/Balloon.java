@@ -7,6 +7,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
+import java.util.Iterator;
+
 public class Balloon extends Entity {
 
     public static String balloonFilePrefix = "balloon-";
@@ -30,7 +32,7 @@ public class Balloon extends Entity {
 
     public Balloon(int layers, String texture) {
         super(texture);
-        App.currentGame.getLevel().addToBalloons(this);
+//        App.currentGame.getLevel().addToBalloons(this);
         this.x = App.currentGame.getLevel().getPathPoint(0)[0];
         this.y = App.currentGame.getLevel().getPathPoint(0)[1];
         this.layers = layers;
@@ -45,29 +47,32 @@ public class Balloon extends Entity {
 
 
     }
-    private void handleSpike(){
+
+    private void handleSpike() {
 
     }
 
-    public void handleDefenseCollision(){
+    public void handleDefenseCollision(Iterator<Balloon> iterator) {
+
         this.layers--;
-        if (layers==0){
-            this.remove();
-            App.currentGame.getLevel().removeFromBalloons(this);
+        //todo change this from 11 to the number of path points
+        if (layers == 0) {
+            this.remove(iterator);
+
+
         }
     }
 
     @Override
     public Rectangle getBounds() {
-//        return new Rectangle(x, y, width / 2, height / 2);
-        return new Rectangle(x/2, y/2, width / 2, height / 2);
+        return new Rectangle(x / 2, y / 2, width / 2, height / 2);
 
     }
 
 
     @Override
     public void update(float delta) {
-        //todo current path point goes to 12 when balloon gets destroyed
+
         int[] pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
         double px = pointCoords[0] - x;
         double py = pointCoords[1] - y;
@@ -108,14 +113,19 @@ public class Balloon extends Entity {
 
         if (Math.abs(dX) > Math.abs(px) || Math.abs(dY) > Math.abs(py)) {
             //This gets called somehow when the ballons gets destroyed and add to current paths points
-            //todo why take away lives when we already have layers
+
 //        if ((dX > px && px > 0) || (dY > py && py > 0) || (dY < py && py < 0) || (dX < px && px < 0)) {
             x = pointCoords[0];
             y = pointCoords[1];
+
             currentPathPoint++;
+            if (currentPathPoint > 11) {
+                System.out.println("LATER STOP");
+            }
             if (currentPathPoint >= App.currentGame.getLevel().pathLength()) {
                 App.currentGame.takeLives(layers);
                 layers = -1;
+//                this.remove();
             }
             return;
         }
@@ -125,9 +135,17 @@ public class Balloon extends Entity {
 
     }
 
+//    @Override
+//    public void remove() {
+//        super.remove();
+////        App.currentGame.getLevel().removeFromBalloons(this);
+//
+//    }
 
 
     public int getLayers() {
         return layers;
     }
+
+
 }
