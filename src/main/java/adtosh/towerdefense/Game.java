@@ -13,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class Game {
 
@@ -45,6 +46,7 @@ public class Game {
         currentState = GameState.NORMAL_SPEED;
     }
 
+
     public Game(Level _level) {
 
         canvas = (Canvas) ScreenManager.getPane("game.fxml").lookup("#gameCanvas");
@@ -64,6 +66,8 @@ public class Game {
     public Game(Level level, String saveFile) {
         this(level);
         // todo load save data
+
+
     }
 
 
@@ -141,11 +145,8 @@ public class Game {
                     spike.handleBalloonCollision(spikeIterator);
                     balloon.handleDefenseCollision(balloonIterator);
                 }
-
             }
-
         }
-
     }
 
     public void render() {
@@ -165,7 +166,6 @@ public class Game {
 
     public void takeLives(int lives) {
         level.setLives(level.getLives() - lives);
-        ;
     }
 
     public Canvas getCanvas() {
@@ -174,6 +174,5 @@ public class Game {
 
     public void removeFromEntity(Entity e){
         this.entities.remove(e);
-
     }
 }
