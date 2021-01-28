@@ -32,7 +32,7 @@ public class Balloon extends Entity {
 
     public Balloon(int layers, String texture) {
         super(texture);
-//        App.currentGame.getLevel().addToBalloons(this);
+        App.currentGame.getLevel().addToBalloons(this);
         this.x = App.currentGame.getLevel().getPathPoint(0)[0];
         this.y = App.currentGame.getLevel().getPathPoint(0)[1];
         this.layers = layers;
@@ -51,6 +51,8 @@ public class Balloon extends Entity {
     private void handleSpike() {
 
     }
+
+
 
     public void handleDefenseCollision(Iterator<Balloon> iterator) {
 

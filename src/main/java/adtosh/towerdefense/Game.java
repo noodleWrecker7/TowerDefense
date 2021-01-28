@@ -152,10 +152,16 @@ public class Game {
     public void render() {
 //        this.context = canvas.getGraphicsContext2D();
         level.render(context);
-
-        for (Entity entity : entities) {
-            entity.render(context);
+        for (Balloon balloon: level.getBalloons()){
+            balloon.render(context);
         }
+        for (Spike spike: level.getSpikes()){
+            spike.render(context);
+        }
+
+//        for (Entity entity : entities) {
+//            entity.render(context);
+//        }
 
 
     }

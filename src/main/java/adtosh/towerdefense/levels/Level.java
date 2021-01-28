@@ -3,6 +3,7 @@ package adtosh.towerdefense.levels;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Entity;
+import adtosh.towerdefense.turrets.BaseTurret;
 import adtosh.towerdefense.turrets.Spike;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -21,6 +22,7 @@ public class Level {
     //    private Balloon[] balloons;
     private ArrayList<Balloon> balloons = new ArrayList<>();
     private ArrayList<Spike> spikes = new ArrayList<>();
+    private ArrayList<BaseTurret> turrets = new ArrayList<>();
 
     //todo possibly pass a level object to every class so entities doesnt have to be static
 
@@ -106,8 +108,6 @@ public class Level {
     public void render(GraphicsContext g) {
 
         g.drawImage(TextureManager.getTexture("grass"), 0, 0);
-
-
         this.drawPath(g);
     }
 
@@ -122,7 +122,8 @@ public class Level {
         if (timeSinceSpawn > TimeTilSpawn) {
             Random rand = new Random();
             //todo possibly move add balloon to contructor
-            balloons.add(new Balloon(rand.nextInt(7), "balloon-0"));
+//            balloons.add(new Balloon(rand.nextInt(7), "balloon-0"));
+            new Balloon(rand.nextInt(7), "balloon-0");
             timeSinceSpawn = 0;
         }
 
@@ -153,6 +154,10 @@ public class Level {
         return spikes;
     }
 
+//    public <T> void addToList(T add){
+//
+//    }
+
 
     public void addToSpikes(Spike spike) {
         this.spikes.add(spike);
@@ -168,6 +173,15 @@ public class Level {
         this.balloons.add(balloon);
 
     }
+
+    public void addToTurrets(BaseTurret baseTurret){
+        this.turrets.add(baseTurret);
+    }
+
+    public void removeTurret(BaseTurret baseTurret){
+        this.turrets.remove(baseTurret);
+    }
+
 
     public void removeFromBalloons(Balloon balloon) {
 
