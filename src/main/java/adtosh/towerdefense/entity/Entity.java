@@ -30,12 +30,10 @@ public abstract class Entity {
     }
 
     public Entity(String _textureName) {
-        App.currentGame.addToEntity(this);
         Image texture = TextureManager.getTexture(_textureName);
         this.width = texture.getWidth();
         this.height = texture.getHeight();
         textureName = _textureName;
-
     }
 
     public void remove(){

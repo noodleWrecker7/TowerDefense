@@ -12,12 +12,11 @@ public abstract class BaseTurret extends Entity {
 
     public BaseTurret(double x, double y, String texture) {
         super(x, y, texture);
+        App.currentGame.getLevel().addToTurrets(this);
     }
 
     public void setMouseMoveListener() {
         Canvas canvas = App.currentGame.getCanvas();
-
-
         canvas.setOnMouseMoved(this::handleMouseMove);
         canvas.setOnMouseClicked(this::handleMouseClick);
     }
