@@ -23,10 +23,12 @@ public abstract class BaseTurret extends Entity {
 
     private void handleMouseClick(MouseEvent e){
         if(isPlaced) return;
+
         for (Line line : App.currentGame.getLevel().getPath()) {
             if (this.getBounds().intersects(line.getLayoutBounds())) {
                 App.currentGame.getCanvas().setOnMouseMoved(event -> { });
                 isPlaced = true;
+                App.currentGame.getLevel().setCarryingItem(false);
                 break;
             }
         }

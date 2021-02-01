@@ -36,12 +36,12 @@ public abstract class Entity {
         textureName = _textureName;
     }
 
-    public void remove(){
-        App.currentGame.removeFromEntity(this);
-    }
+//    public void remove(){
+//        App.currentGame.removeFromEntity(this);
+//    }
 
     public void remove(Iterator<?> iterator){
-        App.currentGame.removeFromEntity(this);
+//        App.currentGame.removeFromEntity(this);
         iterator.remove();
 
     }

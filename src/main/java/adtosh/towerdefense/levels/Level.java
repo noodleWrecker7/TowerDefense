@@ -19,7 +19,8 @@ public class Level {
     // these are all fields that should be loaded from file
     private int wave;
     private int lives;
-    //    private Balloon[] balloons;
+    private boolean carryingItem = false;
+
     private ArrayList<Balloon> balloons = new ArrayList<>();
     private ArrayList<Spike> spikes = new ArrayList<>();
     private ArrayList<BaseTurret> turrets = new ArrayList<>();
@@ -188,5 +189,13 @@ public class Level {
         //todo each balloon has its own duplivate
         this.balloons.remove(balloon);
 
+    }
+
+    public boolean isCarryingItem() {
+        return carryingItem;
+    }
+
+    public void setCarryingItem(boolean carryingItem) {
+        this.carryingItem = carryingItem;
     }
 }

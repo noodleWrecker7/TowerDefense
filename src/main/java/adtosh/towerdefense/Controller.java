@@ -54,8 +54,11 @@ public class Controller {
     }
 
     public void buySpike(MouseEvent event) {
-        Spike spike = new Spike(event.getSceneX()*2, event.getSceneY()*2, "spike");
-        spike.setMouseMoveListener();
+        if (!App.currentGame.getLevel().isCarryingItem()) {
+            App.currentGame.getLevel().setCarryingItem(true);
+            Spike spike = new Spike(event.getSceneX() * 2, event.getSceneY() * 2, "spike");
+            spike.setMouseMoveListener();
+        }
 
     }
 
