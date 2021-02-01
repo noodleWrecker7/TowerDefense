@@ -39,6 +39,10 @@ public class TextureManager {
             loadImage("balloon-"+i, "balloon-"+i+".png", 50, 0, true);
         }
         loadImage("balloon-6", "balloon-6.png", 40, 0, true);
+
+        for (int i = 1; i <= 11 ; i++) {
+            loadImage("spikes-"+i, "spikes-"+i+".png");
+        }
     }
 
 }
