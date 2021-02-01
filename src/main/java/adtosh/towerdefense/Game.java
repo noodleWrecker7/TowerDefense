@@ -2,7 +2,6 @@ package adtosh.towerdefense;
 
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Entity;
-import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.levels.Level;
 import adtosh.towerdefense.turrets.BaseTurret;
 import adtosh.towerdefense.turrets.Spike;
@@ -130,16 +129,23 @@ public class Game {
 
     private void checkCollision() {
         Iterator<Balloon> balloonIterator = level.getBalloons().iterator();
-        while (balloonIterator.hasNext()){
+        while (balloonIterator.hasNext()) {
             Balloon balloon = balloonIterator.next();
 
             Iterator<Spike> spikeIterator = level.getSpikes().iterator();
-            while (spikeIterator.hasNext()){
+            while (spikeIterator.hasNext()) {
                 Spike spike = spikeIterator.next();
 
-                if (balloon.getBounds().intersects(spike.getBounds().getLayoutBounds()) && spike.isPlaced()){
-                    spike.handleBalloonCollision(spikeIterator);
-                    balloon.handleDefenseCollision(balloonIterator);
+                if (balloon.getBounds().intersects(spike.getBounds().getLayoutBounds()) && spike.isPlaced()) {
+
+                    spike.handleBalloonCollision();
+                    if (spike.getLives() <= 0) {
+                        spikeIterator.remove();
+                    }
+                    balloon.handleSpikeCollision();
+                    if (balloon.getLayers() <= 0) {
+                        balloonIterator.remove();
+                    }
                 }
 
             }
@@ -151,10 +157,10 @@ public class Game {
     public void render() {
 //        this.context = canvas.getGraphicsContext2D();
         level.render(context);
-        for (Balloon balloon: level.getBalloons()){
+        for (Balloon balloon : level.getBalloons()) {
             balloon.render(context);
         }
-        for (Spike spike: level.getSpikes()){
+        for (Spike spike : level.getSpikes()) {
             spike.render(context);
         }
 
@@ -178,7 +184,7 @@ public class Game {
         return canvas;
     }
 
-    public void removeFromEntity(Entity e){
+    public void removeFromEntity(Entity e) {
         this.entities.remove(e);
 
     }

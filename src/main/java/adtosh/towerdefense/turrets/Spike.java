@@ -30,14 +30,15 @@ public class Spike extends BaseTurret {
     public void update(float delta) {
     }
 
-    public void handleBalloonCollision(Iterator<Spike> iterator) {
+    public void handleBalloonCollision() {
         this.lives--;
-        if (lives == 0) {
-            this.remove(iterator);
-        }
-        this.textureName = texturePrefix + lives;
+               this.textureName = texturePrefix + lives;
 
-    }
+   }
+
+   public int getLives(){
+        return lives;
+   }
 
 
 }

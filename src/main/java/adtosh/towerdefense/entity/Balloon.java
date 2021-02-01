@@ -1,10 +1,7 @@
 package adtosh.towerdefense.entity;
 
 import adtosh.towerdefense.App;
-import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.projectiles.Projectile;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
 import java.util.Iterator;
@@ -53,17 +50,13 @@ public class Balloon extends Entity {
     }
 
 
-
-    public void handleDefenseCollision(Iterator<Balloon> iterator) {
+    public void handleSpikeCollision() {
 
         this.layers--;
 
-        if (layers <= 0) {
-            this.remove(iterator);
-        }else {
-            this.textureName = balloonFilePrefix + layers;
+        this.textureName = balloonFilePrefix + layers;
 
-        }
+
     }
 
     @Override
@@ -71,7 +64,6 @@ public class Balloon extends Entity {
         return new Rectangle(x / 2, y / 2, width / 2, height / 2);
 
     }
-
 
 
     @Override
@@ -85,8 +77,8 @@ public class Balloon extends Entity {
         double dY = 0;
 
 
-         double speed = SPEEDS[layers];
-         //todo after spamming spikes array index out of bounds exception -1
+        double speed = SPEEDS[layers];
+        //todo after spamming spikes array index out of bounds exception -1
 
         if (py == 0) {
             if (px > 0) {
@@ -132,7 +124,7 @@ public class Balloon extends Entity {
                 //todo sometimes doesnt get removed properly because array out of bound -1
                 layers = -1;
 
-        }
+            }
             return;
         }
 
@@ -140,7 +132,6 @@ public class Balloon extends Entity {
         y += dY;
 
     }
-
 
 
     public int getLayers() {
