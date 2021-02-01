@@ -24,6 +24,7 @@ public class Level {
     private ArrayList<Balloon> balloons = new ArrayList<>();
     private ArrayList<Spike> spikes = new ArrayList<>();
     private ArrayList<BaseTurret> turrets = new ArrayList<>();
+    //to
 
     //todo possibly pass a level object to every class so entities doesnt have to be static
 
