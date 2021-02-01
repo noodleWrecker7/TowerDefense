@@ -133,10 +133,30 @@ public class Level {
         while (bIter.hasNext()) {
             Balloon b = bIter.next();
             b.update(delta);
+            checkBalloonCollide(b);
             if (b.getLayers()<0){
                 b.remove(bIter);
-
             }
+        }
+    }
+
+    public void checkBalloonCollide(Balloon b){
+        Iterator<Spike> spikeIterator = getSpikes().iterator();
+        while (spikeIterator.hasNext()) {
+            Spike spike = spikeIterator.next();
+
+            if (b.getBounds().intersects(spike.getBounds().getLayoutBounds()) && spike.isPlaced()) {
+
+                spike.handleBalloonCollision();
+                if (spike.getLives() <= 0) {
+                    spikeIterator.remove();
+                }
+                b.handleSpikeCollision();
+                    /*if (balloon.getLayers() <= 0) {
+                        balloonIterator.remove();
+                    }*/
+            }
+
         }
     }
 
