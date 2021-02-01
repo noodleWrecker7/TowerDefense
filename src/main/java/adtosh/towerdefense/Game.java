@@ -139,13 +139,13 @@ public class Game {
                 if (balloon.getBounds().intersects(spike.getBounds().getLayoutBounds()) && spike.isPlaced()) {
 
                     spike.handleBalloonCollision();
-                    if (spike.getLives() <= 0) {
+                    /*if (spike.getLives() <= 0) {
                         spikeIterator.remove();
-                    }
+                    }*/
                     balloon.handleSpikeCollision();
-                    if (balloon.getLayers() <= 0) {
+                    /*if (balloon.getLayers() <= 0) {
                         balloonIterator.remove();
-                    }
+                    }*/
                 }
 
             }
