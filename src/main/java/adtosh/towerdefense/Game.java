@@ -33,8 +33,12 @@ public class Game {
     // stores current GameState
     private GameState currentState = GameState.ROUND_INACTIVE;
     // map of all turrets currently in play, should all have unique id
-    private HashMap<String, BaseTurret> turrets;
+    private ArrayList<BaseTurret> turrets = new ArrayList<>();
     private ArrayList<Entity> entities = new ArrayList<>();
+
+    public void addToTurrets(BaseTurret t){
+        turrets.add(t);
+    }
 
     // standard new game from a level object
 
@@ -146,6 +150,10 @@ public class Game {
         }
         for (Spike spike : level.getSpikes()) {
             spike.render(context);
+        }
+
+        for (BaseTurret t: turrets) {
+            t.render(context);
         }
 
 //        for (Entity entity : entities) {

@@ -2,6 +2,7 @@ package adtosh.towerdefense;
 
 
 import adtosh.towerdefense.levels.Level;
+import adtosh.towerdefense.turrets.DartMonkey;
 import adtosh.towerdefense.turrets.Spike;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -56,10 +57,18 @@ public class Controller {
     public void buySpike(MouseEvent event) {
         if (!App.currentGame.getLevel().isCarryingItem()) {
             App.currentGame.getLevel().setCarryingItem(true);
-            Spike spike = new Spike(event.getSceneX() * 2, event.getSceneY() * 2, "spike");
+            Spike spike = new Spike(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
             spike.setMouseMoveListener();
         }
 
+    }
+
+    public void buyMonkey(MouseEvent event) {
+        if (!App.currentGame.getLevel().isCarryingItem()) {
+            App.currentGame.getLevel().setCarryingItem(true);
+            DartMonkey m = new DartMonkey(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
+            m.setMouseMoveListener();
+        }
     }
 
     private void buyDefense(){

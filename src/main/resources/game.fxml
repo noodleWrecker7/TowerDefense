@@ -17,7 +17,15 @@
         <children>
             <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="102.0" text="Button" />
             <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="102.0" text="Button" />
-            <Button maxHeight="53.0" maxWidth="102.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="102.0" />
+            <Button onMouseClicked="#buyMonkey" maxHeight="53.0" maxWidth="102.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="102.0">
+                <graphic>
+                    <ImageView fitHeight="65.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@assets/Defenses/Spikes.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
             <Button mnemonicParsing="false" onMouseClicked="#buySpike" prefHeight="50.0" prefWidth="102.0">
                 <graphic>
                     <ImageView fitHeight="65.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
