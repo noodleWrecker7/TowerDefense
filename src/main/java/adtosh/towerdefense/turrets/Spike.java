@@ -8,13 +8,14 @@ import java.util.Iterator;
 
 public class Spike extends BaseTurret {
     private int lives;
+    private String texturePrefix = "spikes-";
 
 
     public Spike(double x, double y, String texture) {
         super(x, y, texture);
         //todo WARNING: the code below can cause a duplicate if we are adding a "new Sike" to an array of spikes
         App.currentGame.getLevel().addToSpikes(this);
-        this.lives = 10;
+        this.lives = 11;
         this.range = TextureManager.getTexture(this.textureName).getWidth() / 2;
     }
 
@@ -33,8 +34,8 @@ public class Spike extends BaseTurret {
         this.lives--;
         if (lives == 0) {
             this.remove(iterator);
-
         }
+        this.textureName = texturePrefix + lives;
 
     }
 
