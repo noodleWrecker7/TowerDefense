@@ -155,12 +155,7 @@ public class Level {
     public ArrayList<Spike> getSpikes() {
         return spikes;
     }
-
-//    public <T> void addToList(T add){
-//
-//    }
-
-
+    
     public void addToSpikes(Spike spike) {
         this.spikes.add(spike);
 

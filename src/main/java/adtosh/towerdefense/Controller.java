@@ -65,4 +65,15 @@ public class Controller {
     private void buyDefense(){
 
     }
+
+    public void quitToMenu(){
+
+    }
+
+    public void buyWizard(){
+
+    }
+
+    public void quitToMenu(MouseEvent event) {
+    }
 }

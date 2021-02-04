@@ -43,6 +43,7 @@ public abstract class Entity {
     public void remove(Iterator<?> iterator){
 //        App.currentGame.removeFromEntity(this);
         iterator.remove();
+//        iterator.next();
 
     }
 
