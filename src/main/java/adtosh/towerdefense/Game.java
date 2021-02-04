@@ -33,8 +33,12 @@ public class Game {
     // stores current GameState
     private GameState currentState = GameState.ROUND_INACTIVE;
     // map of all turrets currently in play, should all have unique id
-    private HashMap<String, BaseTurret> turrets;
+    private ArrayList<BaseTurret> turrets = new ArrayList<>();
     private ArrayList<Entity> entities = new ArrayList<>();
+
+    public void addToTurrets(BaseTurret t){
+        turrets.add(t);
+    }
 
     // standard new game from a level object
 
@@ -123,7 +127,7 @@ public class Game {
     // called every frame, has render and update code
     void update(float delta) {
         level.update(delta);
-        checkCollision();
+//        checkCollision();
 
     }
 
@@ -132,23 +136,7 @@ public class Game {
         while (balloonIterator.hasNext()) {
             Balloon balloon = balloonIterator.next();
 
-            Iterator<Spike> spikeIterator = level.getSpikes().iterator();
-            while (spikeIterator.hasNext()) {
-                Spike spike = spikeIterator.next();
 
-                if (balloon.getBounds().intersects(spike.getBounds().getLayoutBounds()) && spike.isPlaced()) {
-
-                    spike.handleBalloonCollision();
-                    if (spike.getLives() <= 0) {
-                        spikeIterator.remove();
-                    }
-                    balloon.handleSpikeCollision();
-                    /*if (balloon.getLayers() <= 0) {
-                        balloonIterator.remove();
-                    }*/
-                }
-
-            }
 
         }
 
@@ -162,6 +150,10 @@ public class Game {
         }
         for (Spike spike : level.getSpikes()) {
             spike.render(context);
+        }
+
+        for (BaseTurret t: turrets) {
+            t.render(context);
         }
 
 //        for (Entity entity : entities) {
