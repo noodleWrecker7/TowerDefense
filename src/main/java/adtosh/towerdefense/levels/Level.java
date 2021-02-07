@@ -80,8 +80,6 @@ public class Level {
     }
 
     public void initialisePath() {
-        //todo ADAM THIS IS FOR CHECKING IF THE SPIKES INTERSECT WITH THE GROUND, so I can check if they are supposed to be placed
-        //todo make this check intersection
         for (int i = 1; i < mapPathPoints.length; i++) {
             Line line = new Line(mapPathPoints[i - 1][0] / 2, mapPathPoints[i - 1][1] / 2, mapPathPoints[i][0] / 2, mapPathPoints[i][1] / 2);
             line.setStrokeWidth(4);
@@ -138,6 +136,12 @@ public class Level {
                 b.remove(bIter);
             }
         }
+
+        for (BaseTurret turret: turrets){
+            turret.update(delta);
+        }
+//        System.out.println(turrets.size());
+
     }
 
     public void checkBalloonCollide(Balloon b){
@@ -199,6 +203,9 @@ public class Level {
         this.turrets.remove(baseTurret);
     }
 
+    public ArrayList<BaseTurret> getTurrets() {
+        return turrets;
+    }
 
     public void removeFromBalloons(Balloon balloon) {
 
@@ -206,6 +213,9 @@ public class Level {
         this.balloons.remove(balloon);
 
     }
+//    public void addToTurrets(BaseTurret t){
+//        turrets.add(t);
+//    }
 
     public boolean isCarryingItem() {
         return carryingItem;

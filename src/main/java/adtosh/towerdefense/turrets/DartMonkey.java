@@ -11,7 +11,7 @@ public class DartMonkey extends BaseTurret {
         super(x, y, texture);
         range = 50f;
         System.out.println("yo");
-        App.currentGame.addToTurrets(this);
+        App.currentGame.getLevel().addToTurrets(this);
     }
 
     @Override

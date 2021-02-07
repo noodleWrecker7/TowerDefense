@@ -2,6 +2,7 @@ package adtosh.towerdefense;
 
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Entity;
+import adtosh.towerdefense.entity.projectiles.Wizard;
 import adtosh.towerdefense.levels.Level;
 import adtosh.towerdefense.turrets.BaseTurret;
 import adtosh.towerdefense.turrets.Spike;
@@ -33,12 +34,12 @@ public class Game {
     // stores current GameState
     private GameState currentState = GameState.ROUND_INACTIVE;
     // map of all turrets currently in play, should all have unique id
-    private ArrayList<BaseTurret> turrets = new ArrayList<>();
+//    private ArrayList<BaseTurret> turrets = new ArrayList<>();
     private ArrayList<Entity> entities = new ArrayList<>();
 
-    public void addToTurrets(BaseTurret t){
-        turrets.add(t);
-    }
+//    public void addToTurrets(BaseTurret t){
+//        turrets.add(t);
+//    }
 
     // standard new game from a level object
 
@@ -97,6 +98,7 @@ public class Game {
             public void handle(long now) {
                 if (running) {
                     update((float) (now - then) / 1000000000f);
+                    //difference in time of excecuting one loop after the other // 10 x 10^9
                     render();
                     then = (now);
                 }
@@ -143,6 +145,9 @@ public class Game {
     }
 
     public void render() {
+//        System.out.println(level.getTurrets().size());
+
+
 //        this.context = canvas.getGraphicsContext2D();
         level.render(context);
         for (Balloon balloon : level.getBalloons()) {
@@ -152,7 +157,7 @@ public class Game {
             spike.render(context);
         }
 
-        for (BaseTurret t: turrets) {
+        for (BaseTurret t: level.getTurrets()) {
             t.render(context);
         }
 

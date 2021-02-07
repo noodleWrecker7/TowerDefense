@@ -3,6 +3,7 @@ package adtosh.towerdefense.entity;
 import adtosh.towerdefense.App;
 import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
+import adtosh.towerdefense.entity.projectiles.Wizard;
 import adtosh.towerdefense.levels.Level;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;

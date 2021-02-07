@@ -1,7 +1,10 @@
 package adtosh.towerdefense;
 
 
+import adtosh.towerdefense.entity.Entity;
+import adtosh.towerdefense.entity.projectiles.Wizard;
 import adtosh.towerdefense.levels.Level;
+import adtosh.towerdefense.turrets.BaseTurret;
 import adtosh.towerdefense.turrets.DartMonkey;
 import adtosh.towerdefense.turrets.Spike;
 import javafx.fxml.FXML;
@@ -55,20 +58,36 @@ public class Controller {
     }
 
     public void buySpike(MouseEvent event) {
-        if (!App.currentGame.getLevel().isCarryingItem()) {
-            App.currentGame.getLevel().setCarryingItem(true);
+//        if (!App.currentGame.getLevel().isCarryingItem()) {
+//            App.currentGame.getLevel().setCarryingItem(true);
+//            Spike spike = new Spike(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
+//            spike.setMouseMoveListener();
+//        }
+        if (canBuy(event)){
             Spike spike = new Spike(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
             spike.setMouseMoveListener();
+
         }
 
     }
 
     public void buyMonkey(MouseEvent event) {
+//        if (canBuy())
+//        if (!App.currentGame.getLevel().isCarryingItem()) {
+//            App.currentGame.getLevel().setCarryingItem(true);
+//            DartMonkey m = new DartMonkey(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
+//            m.setMouseMoveListener();
+//        }
+    }
+
+    public boolean canBuy(MouseEvent event){
         if (!App.currentGame.getLevel().isCarryingItem()) {
             App.currentGame.getLevel().setCarryingItem(true);
-            DartMonkey m = new DartMonkey(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
-            m.setMouseMoveListener();
+            return true;
         }
+        return false;
+
+
     }
 
     private void buyDefense(){
@@ -79,9 +98,13 @@ public class Controller {
 
     }
 
-    public void buyWizard(){
-
-    }
+    public void buyWizard(MouseEvent event){
+        // get x is relative to node the event happened and scence x is relative to the scene
+        if (canBuy(event)){
+            Wizard wizard = new Wizard(event.getSceneX()*2, event.getSceneY()*2, "wizard");
+            wizard.setMouseMoveListener();
+        }
+}
 
     public void quitToMenu(MouseEvent event) {
     }
