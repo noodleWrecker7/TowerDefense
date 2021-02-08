@@ -77,10 +77,16 @@ public abstract class BaseTurret extends Entity {
 
     @Override
     public void update(float delta) {
+
         if (this.target == null && isPlaced) {
             findTarget();
         }
         if (this.target != null && isPlaced) {
+            if (!target.getBounds().intersects(this.getRangeBounds().getLayoutBounds())){
+                target = null;
+                return;
+            }
+
             findAngle();
             timeSinceSpawn += delta;
             if (timeSinceSpawn > TimeTilSpawn) {
@@ -94,21 +100,19 @@ public abstract class BaseTurret extends Entity {
     }
 
     private void findAngle() {
-
-//        double deltaX = target.getX() - this.x;
-//        double deltaY = target.getY() - this.y;
         this.angle = Math.toDegrees(Math.atan2(x - target.getX(), y- target.getY())) * -1;
         if (angle < 0) {
             angle += 360;
         }
 
 
-//            if (gradient<0)angle = 360 - angle;
+
 
         System.out.println(angle);
     }
 
     private void findTarget() {
+        //todo make it prefer the balloon that is in the lead
         for (Balloon balloon : App.currentGame.getLevel().getBalloons()) {
             if (balloon.getBounds().intersects(this.getRangeBounds().getLayoutBounds())) {
                 this.target = balloon;
