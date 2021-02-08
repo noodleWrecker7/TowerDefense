@@ -25,6 +25,7 @@ public abstract class BaseTurret extends Entity {
 
     protected double range;
     private Balloon target;
+    private double angle = 0;
 
     private double timeSinceSpawn = 0;
     private final double TimeTilSpawn = 1.0d;
@@ -40,8 +41,8 @@ public abstract class BaseTurret extends Entity {
         canvas.setOnMouseClicked(this::handleMouseClick);
     }
 
-    private void handleMouseClick(MouseEvent e){
-        if(isPlaced) return;
+    private void handleMouseClick(MouseEvent e) {
+        if (isPlaced) return;
         //this must check every single line and make the decision after
         for (Line line : App.currentGame.getLevel().getPath()) {
             if (this.getBounds().intersects(line.getLayoutBounds())) {
@@ -49,36 +50,42 @@ public abstract class BaseTurret extends Entity {
             }
 
         }
-        App.currentGame.getCanvas().setOnMouseMoved(event -> { });
+        App.currentGame.getCanvas().setOnMouseMoved(event -> {
+        });
         isPlaced = true;
         App.currentGame.getLevel().setCarryingItem(false);
-        ScreenManager.addRoot("game.fxml", this.getRangeBounds());
+//        ScreenManager.addRoot("game.fxml", this.getRangeBounds());
     }
 
-    public double getRange(){
+    public double getRange() {
         return range;
     }
 
     @Override
-    public void render(GraphicsContext g){
-//        g.drawImage(TextureManager.getTexture(textureName), x - width / 2, y - height / 2);
-
+    public void render(GraphicsContext g) {
+        g.save();
+        rotate(g, angle, x, y);
         super.render(g);
-//        g.fillOval(this.getRangeBounds().getCenterX()*2, getRangeBounds().getCenterY()*2, this.range, this.range);
+        g.restore();
+
         if (!isPlaced) {
-            g.setFill(new Color(0.2,0.2,0.2, 0.2));
-            g.fillOval(x -getRange(), y-getRange(), getRange()*2, getRange()*2);
+            g.setFill(new Color(0.2, 0.2, 0.2, 0.2));
+            g.fillOval(x - range, y - range, range * 2, range * 2);
         }
+
     }
 
     @Override
     public void update(float delta) {
-        if (this.target == null && isPlaced) findTarget();
-        else if (this.target != null && isPlaced){
+        if (this.target == null && isPlaced) {
+            findTarget();
+        }
+        if (this.target != null && isPlaced) {
+            findAngle();
             timeSinceSpawn += delta;
             if (timeSinceSpawn > TimeTilSpawn) {
-                timeSinceSpawn =0;
-                System.out.println("FIRE");
+                timeSinceSpawn = 0;
+
             }
 
         }
@@ -86,26 +93,37 @@ public abstract class BaseTurret extends Entity {
 
     }
 
-    private void findTarget(){
-        for (Balloon balloon: App.currentGame.getLevel().getBalloons()){
-            if (balloon.getBounds().intersects(this.getRangeBounds().getLayoutBounds())){
+    private void findAngle() {
+
+//        double deltaX = target.getX() - this.x;
+//        double deltaY = target.getY() - this.y;
+        this.angle = Math.toDegrees(Math.atan2(x - target.getX(), y- target.getY())) * -1;
+        if (angle < 0) {
+            angle += 360;
+        }
+
+
+//            if (gradient<0)angle = 360 - angle;
+
+        System.out.println(angle);
+    }
+
+    private void findTarget() {
+        for (Balloon balloon : App.currentGame.getLevel().getBalloons()) {
+            if (balloon.getBounds().intersects(this.getRangeBounds().getLayoutBounds())) {
                 this.target = balloon;
                 break;
             }
         }
     }
 
-    public Circle getRangeBounds(){
-        return new Circle(x/2, y/2, range);
+    public Circle getRangeBounds() {
+        return new Circle(x / 2, y / 2, range / 2);
     }
 
-    public void rotate(){
-
-
-//        ImageView imageView = new ImageView(TextureManager.getTexture(textureName));
-//        Rectangle2D viewportRect = new Rectangle2D(40, 35, 110, 110);
-//        imageView.setViewport(viewportRect);
-//        imageView.setRotate(30);
+    private void rotate(GraphicsContext g, double angle, double px, double py) {
+        Rotate r = new Rotate(angle, px, py);
+        g.setTransform(r.getMxx() / 2, r.getMyx() / 2, r.getMxy() / 2, r.getMyy() / 2, r.getTx() / 2, r.getTy() / 2);
 
     }
 

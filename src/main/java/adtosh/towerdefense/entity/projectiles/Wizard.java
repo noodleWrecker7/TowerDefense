@@ -13,7 +13,7 @@ import java.awt.image.AffineTransformOp;
 public class Wizard  extends BaseTurret {
     public Wizard(double x, double y, String texture) {
         super(x, y, texture);
-        this.range = 150;
+        this.range = 300;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Wizard  extends BaseTurret {
     @Override
     public void update(float delta) {
         super.update(delta);
-        rotate();
+//        rotate();
 
 
 
