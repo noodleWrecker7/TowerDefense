@@ -18,6 +18,7 @@ import javafx.scene.transform.Transform;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
+import java.util.ArrayList;
 
 public abstract class BaseTurret extends Entity {
 
@@ -81,7 +82,10 @@ public abstract class BaseTurret extends Entity {
         if (this.target == null && isPlaced) {
             findTarget();
         }
+
         if (this.target != null && isPlaced) {
+            findFurthestBalloon();
+
             if (!target.getBounds().intersects(this.getRangeBounds().getLayoutBounds())){
                 target = null;
                 return;
@@ -108,7 +112,33 @@ public abstract class BaseTurret extends Entity {
 
 
 
-        System.out.println(angle);
+
+    }
+
+    private void findFurthestBalloon(){
+
+        ArrayList<Balloon> options = new ArrayList<>();
+        for (Balloon balloon: App.currentGame.getLevel().getBalloons()){
+            if (balloon.getBounds().intersects(this.getRangeBounds().getLayoutBounds())){
+                options.add(balloon);
+            }
+        }
+
+
+           double max= options.get(0).getDistanceTravelled();
+           for (Balloon balloon: options){
+               if (balloon.getDistanceTravelled()> max){
+                   max = balloon.getDistanceTravelled();
+               }
+           }
+
+           for (Balloon balloon: options){
+               if (balloon.getDistanceTravelled() == max){
+                   target = balloon;
+               }
+           }
+
+
     }
 
     private void findTarget() {

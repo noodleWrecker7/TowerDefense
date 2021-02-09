@@ -5,6 +5,8 @@ import adtosh.towerdefense.entity.projectiles.Projectile;
 import javafx.scene.shape.Rectangle;
 
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Balloon extends Entity {
 
@@ -16,8 +18,15 @@ public class Balloon extends Entity {
     private int currentPathPoint = 1;
     private boolean leader = false;
 
+    private double distanceTravelled = 0;
+    private long startTime;
+    private long elapsedTime;
+
+
     final static double[] SPEEDS = { // pixels per seconds
             75, 100, 125, 125, 200, 250, 700
+
+
     };
 
 //    public Balloon(double x, double y, int type) {
@@ -35,6 +44,8 @@ public class Balloon extends Entity {
         this.y = App.currentGame.getLevel().getPathPoint(0)[1];
         this.layers = layers;
         textureName = balloonFilePrefix + layers;
+        this.startTime = System.nanoTime();
+
         //WIDTH AND HEIGHT IS IN ENTITY
 //        width = TextureManager.getTexture(balloonFilePrefix + type).getWidth();
 //        height = TextureManager.getTexture(balloonFilePrefix + type).getHeight();
@@ -69,8 +80,8 @@ public class Balloon extends Entity {
 
     @Override
     public void update(float delta) {
-
-
+        //todo get time between this happening and its last execution
+        this.elapsedTime =System.nanoTime() - startTime;
         int[] pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
         double px = pointCoords[0] - x;
         double py = pointCoords[1] - y;
@@ -131,9 +142,21 @@ public class Balloon extends Entity {
 
         x += dX;
         y += dY;
+        long endTime = System.nanoTime();
+        distanceTravelled= distanceTravelled +(speed * delta);
+        System.out.println(distanceTravelled);
+        long startTime = System.nanoTime();
+
 
     }
 
+    public double getDistanceTravelled() {
+        return distanceTravelled;
+    }
+
+    public void setDistanceTravelled(double distanceTravelled) {
+        this.distanceTravelled = distanceTravelled;
+    }
 
     public int getLayers() {
         return layers;

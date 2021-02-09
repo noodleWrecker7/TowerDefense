@@ -121,7 +121,7 @@ public class Level {
 
         if (timeSinceSpawn > TimeTilSpawn) {
             Random rand = new Random();
-            //todo possibly move add balloon to contructor
+
 //            balloons.add(new Balloon(rand.nextInt(7), "balloon-0"));
             new Balloon(rand.nextInt(7), "balloon-0");
             timeSinceSpawn = 0;
