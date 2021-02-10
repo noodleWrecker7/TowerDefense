@@ -9,16 +9,11 @@ import javafx.scene.shape.Shape;
 
 public class MagicBall extends Projectile {
 
-    public MagicBall(double x, double y, String textureName, BaseTurret source) {
-        super(x, y, textureName, source);
+    public MagicBall(double x, double y, String textureName, Balloon target) {
+        super(x, y, textureName, target );
+        this.power = 5;
     }
 
-
-
-    @Override
-    public void handleCollision(Balloon b) {
-        super.handleCollision(b);
-    }
 
     @Override
     public Shape getBounds() {
@@ -27,12 +22,7 @@ public class MagicBall extends Projectile {
     }
 
     @Override
-    public void render(GraphicsContext g) {
-        super.render(g);
-    }
-
-    @Override
-    public void update(float delta) {
+    public void handleCollision() {//todo override for splash damage
 
     }
 }

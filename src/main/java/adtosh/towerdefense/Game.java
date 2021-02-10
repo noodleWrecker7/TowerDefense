@@ -70,8 +70,7 @@ public class Game {
 
     // load save data from file and edit game vars
     private void loadSaveData(String file) {
-//        level.addBalloons();
-        //todo hardcoded for now only
+
 
 
     }
@@ -82,7 +81,7 @@ public class Game {
     private boolean running = true;
 
 
-    // todo can probably remove this
+
     public void init() { // starts timer loop, calls update() every frame
         level.initialisePath();
         level.addProjectilesType();

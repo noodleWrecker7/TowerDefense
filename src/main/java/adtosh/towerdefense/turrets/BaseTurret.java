@@ -107,8 +107,8 @@ public abstract class BaseTurret extends Entity {
                 try {
 
                     Constructor<? extends  Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
-                    Projectile projectile = constructor.newInstance(x, y, "magic ball", this);
-                    projectile.fire();
+                    Projectile projectile = constructor.newInstance(x, y, "magic ball", target);
+//                    projectile.fire();
 
                 } catch ( InvocationTargetException | InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
@@ -138,13 +138,10 @@ public abstract class BaseTurret extends Entity {
                 options.add(balloon);
             }
         }
-        double max=0;
-        try {
-             max = options.get(0).getDistanceTravelled();
 
-        }catch (NullPointerException e){
-            System.out.println("no options");
-        }
+        if (options.size()==0) return;
+
+        double max = options.get(0).getDistanceTravelled();
 
         for (Balloon balloon : options) {
             if (balloon.getDistanceTravelled() > max) {

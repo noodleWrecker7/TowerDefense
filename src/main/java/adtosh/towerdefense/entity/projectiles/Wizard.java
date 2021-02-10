@@ -23,14 +23,7 @@ public class Wizard  extends BaseTurret {
         return new Circle(x / 2, y / 2, radius / 2);
     }
 
-    @Override
-    public void update(float delta) {
-        super.update(delta);
-//        rotate();
 
-
-
-    }
 
 
 

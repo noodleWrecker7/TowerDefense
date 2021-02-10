@@ -9,8 +9,8 @@ import javafx.scene.shape.Shape;
 public class Dart extends Projectile{
 
 
-    public Dart(double x, double y, String texture, BaseTurret source) {
-        super(x, y, texture, source);
+    public Dart(double x, double y, String texture, Balloon target) {
+        super(x, y, texture, target);
     }
 
 

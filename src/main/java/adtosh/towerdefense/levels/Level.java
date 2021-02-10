@@ -2,6 +2,8 @@ package adtosh.towerdefense.levels;
 
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
+import adtosh.towerdefense.entity.Collidable;
+import adtosh.towerdefense.entity.Entity;
 import adtosh.towerdefense.entity.projectiles.MagicBall;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.turrets.BaseTurret;
@@ -112,7 +114,7 @@ public class Level {
 
         try {
 
-            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, String.class, BaseTurret.class);
+            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, String.class, Balloon.class);
             projectileConstructors.put("magic ball", magicBallConstructor);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -163,12 +165,17 @@ public class Level {
             b.update(delta);
             checkBalloonCollide(b);
             if (b.getLayers()<0){
-                b.remove(bIter);
+                bIter.remove();
+//                b.remove(bIter);
             }
         }
 
         for (BaseTurret turret: turrets){
             turret.update(delta);
+        }
+
+        for (Projectile projectile: projectiles){
+            projectile.update(delta);
         }
     }
 
@@ -190,7 +197,37 @@ public class Level {
             }
 
         }
+
+        Iterator<Projectile> projectileIterator = projectiles.iterator();
+        while (projectileIterator.hasNext()){
+            Projectile projectile = projectileIterator.next();
+            if (b.getBounds().intersects(projectile.getBounds().getLayoutBounds())){
+                projectile.handleCollision();
+                projectileIterator.remove();
+
+                b.handleCollision(projectile);
+
+            }
+
+        }
     }
+    private <T extends Entity & Collidable> void damage(T damager, Iterator<?> iterator, Balloon b){
+        if (b.getBounds().intersects(damager.getBounds().getLayoutBounds())){
+            damager.handleCollision();
+//            if (damager.getLives() <= 0){
+                iterator.remove();
+
+//            }
+            if (damager instanceof Projectile){
+                b.handleCollision((Projectile) damager);
+            }
+            b.handleSpikeCollision();
+
+        }
+
+    }
+
+
 
     public int getLevelID() {
         return levelID;

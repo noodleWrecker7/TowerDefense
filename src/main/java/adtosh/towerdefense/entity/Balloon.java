@@ -52,20 +52,23 @@ public class Balloon extends Entity {
 
     }
 
-    public void handleCollision(Projectile p) { // todo
-
-
+    public void handleCollision(Projectile p) {
+        this.layers-=p.getPower();
+        this.textureName = balloonFilePrefix + layers;
     }
 
-    private void handleSpike() {
 
-    }
+
+//    public void handleCollision() {
+//        this.layers--;
+//        this.textureName = balloonFilePrefix + layers;
+//
+//    }
 
 
     public void handleSpikeCollision() {
 
         this.layers--;
-
         this.textureName = balloonFilePrefix + layers;
 
 

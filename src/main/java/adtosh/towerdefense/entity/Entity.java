@@ -3,6 +3,7 @@ package adtosh.towerdefense.entity;
 import adtosh.towerdefense.App;
 import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
+import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.entity.projectiles.Wizard;
 import adtosh.towerdefense.levels.Level;
 import javafx.scene.canvas.GraphicsContext;
@@ -52,6 +53,9 @@ public abstract class Entity {
     public abstract Shape getBounds();
 
     public void render(GraphicsContext g){
+        if (this instanceof Projectile){
+            System.out.println("HERE");
+        }
         g.drawImage(TextureManager.getTexture(textureName), x - width / 2, y - height / 2);
     }
 
