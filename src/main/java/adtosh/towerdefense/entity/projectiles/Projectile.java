@@ -13,11 +13,12 @@ import static java.lang.Math.sqrt;
 // parent for all projectiles
 public abstract class Projectile extends Entity implements Collidable {
 
-    int power = 0; // layers left that it can pop
+    int power; // layers left that it can pop
     boolean canPopLeads = false; // probably make more of these
 //    private int lives=1;
 
     private Balloon target;
+
 
 
 //    public void handleCollision(Balloon b) {
@@ -27,7 +28,6 @@ public abstract class Projectile extends Entity implements Collidable {
 
     @Override
     public void handleCollision() {
-//        lives--;
 
     }
 
@@ -68,4 +68,6 @@ public abstract class Projectile extends Entity implements Collidable {
     public int getPower() {
         return power;
     }
+
+
 }

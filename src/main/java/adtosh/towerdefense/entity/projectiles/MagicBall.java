@@ -8,6 +8,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 
 public class MagicBall extends Projectile {
+    private int lives;
 
     public MagicBall(double x, double y, String textureName, Balloon target) {
         super(x, y, textureName, target );
@@ -23,6 +24,14 @@ public class MagicBall extends Projectile {
 
     @Override
     public void handleCollision() {//todo override for splash damage
+
+        //todo effect of splash damage should be done by checking distance in a radius of the target balloon.
+//        finishedShot = false;
+//        lives --;
+//        if (lives <=0) {
+//            finishedShot = true;
+//        }
+
 
     }
 }

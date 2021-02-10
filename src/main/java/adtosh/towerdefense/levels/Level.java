@@ -203,7 +203,9 @@ public class Level {
             Projectile projectile = projectileIterator.next();
             if (b.getBounds().intersects(projectile.getBounds().getLayoutBounds())){
                 projectile.handleCollision();
-                projectileIterator.remove();
+
+                    projectileIterator.remove();
+
 
                 b.handleCollision(projectile);
 
