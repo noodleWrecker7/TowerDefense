@@ -142,10 +142,9 @@ public class Balloon extends Entity {
 
         x += dX;
         y += dY;
-        long endTime = System.nanoTime();
+
         distanceTravelled= distanceTravelled +(speed * delta);
-        System.out.println(distanceTravelled);
-        long startTime = System.nanoTime();
+
 
 
     }

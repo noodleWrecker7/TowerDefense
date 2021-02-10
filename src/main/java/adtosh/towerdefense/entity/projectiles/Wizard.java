@@ -14,6 +14,7 @@ public class Wizard  extends BaseTurret {
     public Wizard(double x, double y, String texture) {
         super(x, y, texture);
         this.range = 300;
+        this.projectileName = "magic ball";
     }
 
     @Override

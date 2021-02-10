@@ -1,8 +1,7 @@
 package adtosh.towerdefense;
 
 import adtosh.towerdefense.entity.Balloon;
-import adtosh.towerdefense.entity.Entity;
-import adtosh.towerdefense.entity.projectiles.Wizard;
+import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.levels.Level;
 import adtosh.towerdefense.turrets.BaseTurret;
 import adtosh.towerdefense.turrets.Spike;
@@ -10,8 +9,6 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 public class Game {
@@ -35,7 +32,7 @@ public class Game {
     private GameState currentState = GameState.ROUND_INACTIVE;
     // map of all turrets currently in play, should all have unique id
 //    private ArrayList<BaseTurret> turrets = new ArrayList<>();
-    private ArrayList<Entity> entities = new ArrayList<>();
+
 
 //    public void addToTurrets(BaseTurret t){
 //        turrets.add(t);
@@ -88,6 +85,7 @@ public class Game {
     // todo can probably remove this
     public void init() { // starts timer loop, calls update() every frame
         level.initialisePath();
+        level.addProjectilesType();
     }
 
     public void start() {
@@ -108,9 +106,7 @@ public class Game {
         timer.start();
     }
 
-    public void addToEntity(Entity entity) {
-        this.entities.add(entity);
-    }
+
 
 
     // takes centre coordinates for a turret and tries to place, returns false if invalid, also selects turret,
@@ -161,6 +157,10 @@ public class Game {
             t.render(context);
         }
 
+        for(Projectile projectile: level.getProjectiles()){
+            projectile.render(context);
+        }
+
 //        for (Entity entity : entities) {
 //            entity.render(context);
 //        }
@@ -181,8 +181,5 @@ public class Game {
         return canvas;
     }
 
-    public void removeFromEntity(Entity e) {
-        this.entities.remove(e);
 
-    }
 }

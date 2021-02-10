@@ -2,14 +2,17 @@ package adtosh.towerdefense.levels;
 
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
-import adtosh.towerdefense.entity.Entity;
+import adtosh.towerdefense.entity.projectiles.MagicBall;
+import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.turrets.BaseTurret;
 import adtosh.towerdefense.turrets.Spike;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -24,6 +27,14 @@ public class Level {
     private ArrayList<Balloon> balloons = new ArrayList<>();
     private ArrayList<Spike> spikes = new ArrayList<>();
     private ArrayList<BaseTurret> turrets = new ArrayList<>();
+
+//    private ArrayList<Class<Projectile>> projectileClasses = new ArrayList<>();
+//    private HashMap<String, Class<?>> projectileClasses = new HashMap<String, Class<?>>();
+    private HashMap<String, Constructor<? extends Projectile>> projectileConstructors = new HashMap<>();
+    private ArrayList<Projectile> projectiles = new ArrayList<>();
+
+
+
     //to
 
     //todo possibly pass a level object to every class so entities doesnt have to be static
@@ -89,6 +100,25 @@ public class Level {
 
     }
 
+    public void addProjectilesType()  {
+
+//        try {
+//            projectileClasses.put("Magic", Class.forName("class adtosh.towerdefense.entity.projectiles.MagicBall"))
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+
+
+        try {
+
+            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, String.class, BaseTurret.class);
+            projectileConstructors.put("magic ball", magicBallConstructor);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void drawPath(GraphicsContext g) {
 //         below is temporary for debugging
@@ -140,8 +170,6 @@ public class Level {
         for (BaseTurret turret: turrets){
             turret.update(delta);
         }
-//        System.out.println(turrets.size());
-
     }
 
     public void checkBalloonCollide(Balloon b){
@@ -206,6 +234,16 @@ public class Level {
     public ArrayList<BaseTurret> getTurrets() {
         return turrets;
     }
+    public void addToProjectiles (Projectile projectile){
+        projectiles.add(projectile);
+    }
+    public void removeFromProjectiles (Projectile projectile){
+        projectiles.remove(projectile);
+    }
+
+    public ArrayList<Projectile> getProjectiles() {
+        return projectiles;
+    }
 
     public void removeFromBalloons(Balloon balloon) {
 
@@ -224,4 +262,9 @@ public class Level {
     public void setCarryingItem(boolean carryingItem) {
         this.carryingItem = carryingItem;
     }
+
+    public HashMap<String, Constructor<? extends Projectile>> getProjectileConstructors() {
+        return projectileConstructors;
+    }
+
 }

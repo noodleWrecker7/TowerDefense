@@ -5,6 +5,8 @@ import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Entity;
+import adtosh.towerdefense.entity.projectiles.MagicBall;
+import adtosh.towerdefense.entity.projectiles.Projectile;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,7 +20,10 @@ import javafx.scene.transform.Transform;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class BaseTurret extends Entity {
 
@@ -30,6 +35,10 @@ public abstract class BaseTurret extends Entity {
 
     private double timeSinceSpawn = 0;
     private final double TimeTilSpawn = 1.0d;
+
+
+    protected String projectileName;
+
 
     public BaseTurret(double x, double y, String texture) {
         super(x, y, texture);
@@ -86,7 +95,7 @@ public abstract class BaseTurret extends Entity {
         if (this.target != null && isPlaced) {
             findFurthestBalloon();
 
-            if (!target.getBounds().intersects(this.getRangeBounds().getLayoutBounds())){
+            if (!target.getBounds().intersects(this.getRangeBounds().getLayoutBounds())) {
                 target = null;
                 return;
             }
@@ -95,6 +104,15 @@ public abstract class BaseTurret extends Entity {
             timeSinceSpawn += delta;
             if (timeSinceSpawn > TimeTilSpawn) {
                 timeSinceSpawn = 0;
+                try {
+
+                    Constructor<? extends  Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
+                    Projectile projectile = constructor.newInstance(x, y, "magic ball", this);
+                    projectile.fire();
+
+                } catch ( InvocationTargetException | InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
 
             }
 
@@ -104,39 +122,41 @@ public abstract class BaseTurret extends Entity {
     }
 
     private void findAngle() {
-        this.angle = Math.toDegrees(Math.atan2(x - target.getX(), y- target.getY())) * -1;
+        this.angle = Math.toDegrees(Math.atan2(x - target.getX(), y - target.getY())) * -1;
         if (angle < 0) {
             angle += 360;
         }
 
 
-
-
-
     }
 
-    private void findFurthestBalloon(){
+    private void findFurthestBalloon() {
 
         ArrayList<Balloon> options = new ArrayList<>();
-        for (Balloon balloon: App.currentGame.getLevel().getBalloons()){
-            if (balloon.getBounds().intersects(this.getRangeBounds().getLayoutBounds())){
+        for (Balloon balloon : App.currentGame.getLevel().getBalloons()) {
+            if (balloon.getBounds().intersects(this.getRangeBounds().getLayoutBounds())) {
                 options.add(balloon);
             }
         }
+        double max=0;
+        try {
+             max = options.get(0).getDistanceTravelled();
 
+        }catch (NullPointerException e){
+            System.out.println("no options");
+        }
 
-           double max= options.get(0).getDistanceTravelled();
-           for (Balloon balloon: options){
-               if (balloon.getDistanceTravelled()> max){
-                   max = balloon.getDistanceTravelled();
-               }
-           }
+        for (Balloon balloon : options) {
+            if (balloon.getDistanceTravelled() > max) {
+                max = balloon.getDistanceTravelled();
+            }
+        }
 
-           for (Balloon balloon: options){
-               if (balloon.getDistanceTravelled() == max){
-                   target = balloon;
-               }
-           }
+        for (Balloon balloon : options) {
+            if (balloon.getDistanceTravelled() == max) {
+                target = balloon;
+            }
+        }
 
 
     }
@@ -169,5 +189,9 @@ public abstract class BaseTurret extends Entity {
 
     public boolean isPlaced() {
         return isPlaced;
+    }
+
+    public Balloon getTarget() {
+        return target;
     }
 }
