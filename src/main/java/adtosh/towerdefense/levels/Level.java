@@ -170,41 +170,64 @@ public class Level {
         }
         }
 
-//        ArrayList<Balloon> balloonsToPop = new ArrayList<>();
-        HashMap<Balloon, Projectile> balloonsToPop = new HashMap<>();
 
-        Iterator<Projectile> projectileIterator = projectiles.iterator();
-        while (projectileIterator.hasNext()){
-            Projectile projectile = projectileIterator.next();
+        HashMap<Projectile, Balloon> balloonsToPop = new HashMap<>();
 
-            Iterator<Balloon> balloonIterator = balloons.iterator();
-            while (balloonIterator.hasNext()){
-                Balloon balloon = balloonIterator.next();
+        for (Balloon b: balloons){
 
-                if (projectile.getBounds().intersects(balloon.getBounds().getLayoutBounds())){
+            Iterator<Projectile> projectileIterator = projectiles.iterator();
+            while (projectileIterator.hasNext()) {
+                Projectile projectile = projectileIterator.next();
+
+                if (projectile.getBounds().intersects(b.getBounds().getLayoutBounds())){
                     projectile.handleCollision();
-                    for (Balloon balloon1 : projectile.getSplashedBalloons()){
-                        balloonsToPop.put(balloon1, projectile);
-
-
+                    for (Balloon splashedBallooon: projectile.getSplashedBalloons()){
+                        balloonsToPop.put(projectile, splashedBallooon);
                     }
-
                     projectileIterator.remove();
-                }
-
-                if (balloon.getLayers()<= 0){
-                    balloonIterator.remove();
                 }
             }
 
         }
 
-        Iterator<Map .Entry<Balloon, Projectile>> iterator = balloonsToPop.entrySet().iterator();
+//        Iterator<Projectile> projectileIterator = projectiles.iterator();
+//        while (projectileIterator.hasNext()){
+//            Projectile projectile = projectileIterator.next();
+//
+//            Iterator<Balloon> balloonIterator = balloons.iterator();
+//            while (balloonIterator.hasNext()){
+//                Balloon balloon = balloonIterator.next();
+//
+//                if (projectile.getBounds().intersects(balloon.getBounds().getLayoutBounds())){
+//                    projectile.handleCollision();
+//                    for (Balloon balloon1 : projectile.getSplashedBalloons()){
+//                        balloonsToPop.put(projectile, balloon1);
+//
+//
+//                    }
+//
+//                    projectileIterator.remove();
+//                }
+//
+////                if (balloon.getLayers()<= 0){
+////                    balloonIterator.remove();
+////                }
+//            }
+//
+//        }
+
+
+        Iterator<Map .Entry<Projectile, Balloon>> iterator = balloonsToPop.entrySet().iterator();
+        //todo change to key set
         while (iterator.hasNext()){
-            Map.Entry<Balloon, Projectile> pair =iterator.next();
-            pair.getKey().handleCollision(pair.getValue());
+            Map.Entry<Projectile, Balloon> pair =iterator.next();
+            pair.getValue().handleCollision(pair.getKey());
 
         }
+
+        balloons.removeIf(balloon -> balloon.getLayers() <= 0);
+
+
 
 
 
