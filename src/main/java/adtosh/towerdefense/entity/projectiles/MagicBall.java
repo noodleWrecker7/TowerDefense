@@ -1,5 +1,6 @@
 package adtosh.towerdefense.entity.projectiles;
 
+import adtosh.towerdefense.App;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.turrets.BaseTurret;
@@ -11,7 +12,7 @@ public class MagicBall extends Projectile {
     private int lives;
 
     public MagicBall(double x, double y, String textureName, Balloon target) {
-        super(x, y, textureName, target );
+        super(x, y, textureName, target);
         this.power = 5;
     }
 
@@ -23,14 +24,15 @@ public class MagicBall extends Projectile {
     }
 
     @Override
-    public void handleCollision() {//todo override for splash damage
+    public void handleCollision() {
 
-        //todo effect of splash damage should be done by checking distance in a radius of the target balloon.
-//        finishedShot = false;
-//        lives --;
-//        if (lives <=0) {
-//            finishedShot = true;
-//        }
+        for (Balloon balloon : App.currentGame.getLevel().getBalloons()) {
+            if (balloon.getDistanceTravelled() < target.getDistanceTravelled() + 5 || balloon.getDistanceTravelled() > target.getDistanceTravelled() - 5) {
+                splashedBalloons.add(balloon);
+                //this adds all ballons in a radius of the target balloon to the balloon list that take damage
+
+            }
+        }
 
 
     }

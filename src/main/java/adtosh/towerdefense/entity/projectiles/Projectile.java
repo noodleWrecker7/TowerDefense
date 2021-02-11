@@ -7,17 +7,20 @@ import adtosh.towerdefense.entity.Entity;
 import adtosh.towerdefense.turrets.BaseTurret;
 import javafx.scene.shape.Shape;
 
+import java.util.ArrayList;
+
 import static java.lang.Math.sqrt;
 
 
 // parent for all projectiles
 public abstract class Projectile extends Entity implements Collidable {
 
-    int power; // layers left that it can pop
+    protected int power; // layers left that it can pop
     boolean canPopLeads = false; // probably make more of these
 //    private int lives=1;
 
-    private Balloon target;
+    protected Balloon target;
+    protected ArrayList<Balloon> splashedBalloons = new ArrayList<>();
 
 
 
@@ -28,6 +31,7 @@ public abstract class Projectile extends Entity implements Collidable {
 
     @Override
     public void handleCollision() {
+        splashedBalloons.add(target);
 
     }
 
@@ -69,5 +73,7 @@ public abstract class Projectile extends Entity implements Collidable {
         return power;
     }
 
-
+    public ArrayList<Balloon> getSplashedBalloons() {
+        return splashedBalloons;
+    }
 }

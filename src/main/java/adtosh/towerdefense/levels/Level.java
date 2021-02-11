@@ -13,10 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Random;
+import java.util.*;
 
 // level class, stores data about map, current wave, lives etc
 public class Level {
@@ -30,11 +27,10 @@ public class Level {
     private ArrayList<Spike> spikes = new ArrayList<>();
     private ArrayList<BaseTurret> turrets = new ArrayList<>();
 
-//    private ArrayList<Class<Projectile>> projectileClasses = new ArrayList<>();
+    //    private ArrayList<Class<Projectile>> projectileClasses = new ArrayList<>();
 //    private HashMap<String, Class<?>> projectileClasses = new HashMap<String, Class<?>>();
     private HashMap<String, Constructor<? extends Projectile>> projectileConstructors = new HashMap<>();
     private ArrayList<Projectile> projectiles = new ArrayList<>();
-
 
 
     //to
@@ -102,7 +98,7 @@ public class Level {
 
     }
 
-    public void addProjectilesType()  {
+    public void addProjectilesType() {
 
 //        try {
 //            projectileClasses.put("Magic", Class.forName("class adtosh.towerdefense.entity.projectiles.MagicBall"))
@@ -164,28 +160,68 @@ public class Level {
             Balloon b = bIter.next();
             b.update(delta);
             checkBalloonCollide(b);
-            if (b.getLayers()<0){
+            //the problem is that when we make a loop inside a loop and a ballon is removed when it goes out of the embedded loop the balloon will be updated again and error
+            //because it doesnt exist
+
+
+            if (b.getLayers() < 0) {
                 bIter.remove();
 //                b.remove(bIter);
-            }
+        }
         }
 
-        for (BaseTurret turret: turrets){
+//        ArrayList<Balloon> balloonsToPop = new ArrayList<>();
+        HashMap<Balloon, Projectile> balloonsToPop = new HashMap<>();
+
+        Iterator<Projectile> projectileIterator = projectiles.iterator();
+        while (projectileIterator.hasNext()){
+            Projectile projectile = projectileIterator.next();
+
+            Iterator<Balloon> balloonIterator = balloons.iterator();
+            while (balloonIterator.hasNext()){
+                Balloon balloon = balloonIterator.next();
+
+                if (projectile.getBounds().intersects(balloon.getBounds().getLayoutBounds())){
+                    projectile.handleCollision();
+                    for (Balloon balloon1 : projectile.getSplashedBalloons()){
+                        balloonsToPop.put(balloon1, projectile);
+
+
+                    }
+
+                    projectileIterator.remove();
+                }
+
+                if (balloon.getLayers()<= 0){
+                    balloonIterator.remove();
+                }
+            }
+
+        }
+
+        Iterator<Map .Entry<Balloon, Projectile>> iterator = balloonsToPop.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry<Balloon, Projectile> pair =iterator.next();
+            pair.getKey().handleCollision(pair.getValue());
+
+        }
+
+
+
+        for (BaseTurret turret : turrets) {
             turret.update(delta);
         }
 
-        for (Projectile projectile: projectiles){
+        for (Projectile projectile : projectiles) {
             projectile.update(delta);
         }
     }
 
-    public void checkBalloonCollide(Balloon b){
+    public void checkBalloonCollide(Balloon b) {
         Iterator<Spike> spikeIterator = getSpikes().iterator();
         while (spikeIterator.hasNext()) {
             Spike spike = spikeIterator.next();
-
             if (b.getBounds().intersects(spike.getBounds().getLayoutBounds()) && spike.isPlaced()) {
-
                 spike.handleBalloonCollision();
                 if (spike.getLives() <= 0) {
                     spikeIterator.remove();
@@ -198,29 +234,29 @@ public class Level {
 
         }
 
-        Iterator<Projectile> projectileIterator = projectiles.iterator();
-        while (projectileIterator.hasNext()){
-            Projectile projectile = projectileIterator.next();
-            if (b.getBounds().intersects(projectile.getBounds().getLayoutBounds())){
-                projectile.handleCollision();
-
-                    projectileIterator.remove();
-
-
-                b.handleCollision(projectile);
-
-            }
-
-        }
+//        Iterator<Projectile> projectileIterator = projectiles.iterator();
+//        while (projectileIterator.hasNext()) {
+//            Projectile projectile = projectileIterator.next();
+//            if (b.getBounds().intersects(projectile.getBounds().getLayoutBounds())) {
+//                projectile.handleCollision();
+//                projectileIterator.remove();
+////                for (Balloon balloon: projectile.getSplashedBalloons()) {
+////                    balloon.handleCollision(projectile);
+////                }
+//
+//            }
+//
+//        }
     }
-    private <T extends Entity & Collidable> void damage(T damager, Iterator<?> iterator, Balloon b){
-        if (b.getBounds().intersects(damager.getBounds().getLayoutBounds())){
+
+    private <T extends Entity & Collidable> void damage(T damager, Iterator<?> iterator, Balloon b) {
+        if (b.getBounds().intersects(damager.getBounds().getLayoutBounds())) {
             damager.handleCollision();
 //            if (damager.getLives() <= 0){
-                iterator.remove();
+            iterator.remove();
 
 //            }
-            if (damager instanceof Projectile){
+            if (damager instanceof Projectile) {
                 b.handleCollision((Projectile) damager);
             }
             b.handleSpikeCollision();
@@ -228,7 +264,6 @@ public class Level {
         }
 
     }
-
 
 
     public int getLevelID() {
@@ -246,7 +281,7 @@ public class Level {
     public ArrayList<Spike> getSpikes() {
         return spikes;
     }
-    
+
     public void addToSpikes(Spike spike) {
         this.spikes.add(spike);
 
@@ -262,21 +297,23 @@ public class Level {
 
     }
 
-    public void addToTurrets(BaseTurret baseTurret){
+    public void addToTurrets(BaseTurret baseTurret) {
         this.turrets.add(baseTurret);
     }
 
-    public void removeTurret(BaseTurret baseTurret){
+    public void removeTurret(BaseTurret baseTurret) {
         this.turrets.remove(baseTurret);
     }
 
     public ArrayList<BaseTurret> getTurrets() {
         return turrets;
     }
-    public void addToProjectiles (Projectile projectile){
+
+    public void addToProjectiles(Projectile projectile) {
         projectiles.add(projectile);
     }
-    public void removeFromProjectiles (Projectile projectile){
+
+    public void removeFromProjectiles(Projectile projectile) {
         projectiles.remove(projectile);
     }
 
