@@ -19,6 +19,9 @@ public class App extends Application {
 
     public static Game currentGame;
     public static ClassLoader classloader;
+    public static int canvasHeight = 600;
+    public static int canvasWidth = 800;
+    //todo is there a way to make a canvas in fxml and set dimensions
 
     @Override
     public void start(Stage stage) throws Exception {

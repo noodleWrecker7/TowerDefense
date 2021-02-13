@@ -1,5 +1,6 @@
 package adtosh.towerdefense.levels;
 
+import adtosh.towerdefense.App;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Collidable;
@@ -8,7 +9,9 @@ import adtosh.towerdefense.entity.projectiles.MagicBall;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.turrets.BaseTurret;
 import adtosh.towerdefense.turrets.Spike;
+import javafx.event.Event;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
@@ -27,8 +30,6 @@ public class Level {
     private ArrayList<Spike> spikes = new ArrayList<>();
     private ArrayList<BaseTurret> turrets = new ArrayList<>();
 
-    //    private ArrayList<Class<Projectile>> projectileClasses = new ArrayList<>();
-//    private HashMap<String, Class<?>> projectileClasses = new HashMap<String, Class<?>>();
     private HashMap<String, Constructor<? extends Projectile>> projectileConstructors = new HashMap<>();
     private ArrayList<Projectile> projectiles = new ArrayList<>();
 
@@ -99,18 +100,8 @@ public class Level {
     }
 
     public void addProjectilesType() {
-
-//        try {
-//            projectileClasses.put("Magic", Class.forName("class adtosh.towerdefense.entity.projectiles.MagicBall"))
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-
-
         try {
-
-            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, String.class, Balloon.class);
+            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, double.class, String.class, Balloon.class);
             projectileConstructors.put("magic ball", magicBallConstructor);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -159,19 +150,15 @@ public class Level {
         while (bIter.hasNext()) {
             Balloon b = bIter.next();
             b.update(delta);
-            checkBalloonCollide(b);
-            //the problem is that when we make a loop inside a loop and a ballon is removed when it goes out of the embedded loop the balloon will be updated again and error
-            //because it doesnt exist
-
-
-            if (b.getLayers() < 0) {
+            checkSpikeBalloonCollide(b);
+            if (b.getLayers() <= 0) {
                 bIter.remove();
-//                b.remove(bIter);
+
         }
         }
 
 
-        HashMap<Projectile, Balloon> balloonsToPop = new HashMap<>();
+        HashMap<Projectile, ArrayList<Balloon>> balloonsToPop = new HashMap<>();
 
         for (Balloon b: balloons){
 
@@ -181,50 +168,25 @@ public class Level {
 
                 if (projectile.getBounds().intersects(b.getBounds().getLayoutBounds())){
                     projectile.handleCollision();
-                    for (Balloon splashedBallooon: projectile.getSplashedBalloons()){
-                        balloonsToPop.put(projectile, splashedBallooon);
-                    }
+                    balloonsToPop.put(projectile, projectile.getSplashedBalloons());
                     projectileIterator.remove();
                 }
             }
 
         }
 
-//        Iterator<Projectile> projectileIterator = projectiles.iterator();
-//        while (projectileIterator.hasNext()){
-//            Projectile projectile = projectileIterator.next();
-//
-//            Iterator<Balloon> balloonIterator = balloons.iterator();
-//            while (balloonIterator.hasNext()){
-//                Balloon balloon = balloonIterator.next();
-//
-//                if (projectile.getBounds().intersects(balloon.getBounds().getLayoutBounds())){
-//                    projectile.handleCollision();
-//                    for (Balloon balloon1 : projectile.getSplashedBalloons()){
-//                        balloonsToPop.put(projectile, balloon1);
-//
-//
-//                    }
-//
-//                    projectileIterator.remove();
-//                }
-//
-////                if (balloon.getLayers()<= 0){
-////                    balloonIterator.remove();
-////                }
-//            }
-//
-//        }
+        for (Map.Entry<Projectile, ArrayList<Balloon>> pair :balloonsToPop.entrySet()){
+
+            Projectile projectile = pair.getKey();
+            ArrayList<Balloon> balloonsToDamage =  pair.getValue();
 
 
-        Iterator<Map .Entry<Projectile, Balloon>> iterator = balloonsToPop.entrySet().iterator();
-        //todo change to key set
-        while (iterator.hasNext()){
-            Map.Entry<Projectile, Balloon> pair =iterator.next();
-            pair.getValue().handleCollision(pair.getKey());
+            for (Balloon balloon: balloonsToDamage) {
+                balloon.handleCollision(projectile);
+
+            }
 
         }
-
         balloons.removeIf(balloon -> balloon.getLayers() <= 0);
 
 
@@ -240,7 +202,7 @@ public class Level {
         }
     }
 
-    public void checkBalloonCollide(Balloon b) {
+    public void checkSpikeBalloonCollide(Balloon b) {
         Iterator<Spike> spikeIterator = getSpikes().iterator();
         while (spikeIterator.hasNext()) {
             Spike spike = spikeIterator.next();
@@ -250,43 +212,59 @@ public class Level {
                     spikeIterator.remove();
                 }
                 b.handleSpikeCollision();
-                    /*if (balloon.getLayers() <= 0) {
-                        balloonIterator.remove();
-                    }*/
+
             }
 
         }
 
-//        Iterator<Projectile> projectileIterator = projectiles.iterator();
-//        while (projectileIterator.hasNext()) {
-//            Projectile projectile = projectileIterator.next();
-//            if (b.getBounds().intersects(projectile.getBounds().getLayoutBounds())) {
-//                projectile.handleCollision();
-//                projectileIterator.remove();
-////                for (Balloon balloon: projectile.getSplashedBalloons()) {
-////                    balloon.handleCollision(projectile);
-////                }
-//
-//            }
-//
-//        }
     }
 
-    private <T extends Entity & Collidable> void damage(T damager, Iterator<?> iterator, Balloon b) {
-        if (b.getBounds().intersects(damager.getBounds().getLayoutBounds())) {
-            damager.handleCollision();
-//            if (damager.getLives() <= 0){
-            iterator.remove();
+    public void selectTurret(MouseEvent e){
+        for (BaseTurret turret: turrets) {
+            System.out.println("SELECT");
 
-//            }
-            if (damager instanceof Projectile) {
-                b.handleCollision((Projectile) damager);
+            if (checkTurretPressed(e, turret)){
+
+                turret.select();
+//                App.currentGame.getCanvas().setOnMouseClicked(this::unSelectTurret);
+            }else {
+                if (turret.isSelected()){
+                    turret.unSelect();
+                }
             }
-            b.handleSpikeCollision();
 
+        }
+    }
+
+    public void unSelectTurret(MouseEvent e){
+        for (BaseTurret turret: turrets){
+            if (!checkTurretPressed(e, turret)){
+                turret.unSelect();
+            }
         }
 
     }
+
+    private boolean checkTurretPressed(MouseEvent e, BaseTurret turret){
+        System.out.println(e.getSceneX()*2);
+        System.out.println(turret.getX());
+        if (e.getSceneX()*2  < turret.getX() + TextureManager.getTexture(turret.getTextureName()).getWidth() / 2) {
+            if (e.getSceneX() *2 > turret.getX() - TextureManager.getTexture(turret.getTextureName()).getWidth() / 2) {
+
+                if (e.getSceneY()*2  < turret.getY() + TextureManager.getTexture(turret.getTextureName()).getHeight() / 2) {
+                    if (e.getSceneY()*2  > turret.getY() - TextureManager.getTexture(turret.getTextureName()).getHeight() / 2) {
+
+                        return true;
+
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
+
+
 
 
     public int getLevelID() {

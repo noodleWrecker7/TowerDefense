@@ -11,8 +11,8 @@ import javafx.scene.shape.Shape;
 public class MagicBall extends Projectile {
     private int lives;
 
-    public MagicBall(double x, double y, String textureName, Balloon target) {
-        super(x, y, textureName, target);
+    public MagicBall(double x, double y, double angle, String textureName, Balloon target) {
+        super(x, y, angle, textureName, target);
         this.power = 5;
     }
 
@@ -25,13 +25,16 @@ public class MagicBall extends Projectile {
 
     @Override
     public void handleCollision() {
+        //todo this method is unsuitable when the ballons cros over paths
 
         for (Balloon balloon : App.currentGame.getLevel().getBalloons()) {
-            if (balloon.getDistanceTravelled() < target.getDistanceTravelled() + 5 || balloon.getDistanceTravelled() > target.getDistanceTravelled() - 5) {
-                splashedBalloons.add(balloon);
-                //this adds all ballons in a radius of the target balloon to the balloon list that take damage
+            if (balloon.getX()> target.getX() -150 && balloon.getX()< target.getX() +150) {
+                if (balloon.getY() > target.getY() - 150 && balloon.getY() < target.getY() +150) {
+                    splashedBalloons.add(balloon);
 
+                }
             }
+
         }
 
 

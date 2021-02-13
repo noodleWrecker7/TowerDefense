@@ -109,17 +109,17 @@ public class Game {
 
 
     // takes centre coordinates for a turret and tries to place, returns false if invalid, also selects turret,
-    boolean placeTurret(float x, float y) {
-        // todo also put in hashmap with unique id
-        selectTurret(0, 0);
-        return false;
-    }
+//    boolean placeTurret(float x, float y) {
+//        // todo also put in hashmap with unique id
+//        selectTurret(0, 0);
+//        return false;
+//    }
 
     // sets currentSelectedTurretID to id of turret, also returns id
-    String selectTurret(float x, float y) {
-
-        return null;
-    }
+//    String selectTurret(float x, float y) {
+//
+//        return null;
+//    }
 
     // called every frame, has render and update code
     void update(float delta) {

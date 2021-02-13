@@ -53,9 +53,6 @@ public abstract class Entity {
     public abstract Shape getBounds();
 
     public void render(GraphicsContext g){
-        if (this instanceof Projectile){
-            System.out.println("HERE");
-        }
         g.drawImage(TextureManager.getTexture(textureName), x - width / 2, y - height / 2);
     }
 
@@ -75,5 +72,9 @@ public abstract class Entity {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public String getTextureName() {
+        return textureName;
     }
 }

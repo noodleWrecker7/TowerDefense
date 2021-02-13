@@ -7,6 +7,7 @@ import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Entity;
 import adtosh.towerdefense.entity.projectiles.MagicBall;
 import adtosh.towerdefense.entity.projectiles.Projectile;
+import javafx.event.Event;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -36,6 +37,8 @@ public abstract class BaseTurret extends Entity {
     private double timeSinceSpawn = 0;
     private final double TimeTilSpawn = 1.0d;
 
+    private boolean selected = false;
+
 
     protected String projectileName;
 
@@ -64,8 +67,19 @@ public abstract class BaseTurret extends Entity {
         });
         isPlaced = true;
         App.currentGame.getLevel().setCarryingItem(false);
+        App.currentGame.getCanvas().setOnMouseClicked(App.currentGame.getLevel()::selectTurret);
 //        ScreenManager.addRoot("game.fxml", this.getRangeBounds());
     }
+
+    public void select(){
+        this.selected = true;
+
+    }
+    public  void unSelect(){
+        this.selected = false;
+    }
+
+
 
     public double getRange() {
         return range;
@@ -78,7 +92,7 @@ public abstract class BaseTurret extends Entity {
         super.render(g);
         g.restore();
 
-        if (!isPlaced) {
+        if (!isPlaced || selected) {
             g.setFill(new Color(0.2, 0.2, 0.2, 0.2));
             g.fillOval(x - range, y - range, range * 2, range * 2);
         }
@@ -88,13 +102,20 @@ public abstract class BaseTurret extends Entity {
     @Override
     public void update(float delta) {
 
+        if (target != null) {
+            if (target.getLayers() <= 0) {
+                target = null;
+            }
+        }
+
+
         if (this.target == null && isPlaced) {
+
             findTarget();
         }
 
         if (this.target != null && isPlaced) {
             findFurthestBalloon();
-
             if (!target.getBounds().intersects(this.getRangeBounds().getLayoutBounds())) {
                 target = null;
                 return;
@@ -107,7 +128,7 @@ public abstract class BaseTurret extends Entity {
                 try {
 
                     Constructor<? extends  Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
-                    Projectile projectile = constructor.newInstance(x, y, "magic ball", target);
+                    Projectile projectile = constructor.newInstance(x, y, angle, "magic ball", target);
 //                    projectile.fire();
 
                 } catch ( InvocationTargetException | InstantiationException | IllegalAccessException e) {
@@ -184,6 +205,10 @@ public abstract class BaseTurret extends Entity {
         x = (e.getX() * 2);
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
     public boolean isPlaced() {
         return isPlaced;
     }
@@ -191,4 +216,6 @@ public abstract class BaseTurret extends Entity {
     public Balloon getTarget() {
         return target;
     }
+
+
 }
