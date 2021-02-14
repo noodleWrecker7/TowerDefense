@@ -10,6 +10,7 @@ import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.turrets.BaseTurret;
 import adtosh.towerdefense.turrets.Spike;
 import javafx.event.Event;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -157,7 +158,59 @@ public class Level {
         }
         }
 
+        checkTurretBalloonCollision();
 
+
+//        HashMap<Projectile, ArrayList<Balloon>> balloonsToPop = new HashMap<>();
+//
+//        for (Balloon b: balloons){
+//
+//            Iterator<Projectile> projectileIterator = projectiles.iterator();
+//            while (projectileIterator.hasNext()) {
+//                Projectile projectile = projectileIterator.next();
+//
+//                if (projectile.getBounds().intersects(b.getBounds().getLayoutBounds())){
+//                    projectile.handleCollision();
+//                    balloonsToPop.put(projectile, projectile.getSplashedBalloons());
+//                    projectileIterator.remove();
+//                }
+//                Canvas canvas = App.currentGame.getCanvas();
+//                if (projectile.getX()>canvas.getWidth()*2+50 || projectile.getX()<-50 || projectile.getY()> canvas.getHeight()*2 +50 || projectile.getY() <=50){
+//                    projectileIterator.remove();
+////                    System.out.println("REMOVED");
+//                }
+//            }
+//
+//        }
+//
+//        for (Map.Entry<Projectile, ArrayList<Balloon>> pair :balloonsToPop.entrySet()){
+//
+//            Projectile projectile = pair.getKey();
+//            ArrayList<Balloon> balloonsToDamage =  pair.getValue();
+//
+//
+//            for (Balloon balloon: balloonsToDamage) {
+//                balloon.handleCollision(projectile);
+//
+//            }
+//
+//        }
+        balloons.removeIf(balloon -> balloon.getLayers() <= 0);
+
+
+
+
+
+        for (BaseTurret turret : turrets) {
+            turret.update(delta);
+        }
+
+        for (Projectile projectile : projectiles) {
+            projectile.update(delta);
+        }
+    }
+
+    private void checkTurretBalloonCollision(){
         HashMap<Projectile, ArrayList<Balloon>> balloonsToPop = new HashMap<>();
 
         for (Balloon b: balloons){
@@ -170,6 +223,11 @@ public class Level {
                     projectile.handleCollision();
                     balloonsToPop.put(projectile, projectile.getSplashedBalloons());
                     projectileIterator.remove();
+                }
+                Canvas canvas = App.currentGame.getCanvas();
+                if (projectile.getX()>canvas.getWidth()*2+50 || projectile.getX()<-50 || projectile.getY()> canvas.getHeight()*2 +50 || projectile.getY() <=50){
+                    projectileIterator.remove();
+//                    System.out.println("REMOVED");
                 }
             }
 
@@ -186,19 +244,6 @@ public class Level {
 
             }
 
-        }
-        balloons.removeIf(balloon -> balloon.getLayers() <= 0);
-
-
-
-
-
-        for (BaseTurret turret : turrets) {
-            turret.update(delta);
-        }
-
-        for (Projectile projectile : projectiles) {
-            projectile.update(delta);
         }
     }
 
@@ -221,9 +266,7 @@ public class Level {
 
     public void selectTurret(MouseEvent e){
         for (BaseTurret turret: turrets) {
-            System.out.println("SELECT");
-
-            if (checkTurretPressed(e, turret)){
+                        if (checkTurretPressed(e, turret)){
 
                 turret.select();
 //                App.currentGame.getCanvas().setOnMouseClicked(this::unSelectTurret);
@@ -236,18 +279,9 @@ public class Level {
         }
     }
 
-    public void unSelectTurret(MouseEvent e){
-        for (BaseTurret turret: turrets){
-            if (!checkTurretPressed(e, turret)){
-                turret.unSelect();
-            }
-        }
 
-    }
 
     private boolean checkTurretPressed(MouseEvent e, BaseTurret turret){
-        System.out.println(e.getSceneX()*2);
-        System.out.println(turret.getX());
         if (e.getSceneX()*2  < turret.getX() + TextureManager.getTexture(turret.getTextureName()).getWidth() / 2) {
             if (e.getSceneX() *2 > turret.getX() - TextureManager.getTexture(turret.getTextureName()).getWidth() / 2) {
 

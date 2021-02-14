@@ -27,6 +27,9 @@ public abstract class Projectile extends Entity implements Collidable {
     private double aimY;
     private double angle;
 
+    private double dx;
+    private double dy;
+
 
 
 //    public void handleCollision(Balloon b) {
@@ -46,6 +49,8 @@ public abstract class Projectile extends Entity implements Collidable {
         this.aimX = target.getX();
         this.aimY = target.getY();
         this.target = target;
+        this. dx = aimX - this.x;
+        this.dy = aimY-this.y;
 //        this.angle = angle;
 
         //todo THIS IS DODGY either stick to the aimbot or fix
@@ -120,14 +125,14 @@ public abstract class Projectile extends Entity implements Collidable {
     @Override
     public void update(float delta) {
 
-        double dx = aimX - this.x;
-        double dy = aimY-this.y;
+//        double dx = aimX - this.x;
+//        double dy = aimY-this.y;
         double scaleFactor = sqrt(dx*dx + dy*dy);
         dx /= scaleFactor;
         dy /= scaleFactor;
 
-        this.x += 25*dx;
-        this.y +=25*dy;
+        this.x += 10*dx;
+        this.y +=10*dy;
         //temp low values
 
     }
