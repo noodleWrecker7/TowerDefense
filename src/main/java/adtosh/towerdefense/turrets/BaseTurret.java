@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 
@@ -35,7 +36,7 @@ public abstract class BaseTurret extends Entity {
     private double angle = 0;
 
     private double timeSinceSpawn = 0;
-    private final double TimeTilSpawn = 1.0d;
+    protected double TimeTilSpawn;
 
     private boolean selected = false;
 
@@ -49,12 +50,14 @@ public abstract class BaseTurret extends Entity {
     }
 
     public void setMouseMoveListener() {
+
         Canvas canvas = App.currentGame.getCanvas();
         canvas.setOnMouseMoved(this::handleMouseMove);
         canvas.setOnMouseClicked(this::handleMouseClick);
     }
 
     private void handleMouseClick(MouseEvent e) {
+
         if (isPlaced) return;
         //this must check every single line and make the decision after
         for (Line line : App.currentGame.getLevel().getPath()) {
@@ -83,6 +86,14 @@ public abstract class BaseTurret extends Entity {
 
     public double getRange() {
         return range;
+    }
+
+    @Override
+    public Shape getBounds() {
+
+            double radius = TextureManager.getTexture(this.textureName).getWidth() / 2;
+            return new Circle(x / 2, y / 2, radius / 2);
+
     }
 
     @Override

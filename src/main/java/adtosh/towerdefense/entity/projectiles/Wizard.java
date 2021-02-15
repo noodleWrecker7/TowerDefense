@@ -15,13 +15,14 @@ public class Wizard  extends BaseTurret {
         super(x, y, texture);
         this.range = 300;
         this.projectileName = "magic ball";
+        this.TimeTilSpawn = 0.8d;
     }
 
-    @Override
-    public Shape getBounds() {
-        double radius = TextureManager.getTexture(this.textureName).getWidth() / 2;
-        return new Circle(x / 2, y / 2, radius / 2);
-    }
+//    @Override
+//    public Shape getBounds() {
+//        double radius = TextureManager.getTexture(this.textureName).getWidth() / 2;
+//        return new Circle(x / 2, y / 2, radius / 2);
+//    }
 
 
 

@@ -159,6 +159,7 @@ public class Level {
         }
 
         checkTurretBalloonCollision();
+        //todo make interface for rotatable
 
 
 //        HashMap<Projectile, ArrayList<Balloon>> balloonsToPop = new HashMap<>();
@@ -220,7 +221,8 @@ public class Level {
                 Projectile projectile = projectileIterator.next();
 
                 if (projectile.getBounds().intersects(b.getBounds().getLayoutBounds())){
-                    projectile.handleCollision();
+//                    projectile.handleCollision();
+                    projectile.handleCollision(b);
                     balloonsToPop.put(projectile, projectile.getSplashedBalloons());
                     projectileIterator.remove();
                 }

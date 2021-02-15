@@ -2,6 +2,7 @@ package adtosh.towerdefense.entity;
 
 public interface Collidable {
 
-     void handleCollision();
+     void handleCollision(Balloon balloon);
+
 
 }

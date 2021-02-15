@@ -28,6 +28,8 @@ public class TextureManager {
         loadImage("grass", "grass.png");
         loadImage("spike", "Spikes.png");
         loadImage("wizard", "wizard2.png", 150, 0, true);
+        loadImage("super monkey", "SuperMonkey2.png", 150, 0, true);
+
         loadImage("magic ball", "001-WizardProjectile.png", 100, 0 , true);
         System.out.println("loaded grass");
 

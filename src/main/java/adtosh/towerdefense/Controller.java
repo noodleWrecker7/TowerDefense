@@ -7,6 +7,7 @@ import adtosh.towerdefense.levels.Level;
 import adtosh.towerdefense.turrets.BaseTurret;
 import adtosh.towerdefense.turrets.DartMonkey;
 import adtosh.towerdefense.turrets.Spike;
+import adtosh.towerdefense.turrets.SuperMonkey;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 
@@ -17,7 +18,7 @@ public class Controller {
     public void loadLevel1(MouseEvent event) {
         loadLevel(0);
 
-  //       loads level and starts gameplay
+        //       loads level and starts gameplay
 //        Level level = new Level();
 //        level.loadPath(0);
 //        App.currentGame = new Game(level);
@@ -42,12 +43,12 @@ public class Controller {
     public void loadLevel4(MouseEvent event) {
     }
 
-    private void  loadLevel(int levelID){
-        if(App.currentGame == null) {
-        Level level = new Level(levelID);
-        level.loadPath(levelID);
-        App.currentGame = new Game(level);
-        App.currentGame.start();
+    private void loadLevel(int levelID) {
+        if (App.currentGame == null) {
+            Level level = new Level(levelID);
+            level.loadPath(levelID);
+            App.currentGame = new Game(level);
+            App.currentGame.start();
         } else {
             App.currentGame.resume();
         }
@@ -63,7 +64,7 @@ public class Controller {
 //            Spike spike = new Spike(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
 //            spike.setMouseMoveListener();
 //        }
-        if (canBuy(event)){
+        if (canBuy(event)) {
             Spike spike = new Spike(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
             spike.setMouseMoveListener();
 
@@ -80,7 +81,7 @@ public class Controller {
 //        }
     }
 
-    public boolean canBuy(MouseEvent event){
+    public boolean canBuy(MouseEvent event) {
         if (!App.currentGame.getLevel().isCarryingItem()) {
             App.currentGame.getLevel().setCarryingItem(true);
             return true;
@@ -90,21 +91,30 @@ public class Controller {
 
     }
 
-    private void buyDefense(){
+    private void buyDefense() {
 
     }
 
-    public void quitToMenu(){
+    public void quitToMenu() {
 
     }
 
-    public void buyWizard(MouseEvent event){
+    public void buyWizard(MouseEvent event) {
         // get x is relative to node the event happened and scence x is relative to the scene
-        if (canBuy(event)){
-            Wizard wizard = new Wizard(event.getSceneX()*2, event.getSceneY()*2, "wizard");
+        if (canBuy(event)) {
+            Wizard wizard = new Wizard(event.getSceneX() * 2, event.getSceneY() * 2, "wizard");
             wizard.setMouseMoveListener();
         }
-}
+    }
+
+    public void buySuperMonkey(MouseEvent event) {
+        if (canBuy(event)) {
+            SuperMonkey monkey = new SuperMonkey(event.getSceneX() * 2, event.getSceneY() * 2, "super monkey");
+            monkey.setMouseMoveListener();
+        }
+
+
+    }
 
     public void quitToMenu(MouseEvent event) {
     }

@@ -20,7 +20,16 @@
                     <children>
                         <VBox prefHeight="603.0" prefWidth="84.0">
                             <children>
-                                <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" />
+                                <Button mnemonicParsing="false" prefHeight="75.0" onMouseClicked="#buySuperMonkey" prefWidth="75.0" >
+                                <graphic>
+                                    <ImageView fitHeight="38.0" fitWidth="59.0"  pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@SuperMonkey2.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic></Button>
+
+
                                 <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" />
                                 <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" />
                                 <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" />
