@@ -22,6 +22,9 @@ public class Balloon extends Entity {
     private long startTime;
     private long elapsedTime;
 
+    private double dX =0;
+    private double dY =0;
+
 
     final static double[] SPEEDS = { // pixels per seconds
             75, 100, 125, 125, 200, 250, 700
@@ -88,8 +91,12 @@ public class Balloon extends Entity {
         int[] pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
         double px = pointCoords[0] - x;
         double py = pointCoords[1] - y;
-        double dX = 0;
-        double dY = 0;
+
+        this.dX=0;
+        this.dY=0;
+
+//        double dX = 0;
+//        double dY = 0;
 
 
         double speed = SPEEDS[layers];
@@ -146,10 +153,22 @@ public class Balloon extends Entity {
         x += dX;
         y += dY;
 
-        distanceTravelled= distanceTravelled +(speed * delta);
+        distanceTravelled+= Math.sqrt(dX * dX + dY * dY);
+
+//        distanceTravelled= distanceTravelled +(speed * delta);
+        System.out.println(distanceTravelled);
+//        distanceTravelled += speed;
 
 
 
+    }
+
+    public double getVelX(){
+        return dX;
+    }
+
+    public double getVelY(){
+        return dY;
     }
 
     public double getDistanceTravelled() {

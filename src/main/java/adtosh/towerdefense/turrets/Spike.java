@@ -44,7 +44,7 @@ public class Spike extends Entity implements Placeable {
 
     public void handleBalloonCollision() {
         this.lives--;
-               this.textureName = texturePrefix + lives;
+        this.textureName = texturePrefix + lives;
 
    }
 

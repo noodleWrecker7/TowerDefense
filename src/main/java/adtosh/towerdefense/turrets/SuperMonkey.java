@@ -7,9 +7,11 @@ import javafx.scene.shape.Shape;
 public class SuperMonkey extends BaseTurret {
     public SuperMonkey(double x, double y, String texture) {
         super(x, y, texture);
-        this.range = 700;
-        this.projectileName = "magic ball";
+        this.range = 500;
+        this.projectileName = "dart";
         this.TimeTilSpawn = 0.2d;
+
+        this.power = 5;
     }
 
 //    @Override

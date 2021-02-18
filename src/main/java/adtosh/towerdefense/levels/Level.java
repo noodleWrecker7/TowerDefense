@@ -5,6 +5,7 @@ import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Collidable;
 import adtosh.towerdefense.entity.Entity;
+import adtosh.towerdefense.entity.projectiles.Dart;
 import adtosh.towerdefense.entity.projectiles.MagicBall;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.turrets.BaseTurret;
@@ -102,8 +103,10 @@ public class Level {
 
     public void addProjectilesType() {
         try {
-            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, double.class, String.class, Balloon.class);
+            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, double.class,int.class, String.class, Balloon.class);
             projectileConstructors.put("magic ball", magicBallConstructor);
+            Constructor<Dart> dartConstructor =Dart.class.getConstructor(double.class, double.class, double.class, int.class, String.class, Balloon.class);
+            projectileConstructors.put("dart", dartConstructor );
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -139,7 +142,7 @@ public class Level {
 
         timeSinceSpawn += delta;
 
-        if (timeSinceSpawn > TimeTilSpawn) {
+        if (timeSinceSpawn > TimeTilSpawn ) {
             Random rand = new Random();
 
 //            balloons.add(new Balloon(rand.nextInt(7), "balloon-0"));
@@ -155,93 +158,59 @@ public class Level {
             if (b.getLayers() <= 0) {
                 bIter.remove();
 
-        }
+            }
         }
 
         checkTurretBalloonCollision();
-        //todo make interface for rotatable
 
-
-//        HashMap<Projectile, ArrayList<Balloon>> balloonsToPop = new HashMap<>();
-//
-//        for (Balloon b: balloons){
-//
-//            Iterator<Projectile> projectileIterator = projectiles.iterator();
-//            while (projectileIterator.hasNext()) {
-//                Projectile projectile = projectileIterator.next();
-//
-//                if (projectile.getBounds().intersects(b.getBounds().getLayoutBounds())){
-//                    projectile.handleCollision();
-//                    balloonsToPop.put(projectile, projectile.getSplashedBalloons());
-//                    projectileIterator.remove();
-//                }
-//                Canvas canvas = App.currentGame.getCanvas();
-//                if (projectile.getX()>canvas.getWidth()*2+50 || projectile.getX()<-50 || projectile.getY()> canvas.getHeight()*2 +50 || projectile.getY() <=50){
-//                    projectileIterator.remove();
-////                    System.out.println("REMOVED");
-//                }
-//            }
-//
-//        }
-//
-//        for (Map.Entry<Projectile, ArrayList<Balloon>> pair :balloonsToPop.entrySet()){
-//
-//            Projectile projectile = pair.getKey();
-//            ArrayList<Balloon> balloonsToDamage =  pair.getValue();
-//
-//
-//            for (Balloon balloon: balloonsToDamage) {
-//                balloon.handleCollision(projectile);
-//
-//            }
-//
-//        }
         balloons.removeIf(balloon -> balloon.getLayers() <= 0);
 
 
-
-
-
         for (BaseTurret turret : turrets) {
+
             turret.update(delta);
         }
+
+
+
 
         for (Projectile projectile : projectiles) {
             projectile.update(delta);
         }
     }
 
-    private void checkTurretBalloonCollision(){
+    private void checkTurretBalloonCollision() {
         HashMap<Projectile, ArrayList<Balloon>> balloonsToPop = new HashMap<>();
 
-        for (Balloon b: balloons){
+        for (Balloon b : balloons) {
 
             Iterator<Projectile> projectileIterator = projectiles.iterator();
             while (projectileIterator.hasNext()) {
                 Projectile projectile = projectileIterator.next();
+                Canvas canvas = App.currentGame.getCanvas();
 
-                if (projectile.getBounds().intersects(b.getBounds().getLayoutBounds())){
+                if (projectile.getBounds().intersects(b.getBounds().getLayoutBounds())) {
 //                    projectile.handleCollision();
                     projectile.handleCollision(b);
                     balloonsToPop.put(projectile, projectile.getSplashedBalloons());
                     projectileIterator.remove();
                 }
-                Canvas canvas = App.currentGame.getCanvas();
-                if (projectile.getX()>canvas.getWidth()*2+50 || projectile.getX()<-50 || projectile.getY()> canvas.getHeight()*2 +50 || projectile.getY() <=50){
+                else if (projectile.getX() > canvas.getWidth() * 2 + 50 || projectile.getX() < -50 || projectile.getY() > canvas.getHeight() * 2 + 50 || projectile.getY() <= 50) {
                     projectileIterator.remove();
 //                    System.out.println("REMOVED");
                 }
+                //todo warning illegal state exception
             }
 
         }
 
-        for (Map.Entry<Projectile, ArrayList<Balloon>> pair :balloonsToPop.entrySet()){
+        for (Map.Entry<Projectile, ArrayList<Balloon>> pair : balloonsToPop.entrySet()) {
 
             Projectile projectile = pair.getKey();
-            ArrayList<Balloon> balloonsToDamage =  pair.getValue();
+            ArrayList<Balloon> balloonsToDamage = pair.getValue();
 
 
-            for (Balloon balloon: balloonsToDamage) {
+            for (Balloon balloon : balloonsToDamage) {
                 balloon.handleCollision(projectile);
 
             }
@@ -266,14 +235,13 @@ public class Level {
 
     }
 
-    public void selectTurret(MouseEvent e){
-        for (BaseTurret turret: turrets) {
-                        if (checkTurretPressed(e, turret)){
-
+    public void selectTurret(MouseEvent e) {
+        for (BaseTurret turret : turrets) {
+            if (checkTurretPressed(e, turret)) {
                 turret.select();
 //                App.currentGame.getCanvas().setOnMouseClicked(this::unSelectTurret);
-            }else {
-                if (turret.isSelected()){
+            } else {
+                if (turret.isSelected()) {
                     turret.unSelect();
                 }
             }
@@ -281,14 +249,19 @@ public class Level {
         }
     }
 
+    public void unSelectAllTurrets(){
+        for (BaseTurret turret: turrets){
+            turret.unSelect();
+        }
+    }
 
 
-    private boolean checkTurretPressed(MouseEvent e, BaseTurret turret){
-        if (e.getSceneX()*2  < turret.getX() + TextureManager.getTexture(turret.getTextureName()).getWidth() / 2) {
-            if (e.getSceneX() *2 > turret.getX() - TextureManager.getTexture(turret.getTextureName()).getWidth() / 2) {
+    private boolean checkTurretPressed(MouseEvent e, BaseTurret turret) {
+        if (e.getSceneX() * 2 < turret.getX() + TextureManager.getTexture(turret.getTextureName()).getWidth() / 2) {
+            if (e.getSceneX() * 2 > turret.getX() - TextureManager.getTexture(turret.getTextureName()).getWidth() / 2) {
 
-                if (e.getSceneY()*2  < turret.getY() + TextureManager.getTexture(turret.getTextureName()).getHeight() / 2) {
-                    if (e.getSceneY()*2  > turret.getY() - TextureManager.getTexture(turret.getTextureName()).getHeight() / 2) {
+                if (e.getSceneY() * 2 < turret.getY() + TextureManager.getTexture(turret.getTextureName()).getHeight() / 2) {
+                    if (e.getSceneY() * 2 > turret.getY() - TextureManager.getTexture(turret.getTextureName()).getHeight() / 2) {
 
                         return true;
 
@@ -301,13 +274,11 @@ public class Level {
     }
 
 
-
-
     public int getLevelID() {
         return levelID;
     }
 
-    public ArrayList<Line> getPath() {
+    public ArrayList<Line>  getPath() {
         return path;
     }
 

@@ -1,4 +1,4 @@
-package adtosh.towerdefense.entity.projectiles;
+package adtosh.towerdefense.turrets;
 
 import adtosh.towerdefense.Placeable;
 import adtosh.towerdefense.ScreenManager;
@@ -16,6 +16,8 @@ public class Wizard  extends BaseTurret {
         this.range = 300;
         this.projectileName = "magic ball";
         this.TimeTilSpawn = 0.8d;
+
+        this.power = 2;
     }
 
 //    @Override

@@ -8,6 +8,8 @@ import adtosh.towerdefense.turrets.Spike;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 import java.util.Iterator;
 
@@ -59,6 +61,36 @@ public class Game {
         // todo get background image from level data
 
 
+    }
+
+    public boolean collides(Circle circle, Rectangle rect) {
+        //find nearest point of rectangle
+        double xn = Math.max(rect.getX(), Math.min(circle.getCenterX(), rect.getX()+rect.getWidth()));
+        double yn = Math.max(rect.getY()+ rect.getHeight(), Math.min(circle.getCenterY(), rect.getY()));
+
+        double dx = xn - circle.getCenterX();
+        double dy = yn - circle.getCenterY();
+
+        return (dx*dx + dy*dy) <= circle.getRadius()*circle.getRadius();
+
+
+//        double closestX = clamp(c1.getCenterX(), r1.getX(), r1.getX() + r1.getWidth());
+//        double closestY = clamp(c1.getCenterY() , r1.getY() - r1.getHeight(), r1.getY());
+//
+//        double distanceX = c1.getCenterX()- closestX;
+//        double distanceY = c1.getCenterY()  - closestY;
+//
+//        return Math.pow(distanceX, 2) + Math.pow(distanceY, 2) < Math.pow(c1.getRadius(), 2);
+    }
+
+    private double clamp(double value, double min, double max) {
+        double x = value;
+        if (x < min) {
+            x = min;
+        } else if (x > max) {
+            x = max;
+        }
+        return x;
     }
 
     // used to create new game from level and saveFile

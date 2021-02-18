@@ -30,8 +30,23 @@
                                 </graphic></Button>
 
 
-                                <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" />
-                                <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" />
+                                <Button mnemonicParsing="false" prefHeight="75.0" onMouseClicked="#buySpikeMachine" prefWidth="75.0" >
+                                <graphic>
+                                    <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@spike-machine2.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic></Button>
+
+                                <Button mnemonicParsing="false" prefHeight="75.0" onMouseClicked="#buyMachineGun" prefWidth="75.0" >
+                                <graphic>
+                                    <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@machine-gun.png" />
+                                        </image>
+                                    </ImageView>
+                                </graphic></Button>
                                 <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" />
                                 <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0" />
                             </children>

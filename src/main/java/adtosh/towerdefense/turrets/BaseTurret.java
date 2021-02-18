@@ -7,6 +7,7 @@ import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Entity;
 import adtosh.towerdefense.entity.projectiles.MagicBall;
 import adtosh.towerdefense.entity.projectiles.Projectile;
+import adtosh.towerdefense.entity.projectiles.Rotatable;
 import javafx.event.Event;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
@@ -26,16 +27,20 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public abstract class BaseTurret extends Entity {
+public abstract class BaseTurret extends Entity implements Rotatable {
 
     private boolean isPlaced = false;
 
     protected double range;
     private Balloon target;
-    private double angle = 0;
+    protected int power;
+    protected double angle =0;
+    protected double correctiveAngle=0;
 
-    private double timeSinceSpawn = 0;
+    protected double timeSinceSpawn = 0;
     protected double TimeTilSpawn;
 
     private boolean selected = false;
@@ -47,6 +52,7 @@ public abstract class BaseTurret extends Entity {
     public BaseTurret(double x, double y, String texture) {
         super(x, y, texture);
         App.currentGame.getLevel().addToTurrets(this);
+
     }
 
     public void setMouseMoveListener() {
@@ -54,6 +60,7 @@ public abstract class BaseTurret extends Entity {
         Canvas canvas = App.currentGame.getCanvas();
         canvas.setOnMouseMoved(this::handleMouseMove);
         canvas.setOnMouseClicked(this::handleMouseClick);
+        App.currentGame.getLevel().unSelectAllTurrets();
     }
 
     private void handleMouseClick(MouseEvent e) {
@@ -99,7 +106,7 @@ public abstract class BaseTurret extends Entity {
     @Override
     public void render(GraphicsContext g) {
         g.save();
-        rotate(g, angle, x, y);
+        rotate(g, angle + correctiveAngle, x, y);
         super.render(g);
         g.restore();
 
@@ -120,13 +127,15 @@ public abstract class BaseTurret extends Entity {
         }
 
 
-        if (this.target == null && isPlaced) {
-
-            findTarget();
-        }
+//        if (this.target == null && isPlaced) {
+//
+//            findTarget();
+//
+//        }
+        findFurthestBalloon();
 
         if (this.target != null && isPlaced) {
-            findFurthestBalloon();
+//            findFurthestBalloon();
             if (!target.getBounds().intersects(this.getRangeBounds().getLayoutBounds())) {
                 target = null;
                 return;
@@ -139,7 +148,7 @@ public abstract class BaseTurret extends Entity {
                 try {
 
                     Constructor<? extends  Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
-                    Projectile projectile = constructor.newInstance(x, y, angle, "magic ball", target);
+                    Projectile projectile = constructor.newInstance(x, y, angle, power, projectileName, target);
 //                    projectile.fire();
 
                 } catch ( InvocationTargetException | InstantiationException | IllegalAccessException e) {
@@ -164,12 +173,19 @@ public abstract class BaseTurret extends Entity {
 
     private void findFurthestBalloon() {
 
-        ArrayList<Balloon> options = new ArrayList<>();
-        for (Balloon balloon : App.currentGame.getLevel().getBalloons()) {
-            if (balloon.getBounds().intersects(this.getRangeBounds().getLayoutBounds())) {
-                options.add(balloon);
-            }
-        }
+//        List<Balloon> options = new ArrayList<>();
+//        for (Balloon balloon : App.currentGame.getLevel().getBalloons()) {
+//
+//            if (App.currentGame.collides(this.getRangeBounds(), balloon.getBounds())){
+//
+//                options.add(balloon);
+//            }
+//        }
+        List<Balloon> options = App.currentGame.getLevel().getBalloons().stream()
+                .filter(balloon -> App.currentGame.collides(this.getRangeBounds(), balloon.getBounds()))
+                .collect(Collectors.toList());
+
+
 
         if (options.size()==0) return;
 
@@ -193,10 +209,11 @@ public abstract class BaseTurret extends Entity {
     private void findTarget() {
         //todo make it prefer the balloon that is in the lead
         for (Balloon balloon : App.currentGame.getLevel().getBalloons()) {
-            if (balloon.getBounds().intersects(this.getRangeBounds().getLayoutBounds())) {
+            if (App.currentGame.collides(this.getRangeBounds(), balloon.getBounds())){
                 this.target = balloon;
                 break;
             }
+
         }
     }
 
@@ -204,11 +221,11 @@ public abstract class BaseTurret extends Entity {
         return new Circle(x / 2, y / 2, range / 2);
     }
 
-    private void rotate(GraphicsContext g, double angle, double px, double py) {
-        Rotate r = new Rotate(angle, px, py);
-        g.setTransform(r.getMxx() / 2, r.getMyx() / 2, r.getMxy() / 2, r.getMyy() / 2, r.getTx() / 2, r.getTy() / 2);
-
-    }
+//    private void rotate(GraphicsContext g, double angle, double px, double py) {
+//        Rotate r = new Rotate(angle, px, py);
+//        g.setTransform(r.getMxx() / 2, r.getMyx() / 2, r.getMxy() / 2, r.getMyy() / 2, r.getTx() / 2, r.getTy() / 2);
+//
+//    }
 
     private void handleMouseMove(MouseEvent e) {
         if (isPlaced) return;

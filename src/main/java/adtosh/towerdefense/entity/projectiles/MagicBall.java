@@ -10,12 +10,16 @@ import javafx.scene.shape.Shape;
 
 public class MagicBall extends Projectile {
 
-    public MagicBall(double x, double y, double angle, String textureName, Balloon target) {
-        super(x, y, angle, textureName, target);
-        this.power = 5;
+//    public MagicBall(double x, double y, double angle, String textureName, Balloon target) {
+//        super(x, y, angle, textureName, target);
+//        this.power = 5;
+//
+//    }
+
+    public MagicBall(double x, double y, double angle,int power, String textureName, Balloon target) {
+        super(x, y, angle, power, textureName, target);
 
     }
-
 
     @Override
     public Shape getBounds() {

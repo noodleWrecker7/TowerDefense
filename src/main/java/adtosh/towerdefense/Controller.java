@@ -1,11 +1,10 @@
 package adtosh.towerdefense;
 
 
-import adtosh.towerdefense.entity.Entity;
-import adtosh.towerdefense.entity.projectiles.Wizard;
+import adtosh.towerdefense.turrets.MachineGun;
+import adtosh.towerdefense.turrets.SpikeMachine;
+import adtosh.towerdefense.turrets.Wizard;
 import adtosh.towerdefense.levels.Level;
-import adtosh.towerdefense.turrets.BaseTurret;
-import adtosh.towerdefense.turrets.DartMonkey;
 import adtosh.towerdefense.turrets.Spike;
 import adtosh.towerdefense.turrets.SuperMonkey;
 import javafx.fxml.FXML;
@@ -113,6 +112,22 @@ public class Controller {
             monkey.setMouseMoveListener();
         }
 
+
+    }
+    public void buySpikeMachine(MouseEvent event) {
+        if (canBuy(event)) {
+            SpikeMachine monkey = new SpikeMachine(event.getSceneX() * 2, event.getSceneY() * 2, "spike machine");
+            monkey.setMouseMoveListener();
+        }
+
+
+    }
+
+    public void buyMachineGun(MouseEvent event){
+        if (canBuy(event)) {
+            MachineGun monkey = new MachineGun(event.getSceneX() * 2, event.getSceneY() * 2, "machine gun");
+            monkey.setMouseMoveListener();
+        }
 
     }
 
