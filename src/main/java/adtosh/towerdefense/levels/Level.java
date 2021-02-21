@@ -107,6 +107,7 @@ public class Level {
             projectileConstructors.put("magic ball", magicBallConstructor);
             Constructor<Dart> dartConstructor =Dart.class.getConstructor(double.class, double.class, double.class, int.class, String.class, Balloon.class);
             projectileConstructors.put("dart", dartConstructor );
+            projectileConstructors.put("no target dart",Dart.class.getConstructor(double.class, double.class, double.class,  int.class, String.class));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -145,7 +146,6 @@ public class Level {
         if (timeSinceSpawn > TimeTilSpawn ) {
             Random rand = new Random();
 
-//            balloons.add(new Balloon(rand.nextInt(7), "balloon-0"));
             new Balloon(rand.nextInt(7), "balloon-0");
             timeSinceSpawn = 0;
         }
@@ -190,14 +190,14 @@ public class Level {
                 Canvas canvas = App.currentGame.getCanvas();
 
                 if (projectile.getBounds().intersects(b.getBounds().getLayoutBounds())) {
-//                    projectile.handleCollision();
+                    projectile.getSplashedBalloons().clear();
                     projectile.handleCollision(b);
                     balloonsToPop.put(projectile, projectile.getSplashedBalloons());
                     projectileIterator.remove();
                 }
-                else if (projectile.getX() > canvas.getWidth() * 2 + 50 || projectile.getX() < -50 || projectile.getY() > canvas.getHeight() * 2 + 50 || projectile.getY() <= 50) {
+                else if (projectile.getX() > canvas.getWidth() * 2 + 50 || projectile.getX() < -50 || projectile.getY() > canvas.getHeight() * 2 + 50 || projectile.getY() < -50) {
                     projectileIterator.remove();
-//                    System.out.println("REMOVED");
+
                 }
                 //todo warning illegal state exception
             }

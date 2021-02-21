@@ -130,6 +130,13 @@ public class Controller {
         }
 
     }
+    public void buyMultiShooter(MouseEvent event){
+        if (canBuy(event)) {
+            MultiShooter monkey = new MultiShooter(event.getSceneX() * 2, event.getSceneY() * 2, "multi shooter");
+            monkey.setMouseMoveListener();
+        }
+
+    }
 
     public void quitToMenu(MouseEvent event) {
     }

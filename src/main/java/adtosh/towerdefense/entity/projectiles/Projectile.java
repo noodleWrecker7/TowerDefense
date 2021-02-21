@@ -8,8 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 
-import static java.lang.Math.decrementExact;
-import static java.lang.Math.sqrt;
+import static java.lang.Math.*;
 
 
 // parent for all projectiles
@@ -51,17 +50,25 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
         this.dy = target.getY()-this.y;
 
 
+    }
 
+    public Projectile(double x, double y, double angle, int power, String texture) {
+        super(x, y, texture);
+        App.currentGame.getLevel().addToProjectiles(this);
+        this.angle = angle;
+        this.power = power;
+        findAim();
 
     }
 
     private void findAim(){
-        double a = target.getVelX()* target.getVelX() + target.getVelY()*target.getVelY();
-
-
-
+        double gradient = Math.atan(angle);
+        dy = cos(angle) * gradient;
+        dx = sin(angle) * gradient;
 
     }
+
+
 
     @Override
     public void render(GraphicsContext g) {
@@ -80,8 +87,10 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
         dx /= scaleFactor;
         dy /= scaleFactor;
 
-        this.x += 50*dx;
-        this.y +=50*dy;
+//        this.x += 50*dx;
+//        this.y +=50*dy;
+        this.x += dx/10;
+        this.y+=dy/10;
         //temp low values
 
     }
@@ -93,5 +102,9 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
 
     public ArrayList<Balloon> getSplashedBalloons() {
         return splashedBalloons;
+    }
+
+    public void clearSplashedBalloons(){
+        splashedBalloons.clear();
     }
 }

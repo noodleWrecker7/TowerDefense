@@ -27,22 +27,7 @@ public class MagicBall extends Projectile {
         return new Circle(x / 2, y / 2, radius / 2);
     }
 
-//    @Override
-//    public void handleCollision() {
-//        //todo this method is unsuitable when the ballons cros over paths
-//
-//        for (Balloon balloon : App.currentGame.getLevel().getBalloons()) {
-//            if (balloon.getX()> target.getX() -150 && balloon.getX()< target.getX() +150) {
-//                if (balloon.getY() > target.getY() - 150 && balloon.getY() < target.getY() +150) {
-//                    splashedBalloons.add(balloon);
-//
-//                }
-//            }
-//
-//        }
-//
-//
-//    }
+
 
     @Override
     public void handleCollision(Balloon b) {

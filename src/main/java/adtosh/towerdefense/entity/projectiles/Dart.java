@@ -20,6 +20,10 @@ public class Dart extends Projectile{
         super(x, y, angle, power, textureName, target);
     }
 
+    public Dart(double x, double y, double angle, int power, String texture) {
+        super(x, y,angle, power, texture);
+    }
+
     @Override
     public Shape getBounds() {
         return new Rectangle(this.x/2, this.y/2, TextureManager.getTexture(textureName).getWidth()/2, TextureManager.getTexture(textureName).getHeight()/2);

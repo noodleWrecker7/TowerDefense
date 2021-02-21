@@ -31,8 +31,9 @@ public class TextureManager {
         loadImage("super monkey", "SuperMonkey2.png", 150, 0, true);
         loadImage("spike machine", "spike-machine2.png", 90, 0, true);
         loadImage("machine gun", "machine-gun.png", 120, 0 , true);
+        loadImage("multi shooter", "multi-shooter.png", 120, 0, true);
 
-        TextureManager.
+
 
         loadImage("magic ball", "001-WizardProjectile.png", 100, 0 , true);
         loadImage("dart", "dart.png", 100, 0 , true);

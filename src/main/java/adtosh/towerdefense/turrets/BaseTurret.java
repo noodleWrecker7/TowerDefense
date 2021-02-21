@@ -25,16 +25,15 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class BaseTurret extends Entity implements Rotatable {
 
-    private boolean isPlaced = false;
+    protected boolean isPlaced = false;
 
     protected double range;
+//    private Balloon target;
     private Balloon target;
     protected int power;
     protected double angle =0;
@@ -44,8 +43,6 @@ public abstract class BaseTurret extends Entity implements Rotatable {
     protected double TimeTilSpawn;
 
     private boolean selected = false;
-
-
     protected String projectileName;
 
 
@@ -120,23 +117,25 @@ public abstract class BaseTurret extends Entity implements Rotatable {
     @Override
     public void update(float delta) {
 
+        if(!isPlaced) return;
+
+
         if (target != null) {
             if (target.getLayers() <= 0) {
-                target = null;
+//                target = Optional.empty();
+                target= null;
             }
         }
 
 
-//        if (this.target == null && isPlaced) {
-//
-//            findTarget();
-//
-//        }
+
+
+
         findFurthestBalloon();
 
-        if (this.target != null && isPlaced) {
-//            findFurthestBalloon();
-            if (!target.getBounds().intersects(this.getRangeBounds().getLayoutBounds())) {
+        if (this.target != null ) {
+
+            if (!App.currentGame.collides(this.getRangeBounds(), target.getBounds())){
                 target = null;
                 return;
             }
@@ -145,21 +144,27 @@ public abstract class BaseTurret extends Entity implements Rotatable {
             timeSinceSpawn += delta;
             if (timeSinceSpawn > TimeTilSpawn) {
                 timeSinceSpawn = 0;
-                try {
+                fire();
 
-                    Constructor<? extends  Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
-                    Projectile projectile = constructor.newInstance(x, y, angle, power, projectileName, target);
-//                    projectile.fire();
-
-                } catch ( InvocationTargetException | InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
 
             }
 
         }
 
 
+    }
+
+    protected void fire(){
+        try {
+            System.out.println("fire");
+
+            Constructor<? extends  Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
+            Projectile projectile = constructor.newInstance(x, y, angle, power, projectileName, target);
+//                    projectile.fire();
+
+        } catch ( InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     private void findAngle() {
@@ -173,17 +178,11 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
     private void findFurthestBalloon() {
 
-//        List<Balloon> options = new ArrayList<>();
-//        for (Balloon balloon : App.currentGame.getLevel().getBalloons()) {
-//
-//            if (App.currentGame.collides(this.getRangeBounds(), balloon.getBounds())){
-//
-//                options.add(balloon);
-//            }
-//        }
+
         List<Balloon> options = App.currentGame.getLevel().getBalloons().stream()
                 .filter(balloon -> App.currentGame.collides(this.getRangeBounds(), balloon.getBounds()))
                 .collect(Collectors.toList());
+
 
 
 
@@ -191,11 +190,13 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
         double max = options.get(0).getDistanceTravelled();
 
-        for (Balloon balloon : options) {
-            if (balloon.getDistanceTravelled() > max) {
-                max = balloon.getDistanceTravelled();
+        for (int i = 0; i <options.size() ; i++) {
+            if (options.get(i).getDistanceTravelled() > max) {
+                max = options.get(i).getDistanceTravelled();
             }
         }
+
+
 
         for (Balloon balloon : options) {
             if (balloon.getDistanceTravelled() == max) {
