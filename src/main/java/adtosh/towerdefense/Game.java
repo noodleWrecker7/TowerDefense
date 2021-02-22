@@ -65,33 +65,30 @@ public class Game {
 
     public boolean collides(Circle circle, Rectangle rect) {
         //find nearest point of rectangle
+        //times by 2?
         double xn = Math.max(rect.getX(), Math.min(circle.getCenterX(), rect.getX()+rect.getWidth()));
         double yn = Math.max(rect.getY()+ rect.getHeight(), Math.min(circle.getCenterY(), rect.getY()));
 
         double dx = xn - circle.getCenterX();
         double dy = yn - circle.getCenterY();
 
-        return (dx*dx + dy*dy) <= circle.getRadius()*circle.getRadius();
+//        return Math.sqrt(dx*dx + dy*dy) <= circle.getRadius();
 
-
-//        double closestX = clamp(c1.getCenterX(), r1.getX(), r1.getX() + r1.getWidth());
-//        double closestY = clamp(c1.getCenterY() , r1.getY() - r1.getHeight(), r1.getY());
-//
-//        double distanceX = c1.getCenterX()- closestX;
-//        double distanceY = c1.getCenterY()  - closestY;
-//
-//        return Math.pow(distanceX, 2) + Math.pow(distanceY, 2) < Math.pow(c1.getRadius(), 2);
-    }
-
-    private double clamp(double value, double min, double max) {
-        double x = value;
-        if (x < min) {
-            x = min;
-        } else if (x > max) {
-            x = max;
+        if(dx * dx + dy *dy <= circle.getRadius()*circle.getRadius()){
+            return true;
         }
-        return x;
+        return false;
+
+
+
+//        return (dx*dx + dy*dy) <= circle.getRadius()*circle.getRadius();
+
+
+
+
     }
+
+
 
     // used to create new game from level and saveFile
     public Game(Level level, String saveFile) {

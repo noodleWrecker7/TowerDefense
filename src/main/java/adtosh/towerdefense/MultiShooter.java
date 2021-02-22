@@ -1,6 +1,7 @@
 package adtosh.towerdefense;
 
 import adtosh.towerdefense.entity.Balloon;
+import adtosh.towerdefense.entity.projectiles.Dart;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.turrets.BaseTurret;
 import javafx.scene.canvas.GraphicsContext;
@@ -8,12 +9,14 @@ import javafx.scene.paint.Color;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MultiShooter extends BaseTurret {
     public MultiShooter(double x, double y, String texture) {
         super(x, y, texture);
         this.range = 200;
-        this.projectileName = "no target dart";
+        this.projectileName = "dart";
         this.TimeTilSpawn = 1.5d;
         this.power = 5;
     }
@@ -24,35 +27,39 @@ public class MultiShooter extends BaseTurret {
 
         timeSinceSpawn += delta;
 
-
-        for (Balloon balloon: App.currentGame.getLevel().getBalloons()){
-            if (App.currentGame.collides(this.getRangeBounds(), balloon.getBounds())){
-                if (timeSinceSpawn > TimeTilSpawn) {
-                    timeSinceSpawn = 0;
-                    try {
+        boolean collides = false;
 
 
 
+        for (Balloon balloon: App.currentGame.getLevel().getBalloons()) {
 
-                        for (int i = 0; i <360  ; i+= 45) {
-                            System.out.println("fire");
-                            Constructor<? extends Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
-                            Projectile projectile = constructor.newInstance(x, y, i, power, "dart");
-
-                        }
-//                        Constructor<? extends Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
-//                        Projectile projectile = constructor.newInstance(x, y, angle, power, "dart");
-
-
-                    } catch ( InvocationTargetException | InstantiationException | IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-
+            if (App.currentGame.collides(getRangeBounds(), balloon.getBounds())) {
+                collides = true;
+                System.out.println("COLLIDES");
+                break;
             }
         }
+        if (!collides)return;
+
+
+
+        if (timeSinceSpawn > TimeTilSpawn){
+            timeSinceSpawn = 0;
+            for (int i = 0; i <360  ; i+= 45) {
+                Dart dart = new Dart(x, y, i, power, "dart");
+            }
+
+        }
+
+
+
+
+    }
+
+    private int counter = 0;
+
+    public void setCounter(int counter){
+        this.counter = counter;
 
     }
 

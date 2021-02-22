@@ -1,10 +1,15 @@
 package adtosh.towerdefense.entity;
 
 import adtosh.towerdefense.App;
+import adtosh.towerdefense.ScreenManager;
+import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.projectiles.Projectile;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
+import java.awt.*;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -91,7 +96,12 @@ public class Balloon extends Entity {
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x / 2, y / 2, width / 2, height / 2);
+        //shift because of everythhing is being rendered by this offset aswell
+        Image balloonImage = TextureManager.getTexture(textureName);
+        Rectangle rectangle = new Rectangle(x / 2 - balloonImage.getWidth()/2, y / 2 - balloonImage.getHeight()/2, width / 2, height / 2);
+//        ScreenManager.addRoot("game.fxml", rectangle);
+        return  rectangle;
+//        return new Rectangle(x / 2, y / 2, width / 2, height / 2);
 
     }
 

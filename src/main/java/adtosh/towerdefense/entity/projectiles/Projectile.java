@@ -29,12 +29,10 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
     private double dy;
 
 
-
-
     @Override
-    public void handleCollision(Balloon balloon){
+    public void handleCollision(Balloon balloon) {
 
-        splashedBalloons.add( balloon);
+        splashedBalloons.add(balloon);
 
     }
 
@@ -46,8 +44,8 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
         this.angle = angle;
         this.power = power;
 //        findAim();
-        this.dx = target.getX()- this.x;
-        this.dy = target.getY()-this.y;
+        this.dx = target.getX() - this.x;
+        this.dy = target.getY() - this.y;
 
 
     }
@@ -61,19 +59,79 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
 
     }
 
-    private void findAim(){
-        double gradient = Math.atan(angle);
-        dy = cos(angle) * gradient;
-        dx = sin(angle) * gradient;
+    private void findAim() {
+
+        //this wont work because it should be when we do sin and cos the angle should be different (mostly 45)
+//        double gradient = (tan(toRadians(angle)));
+//        dy = cos(angle) * gradient;
+//        dx = sin(angle) * gradient;
+
+
+
+
+
+//        if (angle==90){
+//            dy = 0;
+//            dx = 1;
+//        }
+//        else if(angle == 270){
+//            dy = 0;
+//            dx=-1;
+//        }else {
+//
+//            double gradient = (tan(toRadians(angle)));
+//            dy = cos(angle) * gradient;
+//            dx = sin(angle) * gradient;
+//
+//            if(gradient ==0) dy=1;
+//        }
+        //todo find a maths way to do this
+        dy = 0;
+        dx = 0;
+
+        switch ((int) angle) {
+            case 0:
+                dy =-1;
+                break;
+            case 45:
+                dy = -1;
+                dx = 1;
+                break;
+            case 90:
+                dx = 1;
+                break;
+            case 135:
+                dx = 1;
+                dy = 1;
+                break;
+            case 180:
+                dy =1;
+                break;
+            case 225:
+                dx = -1;
+                dy = 1;
+                break;
+            case 270:
+                dx = -1;
+                break;
+            case 315:
+                dx = -1;
+                dy = -1;
+                break;
+            default:
+                System.out.println("BREAK");
+                break;
+
+
+        }
 
     }
-
 
 
     @Override
     public void render(GraphicsContext g) {
         g.save();
-        rotate(g, angle+ 257, x, y);
+        rotate(g, angle + 257, x, y);
         super.render(g);
         g.restore();
     }
@@ -83,14 +141,14 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
 
 //        double dx = aimX - this.x;
 //        double dy = aimY-this.y;
-        double scaleFactor = sqrt(dx*dx + dy*dy);
+        double scaleFactor = sqrt(dx * dx + dy * dy);
         dx /= scaleFactor;
         dy /= scaleFactor;
 
 //        this.x += 50*dx;
 //        this.y +=50*dy;
-        this.x += dx/10;
-        this.y+=dy/10;
+        this.x += dx *20;
+        this.y += dy *20;
         //temp low values
 
     }
@@ -104,7 +162,7 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
         return splashedBalloons;
     }
 
-    public void clearSplashedBalloons(){
+    public void clearSplashedBalloons() {
         splashedBalloons.clear();
     }
 }

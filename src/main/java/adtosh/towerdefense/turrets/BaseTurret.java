@@ -1,6 +1,7 @@
 package adtosh.towerdefense.turrets;
 
 import adtosh.towerdefense.App;
+import adtosh.towerdefense.MultiShooter;
 import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
@@ -120,9 +121,10 @@ public abstract class BaseTurret extends Entity implements Rotatable {
         if(!isPlaced) return;
 
 
+
+
         if (target != null) {
             if (target.getLayers() <= 0) {
-//                target = Optional.empty();
                 target= null;
             }
         }
@@ -156,8 +158,6 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
     protected void fire(){
         try {
-            System.out.println("fire");
-
             Constructor<? extends  Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
             Projectile projectile = constructor.newInstance(x, y, angle, power, projectileName, target);
 //                    projectile.fire();
@@ -219,7 +219,7 @@ public abstract class BaseTurret extends Entity implements Rotatable {
     }
 
     public Circle getRangeBounds() {
-        return new Circle(x / 2, y / 2, range / 2);
+         return new Circle(x / 2, y / 2, range / 2);
     }
 
 //    private void rotate(GraphicsContext g, double angle, double px, double py) {
