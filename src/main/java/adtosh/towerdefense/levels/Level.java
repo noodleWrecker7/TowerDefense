@@ -107,7 +107,6 @@ public class Level {
             projectileConstructors.put("magic ball", magicBallConstructor);
             Constructor<Dart> dartConstructor =Dart.class.getConstructor(double.class, double.class, double.class, int.class, String.class, Balloon.class);
             projectileConstructors.put("dart", dartConstructor );
-            projectileConstructors.put("no target dart",Dart.class.getConstructor(double.class, double.class, double.class,  int.class, String.class));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }

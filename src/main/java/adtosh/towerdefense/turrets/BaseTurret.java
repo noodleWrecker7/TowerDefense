@@ -141,7 +141,7 @@ public abstract class BaseTurret extends Entity implements Rotatable {
             //todo redundant code below
             if (!App.currentGame.collides(this.getRangeBounds(), target.getBounds())){
                 target = null;
-                System.out.println("Redundant");
+
                 return;
             }
 
@@ -150,10 +150,6 @@ public abstract class BaseTurret extends Entity implements Rotatable {
             if (timeSinceSpawn > TimeTilSpawn) {
                 timeSinceSpawn = 0;
                 fire();
-                System.out.println("FIRE");
-
-
-
             }
 
         }
@@ -185,8 +181,8 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
 
         List<Balloon> options = App.currentGame.getLevel().getBalloons().stream()
-//                .filter(balloon -> App.currentGame.collides(this.getRangeBounds(), balloon.getBounds()))
-                .filter(balloon -> this.getRangeBounds().intersects(balloon.getBounds().getLayoutBounds()))
+                .filter(balloon -> App.currentGame.collides(this.getRangeBounds(), balloon.getBounds()))
+//                .filter(balloon -> this.getRangeBounds().intersects(balloon.getBounds().getLayoutBounds()))
                 .collect(Collectors.toList());
         //todo PROBLEM IN THE COLLISSION METHOD
         //todo all collission detection is inaccurate

@@ -27,7 +27,7 @@ public class SpikeMachine extends BaseTurret  {
         super(x, y, texture);
         this.range = 100;
         this.TimeTilSpawn = 6d;
-//        this.angle = -30;
+
     }
 
 
@@ -65,7 +65,6 @@ public class SpikeMachine extends BaseTurret  {
 
                 Random random = new Random();
                 int pointIndex = random.nextInt(points.size());
-//                Image spikeImage = TextureManager.getTexture("spike");
                 Spike spike = new Spike(points.get(pointIndex).getX()*2 , points.get(pointIndex).getY()*2 , "spike");
                 spike.setPlaced(true);
             }

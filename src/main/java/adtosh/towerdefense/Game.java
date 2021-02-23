@@ -163,16 +163,7 @@ public class Game {
 
     }
 
-    private void checkCollision() {
-        Iterator<Balloon> balloonIterator = level.getBalloons().iterator();
-        while (balloonIterator.hasNext()) {
-            Balloon balloon = balloonIterator.next();
 
-
-
-        }
-
-    }
 
     public void render() {
 //        System.out.println(level.getTurrets().size());
