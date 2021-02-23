@@ -99,6 +99,7 @@ public abstract class BaseTurret extends Entity implements Rotatable {
             double radius = TextureManager.getTexture(this.textureName).getWidth() / 2;
             return new Circle(x / 2, y / 2, radius / 2);
 
+
     }
 
     @Override
@@ -137,8 +138,10 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
         if (this.target != null ) {
 
+            //todo redundant code below
             if (!App.currentGame.collides(this.getRangeBounds(), target.getBounds())){
                 target = null;
+                System.out.println("Redundant");
                 return;
             }
 
@@ -147,6 +150,8 @@ public abstract class BaseTurret extends Entity implements Rotatable {
             if (timeSinceSpawn > TimeTilSpawn) {
                 timeSinceSpawn = 0;
                 fire();
+                System.out.println("FIRE");
+
 
 
             }
@@ -180,8 +185,11 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
 
         List<Balloon> options = App.currentGame.getLevel().getBalloons().stream()
-                .filter(balloon -> App.currentGame.collides(this.getRangeBounds(), balloon.getBounds()))
+//                .filter(balloon -> App.currentGame.collides(this.getRangeBounds(), balloon.getBounds()))
+                .filter(balloon -> this.getRangeBounds().intersects(balloon.getBounds().getLayoutBounds()))
                 .collect(Collectors.toList());
+        //todo PROBLEM IN THE COLLISSION METHOD
+        //todo all collission detection is inaccurate
 
 
 
@@ -219,7 +227,9 @@ public abstract class BaseTurret extends Entity implements Rotatable {
     }
 
     public Circle getRangeBounds() {
+
          return new Circle(x / 2, y / 2, range / 2);
+
     }
 
 //    private void rotate(GraphicsContext g, double angle, double px, double py) {

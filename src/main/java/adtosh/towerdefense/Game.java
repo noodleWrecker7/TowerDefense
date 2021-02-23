@@ -75,6 +75,8 @@ public class Game {
 //        return Math.sqrt(dx*dx + dy*dy) <= circle.getRadius();
 
         if(dx * dx + dy *dy <= circle.getRadius()*circle.getRadius()){
+            System.out.println("COLLISION");
+
             return true;
         }
         return false;
