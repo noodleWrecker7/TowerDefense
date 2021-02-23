@@ -66,24 +66,41 @@ public class Game {
     public boolean collides(Circle circle, Rectangle rect) {
         //find nearest point of rectangle
         //times by 2?
-        double xn = Math.max(rect.getX(), Math.min(circle.getCenterX(), rect.getX()+rect.getWidth()));
-        double yn = Math.max(rect.getY()+ rect.getHeight(), Math.min(circle.getCenterY(), rect.getY()));
-
-        double dx = xn - circle.getCenterX();
-        double dy = yn - circle.getCenterY();
-
-//        return Math.sqrt(dx*dx + dy*dy) <= circle.getRadius();
-
-        if(dx * dx + dy *dy <= circle.getRadius()*circle.getRadius()){
-            System.out.println("COLLISION");
-
-            return true;
-        }
-        return false;
+//        double xn = Math.max(rect.getX(), Math.min(circle.getCenterX(), rect.getX()+rect.getWidth()));
+//        double yn = Math.max(rect.getY()+ rect.getHeight(), Math.min(circle.getCenterY(), rect.getY()));
+//
+//        double dx = xn - circle.getCenterX();
+//        double dy = yn - circle.getCenterY();
+//
+////        return Math.sqrt(dx*dx + dy*dy) <= circle.getRadius();
+//
+//        if(dx * dx + dy *dy <= circle.getRadius()*circle.getRadius()){
+//            System.out.println("COLLISION");
+//
+//            return true;
+//        }
+//        return false;
 
 
 
 //        return (dx*dx + dy*dy) <= circle.getRadius()*circle.getRadius();
+
+        double [] pointsX = {rect.getX(), rect.getX()+rect.getWidth()};
+        double [] pointsY = {rect.getY(), rect.getY()+rect.getHeight()};
+
+        for (int x = 0; x <2 ; x++) {
+            for (int y = 0; y <2 ; y++) {
+                double dx = pointsX[x] - circle.getCenterX();
+                double dy = pointsY[y] - circle.getCenterY();
+                if (Math.sqrt(dx * dx + dy * dy) < circle.getRadius()){
+                    return true;
+                }
+
+            }
+
+        }
+        return false;
+
 
 
 
