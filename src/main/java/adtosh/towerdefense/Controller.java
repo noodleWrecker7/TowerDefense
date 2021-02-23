@@ -136,8 +136,8 @@ public class Controller {
         if (canBuy(event)) {
             MultiShooter monkey = new MultiShooter(event.getSceneX() * 2, event.getSceneY() * 2, "multi shooter");
             monkey.setMouseMoveListener();
-            monkey.setCounter(counter);
-            counter ++;
+//            monkey.setCounter(counter);
+//            counter ++;
         }
 
     }

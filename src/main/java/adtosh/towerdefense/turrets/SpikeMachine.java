@@ -64,7 +64,6 @@ public class SpikeMachine extends BaseTurret  {
             if (points.size() > 0) {
 
                 Random random = new Random();
-                System.out.println(points.size());
                 int pointIndex = random.nextInt(points.size());
 //                Image spikeImage = TextureManager.getTexture("spike");
                 Spike spike = new Spike(points.get(pointIndex).getX()*2 , points.get(pointIndex).getY()*2 , "spike");

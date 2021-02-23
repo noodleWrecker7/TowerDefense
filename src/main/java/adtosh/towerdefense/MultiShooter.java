@@ -16,7 +16,7 @@ public class MultiShooter extends BaseTurret {
     public MultiShooter(double x, double y, String texture) {
         super(x, y, texture);
         this.range = 200;
-        this.projectileName = "dart";
+//        this.projectileName = "DART";
         this.TimeTilSpawn = 1.5d;
         this.power = 5;
     }
@@ -35,7 +35,6 @@ public class MultiShooter extends BaseTurret {
 
             if (App.currentGame.collides(getRangeBounds(), balloon.getBounds())) {
                 collides = true;
-                System.out.println("COLLIDES");
                 break;
             }
         }
@@ -50,18 +49,9 @@ public class MultiShooter extends BaseTurret {
             }
 
         }
-
-
-
-
     }
 
-    private int counter = 0;
 
-    public void setCounter(int counter){
-        this.counter = counter;
-
-    }
 
 
 }
