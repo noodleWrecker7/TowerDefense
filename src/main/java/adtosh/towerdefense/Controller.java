@@ -1,12 +1,8 @@
 package adtosh.towerdefense;
 
 
-import adtosh.towerdefense.turrets.MachineGun;
-import adtosh.towerdefense.turrets.SpikeMachine;
-import adtosh.towerdefense.turrets.Wizard;
+import adtosh.towerdefense.turrets.*;
 import adtosh.towerdefense.levels.Level;
-import adtosh.towerdefense.turrets.Spike;
-import adtosh.towerdefense.turrets.SuperMonkey;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 
@@ -139,6 +135,14 @@ public class Controller {
 
         }
 
+    }
+
+    public void buyDartMonkey(MouseEvent event){
+        if (canBuy(event)) {
+            DartMonkey monkey = new DartMonkey(event.getSceneX() * 2, event.getSceneY() * 2, "dart monkey");
+            monkey.setMouseMoveListener();
+
+        }
     }
 
     public void quitToMenu(MouseEvent event) {

@@ -33,7 +33,7 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
     protected boolean isPlaced = false;
 
-    protected double range;
+    protected int range;
 //    private Balloon target;
     private Balloon target;
     protected int power;
@@ -45,6 +45,8 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
     private boolean selected = false;
     protected String projectileName;
+
+    protected int penetration;
 
 
     public BaseTurret(double x, double y, String texture) {
@@ -160,7 +162,7 @@ public abstract class BaseTurret extends Entity implements Rotatable {
     protected void fire(){
         try {
             Constructor<? extends  Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
-            Projectile projectile = constructor.newInstance(x, y, angle, power, projectileName, target);
+            Projectile projectile = constructor.newInstance(x, y, angle, power, penetration, projectileName, target);
 //                    projectile.fire();
 
         } catch ( InvocationTargetException | InstantiationException | IllegalAccessException e) {
@@ -182,7 +184,6 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
         List<Balloon> options = App.currentGame.getLevel().getBalloons().stream()
                 .filter(balloon -> App.currentGame.collides(this.getRangeBounds(), balloon.getBounds()))
-//                .filter(balloon -> this.getRangeBounds().intersects(balloon.getBounds().getLayoutBounds()))
                 .collect(Collectors.toList());
         //todo PROBLEM IN THE COLLISSION METHOD
         //todo all collission detection is inaccurate

@@ -16,6 +16,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
@@ -103,9 +104,9 @@ public class Level {
 
     public void addProjectilesType() {
         try {
-            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, double.class,int.class, String.class, Balloon.class);
+            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, double.class,int.class, int.class, String.class, Balloon.class);
             projectileConstructors.put("magic ball", magicBallConstructor);
-            Constructor<Dart> dartConstructor =Dart.class.getConstructor(double.class, double.class, double.class, int.class, String.class, Balloon.class);
+            Constructor<Dart> dartConstructor =Dart.class.getConstructor(double.class, double.class, double.class, int.class, int.class, String.class, Balloon.class);
             projectileConstructors.put("dart", dartConstructor );
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -164,6 +165,8 @@ public class Level {
 
         balloons.removeIf(balloon -> balloon.getLayers() <= 0);
 
+        checkProjectileInRange();
+
 
         for (BaseTurret turret : turrets) {
 
@@ -176,6 +179,24 @@ public class Level {
         for (Projectile projectile : projectiles) {
             projectile.update(delta);
         }
+    }
+
+    private void checkProjectileInRange(){
+        Iterator <Projectile> projectileIterator = projectiles.iterator();
+        while (projectileIterator.hasNext()){
+            Projectile projectile = projectileIterator.next();
+            if (projectile.getSource()!= null){
+                //if it doesnt have a source its because theres no need for it to be used as its not gonna be limited in range
+                if (!App.currentGame.collides(projectile.getSource().getRangeBounds(), (Rectangle) projectile.getBounds())){
+                    projectileIterator.remove();
+
+                }
+
+
+            }
+        }
+
+
     }
 
     private void checkTurretBalloonCollision() {

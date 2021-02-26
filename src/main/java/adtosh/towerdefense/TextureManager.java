@@ -32,11 +32,14 @@ public class TextureManager {
         loadImage("spike machine", "spike-machine2.png", 90, 0, true);
         loadImage("machine gun", "machine-gun.png", 120, 0 , true);
         loadImage("multi shooter", "multi-shooter.png", 120, 0, true);
+        loadImage("dart monkey", "dart-monkey.png", 100, 0, true);
+
 
 
 
         loadImage("magic ball", "001-WizardProjectile.png", 100, 0 , true);
-        loadImage("dart", "dart.png", 100, 0 , true);
+        loadImage("dart", "dart.png", 85, 0 , true);
+        loadImage("small dart", "dart.png", 70, 0, true);
         System.out.println("loaded grass");
 
         // loads the balloon 50 pixels wide and keeps the aspect ratio

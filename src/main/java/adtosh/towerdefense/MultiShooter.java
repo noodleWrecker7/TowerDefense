@@ -18,7 +18,7 @@ public class MultiShooter extends BaseTurret {
         this.range = 200;
 //        this.projectileName = "DART";
         this.TimeTilSpawn = 1.5d;
-        this.power = 5;
+        this.power = 1;
     }
 
     @Override
@@ -45,7 +45,8 @@ public class MultiShooter extends BaseTurret {
         if (timeSinceSpawn > TimeTilSpawn){
             timeSinceSpawn = 0;
             for (int i = 0; i <360  ; i+= 45) {
-                new Dart(x, y, i, power, "dart");
+                new Dart(x, y, i, power, penetration, this, "small dart");
+
             }
 
         }

@@ -4,6 +4,7 @@ import adtosh.towerdefense.App;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Collidable;
 import adtosh.towerdefense.entity.Entity;
+import adtosh.towerdefense.turrets.BaseTurret;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
@@ -28,6 +29,12 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
     private double dx;
     private double dy;
 
+    private int lives;
+
+      //penetration
+
+
+
 
     @Override
     public void handleCollision(Balloon balloon) {
@@ -37,12 +44,13 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
     }
 
 
-    Projectile(double x, double y, double angle, int power, String textureName, Balloon target) {
+    Projectile(double x, double y, double angle, int power, int lives, String textureName, Balloon target) {
         super(x, y, textureName);
         App.currentGame.getLevel().addToProjectiles(this);
         this.target = target;
         this.angle = angle;
         this.power = power;
+        this.lives = lives;
 //        findAim();
         this.dx = target.getX() - this.x;
         this.dy = target.getY() - this.y;
@@ -50,14 +58,22 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
 
     }
 
-    public Projectile(double x, double y, double angle, int power, String texture) {
+    private BaseTurret source;
+
+    public Projectile(double x, double y, double angle, int power, int lives, BaseTurret source, String texture) {
         super(x, y, texture);
         App.currentGame.getLevel().addToProjectiles(this);
         this.angle = angle;
         this.power = power;
+        this.source = source;
+        this.lives = lives;
+
+
         findAim();
 
     }
+
+
 
     private void findAim() {
 
@@ -145,13 +161,17 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
         dx /= scaleFactor;
         dy /= scaleFactor;
 
-//        this.x += 50*dx;
-//        this.y +=50*dy;
-        this.x += dx *20;
-        this.y += dy *20;
+        this.x += 50*dx;
+        this.y +=50*dy;
+//        this.x += dx ;
+//        this.y += dy ;
         //temp low values
 
+
+
     }
+
+
 
 
     public int getPower() {
@@ -164,5 +184,9 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
 
     public void clearSplashedBalloons() {
         splashedBalloons.clear();
+    }
+
+    public BaseTurret getSource() {
+        return source;
     }
 }

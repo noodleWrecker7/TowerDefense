@@ -29,7 +29,7 @@ public abstract class Entity {
         Image texture = TextureManager.getTexture(_textureName);
         this.width = texture.getWidth();
         this.height = texture.getHeight();
-        textureName = _textureName;
+        this.textureName = _textureName;
     }
 
 //    public void remove(){
