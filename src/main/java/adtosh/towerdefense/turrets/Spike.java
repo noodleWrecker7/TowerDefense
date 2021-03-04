@@ -20,6 +20,8 @@ public class Spike extends Entity implements Placeable {
     private double range;
     private boolean isPlaced;
 
+    public  static int price;
+
 
     public Spike(double x, double y, String texture) {
         super(x, y, texture);
@@ -27,6 +29,7 @@ public class Spike extends Entity implements Placeable {
         App.currentGame.getLevel().addToSpikes(this);
         this.lives = 11;
         this.range = TextureManager.getTexture(this.textureName).getWidth() / 2;
+
     }
 
     @Override
@@ -45,6 +48,7 @@ public class Spike extends Entity implements Placeable {
     public void handleBalloonCollision() {
         this.lives--;
         this.textureName = texturePrefix + lives;
+
 
    }
 

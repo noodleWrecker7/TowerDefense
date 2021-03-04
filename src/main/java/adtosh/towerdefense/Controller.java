@@ -6,8 +6,14 @@ import adtosh.towerdefense.levels.Level;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+
 // main controller class for all fxml files to go through
-public class Controller {
+public class Controller   {
 
     @FXML
     public void loadLevel1(MouseEvent event) {
@@ -54,96 +60,163 @@ public class Controller {
     }
 
     public void buySpike(MouseEvent event) {
+        int price = 50;
+
+        if (!App.currentGame.getLevel().isCarryingItem()) {
+            if (price<= App.currentGame.getLevel().getMoney()){
+                App.currentGame.getLevel().setCarryingItem(true);
+                Spike spike = new Spike(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
+                spike.setMouseMoveListener();
+                App.currentGame.getLevel().setMoney(App.currentGame.getLevel().getMoney() - price);
+        }
+        }
+
+
 //        if (!App.currentGame.getLevel().isCarryingItem()) {
 //            App.currentGame.getLevel().setCarryingItem(true);
 //            Spike spike = new Spike(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
 //            spike.setMouseMoveListener();
 //        }
-        if (canBuy(event)) {
-            Spike spike = new Spike(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
-            spike.setMouseMoveListener();
-
-        }
-
-    }
-
-    public void buyMonkey(MouseEvent event) {
-//        if (canBuy())
-//        if (!App.currentGame.getLevel().isCarryingItem()) {
-//            App.currentGame.getLevel().setCarryingItem(true);
-//            DartMonkey m = new DartMonkey(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
-//            m.setMouseMoveListener();
+//        if (canBuy(event,Spike.class, "spikes-11")) {
+////            Spike spike = new Spike(event.getSceneX() * 2, event.getSceneY() * 2, "spikes-11");
+////            spike.setMouseMoveListener();
+//
 //        }
+
     }
 
-    public boolean canBuy(MouseEvent event) {
+
+
+    private  <T extends BaseTurret> void canBuy(MouseEvent event, Class <T>clazz, String texture, int price) {
+
+
         if (!App.currentGame.getLevel().isCarryingItem()) {
-            App.currentGame.getLevel().setCarryingItem(true);
-            return true;
+
+
+
+            try {
+                if (price<= App.currentGame.getLevel().getMoney()){
+                    App.currentGame.getLevel().setCarryingItem(true);
+                    BaseTurret baseTurret = clazz.getConstructor(double.class, double.class, String.class).newInstance(event.getSceneX() * 2, event.getSceneY() * 2, texture);
+                    baseTurret.setMouseMoveListener();
+                    App.currentGame.getLevel().setMoney(App.currentGame.getLevel().getMoney() - price);
+
+                }
+            } catch ( IllegalAccessException | NoSuchMethodException | InstantiationException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
         }
-        return false;
 
 
-    }
-
-    private void buyDefense() {
 
     }
+
+
 
     public void quitToMenu() {
 
     }
 
     public void buyWizard(MouseEvent event) {
-        // get x is relative to node the event happened and scence x is relative to the scene
-        if (canBuy(event)) {
-            Wizard wizard = new Wizard(event.getSceneX() * 2, event.getSceneY() * 2, "wizard");
-            wizard.setMouseMoveListener();
-        }
-    }
+        canBuy(event, Wizard.class, "wizard", 1200);
+
+
+
+}
 
     public void buySuperMonkey(MouseEvent event) {
-        if (canBuy(event)) {
-            SuperMonkey monkey = new SuperMonkey(event.getSceneX() * 2, event.getSceneY() * 2, "super monkey");
-            monkey.setMouseMoveListener();
-        }
+       canBuy(event, SuperMonkey.class, "super monkey", 2500);
+
+
 
 
     }
     public void buySpikeMachine(MouseEvent event) {
-        if (canBuy(event)) {
-            SpikeMachine monkey = new SpikeMachine(event.getSceneX() * 2, event.getSceneY() * 2, "spike machine");
-            monkey.setMouseMoveListener();
+        canBuy(event, SpikeMachine.class, "spike machine", 1500);
+
         }
 
 
-    }
+
 
     public void buyMachineGun(MouseEvent event){
-        if (canBuy(event)) {
-            MachineGun monkey = new MachineGun(event.getSceneX() * 2, event.getSceneY() * 2, "machine gun");
-            monkey.setMouseMoveListener();
-        }
+        canBuy(event , MachineGun.class, "machine gun", 2000);
+
 
     }
 
-    private int counter = 0;
-    public void buyMultiShooter(MouseEvent event){
-        if (canBuy(event)) {
-            MultiShooter monkey = new MultiShooter(event.getSceneX() * 2, event.getSceneY() * 2, "multi shooter");
-            monkey.setMouseMoveListener();
 
-        }
+    public void buyMultiShooter(MouseEvent event){
+        canBuy(event, MultiShooter.class, "multi shooter", 300);
+
+
+
 
     }
 
     public void buyDartMonkey(MouseEvent event){
-        if (canBuy(event)) {
-            DartMonkey monkey = new DartMonkey(event.getSceneX() * 2, event.getSceneY() * 2, "dart monkey");
-            monkey.setMouseMoveListener();
+        canBuy(event, DartMonkey.class, "dart monkey", 50);
+
+
+
+    }
+
+    public void buyCannon(MouseEvent event)  {
+        canBuy(event, Cannon.class, "cannon", 800);
+
+
+
+    }
+
+
+
+
+
+    public void upgrade1(){
+        BaseTurret turret = App.currentGame.getLevel().getSelectedTurret();
+        if (turret != null && turret.getUpgradeNumber1()<turret.getUpgradeList1().size()){
+            turret.applyUpgrade1();
 
         }
     }
+
+    public void upgrade2(){
+        BaseTurret turret = App.currentGame.getLevel().getSelectedTurret();
+        if (turret != null  && turret.getUpgradeNumber2()<turret.getUpgradeList2().size()){
+            turret.applyUpgrade2();
+
+
+        }
+    }
+
+    public void startRound()  {
+        System.out.println(App.currentGame.getLevel().isWaveOnGoing());
+        if (App.currentGame.getLevel().isWaveOnGoing()) return;
+        System.out.println("HERE");
+        String line;
+        ArrayList<String[]> lines = new ArrayList<>();
+
+        try {
+
+
+            BufferedReader reader = new BufferedReader(new FileReader("wave.txt"));
+            while ((line = reader.readLine()) != null) {
+                String [] words = line.split(" ");
+                lines.add(words);
+
+            }
+            reader.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+        App.currentGame.getLevel().createBalloons(lines);
+        App.currentGame.getLevel().setWaveOnGoing(true);
+
+
+    }
+
 
     public void quitToMenu(MouseEvent event) {
     }

@@ -1,29 +1,19 @@
 package adtosh.towerdefense.turrets;
 
 import adtosh.towerdefense.App;
-import adtosh.towerdefense.MultiShooter;
-import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Entity;
-import adtosh.towerdefense.entity.projectiles.MagicBall;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.entity.projectiles.Rotatable;
-import javafx.event.Event;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
 
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -35,18 +25,86 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
     protected int range;
 //    private Balloon target;
-    private Balloon target;
+    protected Balloon target;
     protected int power;
     protected double angle =0;
     protected double correctiveAngle=0;
 
     protected double timeSinceSpawn = 0;
-    protected double TimeTilSpawn;
+    protected double timeTilSpawn;
 
     private boolean selected = false;
     protected String projectileName;
 
     protected int penetration;
+
+    protected boolean canPopLead;
+
+
+
+    private ArrayList<Upgrade> upgradeList1 = new ArrayList<>();
+    private ArrayList<Upgrade> upgradeList2 = new ArrayList<>();
+
+
+
+    protected void addUpgradeList1(Upgrade item){
+        upgradeList1.add(item);
+    }
+
+    protected void addUpgradeList2(Upgrade item){
+        upgradeList2.add(item);
+    }
+
+
+    public  Upgrade getCurrentUpgrade1(){
+
+        if (upgradeList1.size()>upgradeNumber1) {
+            return upgradeList1.get(upgradeNumber1);
+        }
+
+        return null;
+
+
+    }
+    public  Upgrade getCurrentUpgrade2(){
+
+        if (upgradeList2.size()>upgradeNumber2) {
+            return upgradeList2.get(upgradeNumber2);
+        }
+
+        return null;
+
+
+    }
+
+
+
+    public void applyUpgrade1(){
+        this.upgradeList1.get(upgradeNumber1).applyUpgrade();
+        this.upgradeNumber1++;
+
+    }
+
+    public void applyUpgrade2(){
+        this.upgradeList2.get(upgradeNumber2).applyUpgrade();
+        this.upgradeNumber2++;
+
+    }
+
+    public ArrayList<Upgrade> getUpgradeList1() {
+        return upgradeList1;
+    }
+    public ArrayList<Upgrade> getUpgradeList2() {
+        return upgradeList2;
+    }
+
+    private int upgradeNumber1 =0;
+    private int upgradeNumber2 =0;
+
+
+
+
+
 
 
     public BaseTurret(double x, double y, String texture) {
@@ -81,19 +139,11 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 //        ScreenManager.addRoot("game.fxml", this.getRangeBounds());
     }
 
-    public void select(){
-        this.selected = true;
-
-    }
-    public  void unSelect(){
-        this.selected = false;
-    }
+    protected abstract void initialiseUpgrades();
 
 
 
-    public double getRange() {
-        return range;
-    }
+
 
     @Override
     public Shape getBounds() {
@@ -124,8 +174,6 @@ public abstract class BaseTurret extends Entity implements Rotatable {
         if(!isPlaced) return;
 
 
-
-
         if (target != null) {
             if (target.getLayers() <= 0) {
                 target= null;
@@ -140,7 +188,6 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
         if (this.target != null ) {
 
-            //todo redundant code below
             if (!App.currentGame.collides(this.getRangeBounds(), target.getBounds())){
                 target = null;
 
@@ -149,21 +196,24 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
             findAngle();
             timeSinceSpawn += delta;
-            if (timeSinceSpawn > TimeTilSpawn) {
+            if (timeSinceSpawn > timeTilSpawn) {
                 timeSinceSpawn = 0;
                 fire();
             }
 
         }
 
-
     }
+
+
+
+
 
     protected void fire(){
         try {
             Constructor<? extends  Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
-            Projectile projectile = constructor.newInstance(x, y, angle, power, penetration, projectileName, target);
-//                    projectile.fire();
+            constructor.newInstance(x, y, angle, power, penetration, projectileName, target);
+
 
         } catch ( InvocationTargetException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
@@ -185,11 +235,6 @@ public abstract class BaseTurret extends Entity implements Rotatable {
         List<Balloon> options = App.currentGame.getLevel().getBalloons().stream()
                 .filter(balloon -> App.currentGame.collides(this.getRangeBounds(), balloon.getBounds()))
                 .collect(Collectors.toList());
-        //todo PROBLEM IN THE COLLISSION METHOD
-        //todo all collission detection is inaccurate
-
-
-
 
         if (options.size()==0) return;
 
@@ -229,11 +274,6 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
     }
 
-//    private void rotate(GraphicsContext g, double angle, double px, double py) {
-//        Rotate r = new Rotate(angle, px, py);
-//        g.setTransform(r.getMxx() / 2, r.getMyx() / 2, r.getMxy() / 2, r.getMyy() / 2, r.getTx() / 2, r.getTy() / 2);
-//
-//    }
 
     private void handleMouseMove(MouseEvent e) {
         if (isPlaced) return;
@@ -249,8 +289,30 @@ public abstract class BaseTurret extends Entity implements Rotatable {
         return isPlaced;
     }
 
-    public Balloon getTarget() {
-        return target;
+//    public Balloon getTarget() {
+//        return target;
+//    }
+
+    public void select(){
+        this.selected = true;
+
+    }
+    public  void unSelect(){
+        this.selected = false;
+    }
+
+
+
+    public double getRange() {
+        return range;
+    }
+
+    public int getUpgradeNumber1() {
+        return upgradeNumber1;
+    }
+
+    public int getUpgradeNumber2() {
+        return upgradeNumber2;
     }
 
 

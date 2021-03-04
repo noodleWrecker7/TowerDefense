@@ -1,20 +1,8 @@
 package adtosh.towerdefense.turrets;
 
 import adtosh.towerdefense.App;
-import adtosh.towerdefense.Game;
-import adtosh.towerdefense.Placeable;
-import adtosh.towerdefense.TextureManager;
-import adtosh.towerdefense.entity.projectiles.Rotatable;
-import adtosh.towerdefense.levels.Level;
-import adtosh.towerdefense.turrets.BaseTurret;
 import javafx.geometry.Point2D;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,17 +14,40 @@ public class SpikeMachine extends BaseTurret  {
     public SpikeMachine(double x, double y, String texture) {
         super(x, y, texture);
         this.range = 100;
-        this.TimeTilSpawn = 6d;
+        this.timeTilSpawn = 6d;
+        initialiseUpgrades();
+
+
 
     }
 
+    @Override
+    protected void initialiseUpgrades() {
+        Upgrade upgrade1 = new Upgrade("increase range", 600);
+        upgrade1.createUpgrade(() ->{ this.range +=70; });
+        this.addUpgradeList1(upgrade1);
 
+        Upgrade upgrade2 = new Upgrade("faster spike production", 700);
+        upgrade2.createUpgrade(() ->{ this.timeTilSpawn -= 0.5; });
+        this.addUpgradeList2(upgrade2);
+
+        Upgrade upgrade3 = new Upgrade("super fast spike production", 800);
+        upgrade2.createUpgrade(() ->{ this.timeTilSpawn -= 0.5; });
+        this.addUpgradeList2(upgrade3);
+
+
+
+
+
+
+    }
 
     @Override
     public void update(float delta) {
+        System.out.println(timeTilSpawn);
         if (!isPlaced())return;
         timeSinceSpawn += delta;
-        if (timeSinceSpawn > TimeTilSpawn) {
+        if (timeSinceSpawn > timeTilSpawn) {
             timeSinceSpawn = 0;
 
 

@@ -1,18 +1,19 @@
 package adtosh.towerdefense.levels;
 
 import adtosh.towerdefense.App;
+import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
-import adtosh.towerdefense.entity.Collidable;
-import adtosh.towerdefense.entity.Entity;
 import adtosh.towerdefense.entity.projectiles.Dart;
 import adtosh.towerdefense.entity.projectiles.MagicBall;
+import adtosh.towerdefense.entity.projectiles.Missile;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.turrets.BaseTurret;
 import adtosh.towerdefense.turrets.Spike;
-import javafx.event.Event;
+import adtosh.towerdefense.turrets.Upgrade;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -26,15 +27,23 @@ public class Level {
 
     // these are all fields that should be loaded from file
     private int wave;
+    private boolean waveOnGoing = false;
     private int lives;
     private boolean carryingItem = false;
 
     private ArrayList<Balloon> balloons = new ArrayList<>();
+    //    private ArrayList<String[]> balloonsToSpawn = new ArrayList<>();
+    private int balloonsToSpawn = 0;
+
     private ArrayList<Spike> spikes = new ArrayList<>();
     private ArrayList<BaseTurret> turrets = new ArrayList<>();
+    private BaseTurret selectedTurret = null;
 
     private HashMap<String, Constructor<? extends Projectile>> projectileConstructors = new HashMap<>();
     private ArrayList<Projectile> projectiles = new ArrayList<>();
+    private ArrayList<Projectile> hitProjectiles = new ArrayList<>();
+
+    private int money = 10000;
 
 
     //to
@@ -79,6 +88,7 @@ public class Level {
 
     public void loadDataFromFile() {
         //todo acc make a file
+        String fileName = "map-" + levelID;
 
 
         startX = 0;
@@ -95,8 +105,10 @@ public class Level {
     public void initialisePath() {
         for (int i = 1; i < mapPathPoints.length; i++) {
             Line line = new Line(mapPathPoints[i - 1][0] / 2, mapPathPoints[i - 1][1] / 2, mapPathPoints[i][0] / 2, mapPathPoints[i][1] / 2);
-            line.setStrokeWidth(4);
+            line.setStroke(Color.GREEN);
+            line.setStrokeWidth(45);
             path.add(line);
+//            ScreenManager.addRoot("game.fxml", line);
 
         }
 
@@ -104,10 +116,15 @@ public class Level {
 
     public void addProjectilesType() {
         try {
-            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, double.class,int.class, int.class, String.class, Balloon.class);
+            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, double.class, int.class, int.class,int.class, String.class, Balloon.class);
             projectileConstructors.put("magic ball", magicBallConstructor);
-            Constructor<Dart> dartConstructor =Dart.class.getConstructor(double.class, double.class, double.class, int.class, int.class, String.class, Balloon.class);
-            projectileConstructors.put("dart", dartConstructor );
+
+            Constructor<Dart> dartConstructor = Dart.class.getConstructor(double.class, double.class, double.class, int.class, int.class, String.class, Balloon.class);
+            projectileConstructors.put("dart", dartConstructor);
+
+            projectileConstructors.put("big dart", Dart.class.getConstructor(double.class, double.class, double.class, int.class, int.class, String.class, Balloon.class));
+
+            projectileConstructors.put("missile", Missile.class.getConstructor(double.class, double.class, double.class, int.class, int.class, int.class, String.class, Balloon.class));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -116,8 +133,8 @@ public class Level {
 
     public void drawPath(GraphicsContext g) {
 //         below is temporary for debugging
-        g.setStroke(Color.GREEN);
-        g.setLineWidth(4);
+        g.setStroke(Color.DARKGOLDENROD);
+        g.setLineWidth(115);
         g.beginPath();
 
         g.moveTo(mapPathPoints[0][0], mapPathPoints[0][1]);
@@ -133,39 +150,83 @@ public class Level {
 
         g.drawImage(TextureManager.getTexture("grass"), 0, 0);
         this.drawPath(g);
+
+
     }
 
-    float timeSinceSpawn = 0;
-    final float TimeTilSpawn = 0.5f;
+    public void createBalloons(ArrayList<String[]> balloonQueue) {
+
+        Timer timer = new Timer();
+        for (String[] strings : balloonQueue) {
+
+            int delay = Integer.parseInt(strings[3]) * 1000;
+            double timeBetweenSpawn = Double.parseDouble(strings[2]) * 1000;
+            int balloonCount = Integer.parseInt(strings[1]);
+            this.balloonsToSpawn += balloonCount;
+            int layers = Integer.parseInt(strings[0]);
+
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < balloonCount; i++) {
+
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+
+                                Balloon balloon = new Balloon(layers, "balloon-0");
+                                balloonsToSpawn--;
+
+                            }
+                        }, (int) timeBetweenSpawn * i);
+
+                    }
+
+                }
+            }, delay);
+        }
+
+    }
+
+//    float timeSinceSpawn = 0;
+//    final float TimeTilSpawn = 0.5f;
 
 
     public void update(float delta) {
 
-        timeSinceSpawn += delta;
+//        Iterator<Balloon> bIter = balloons.iterator();
+//        while (bIter.hasNext()) {
+//            Balloon b = null;
+//            try {
+//                b = bIter.next();
+//
+//
+//            }catch (ConcurrentModificationException e){
+//                System.out.println("here");
+//                e.printStackTrace();
+//            }
+//            b.update(delta);
+//            checkSpikeBalloonCollide(b);
+////            if (b.getLayers() <= 0) {
+////                bIter.remove();
+////
+////            }
+//            if (b.getLayers() < 0) {
+//                bIter.remove();
+//            }
+//        }
 
-        if (timeSinceSpawn > TimeTilSpawn ) {
-            Random rand = new Random();
-
-            new Balloon(rand.nextInt(7), "balloon-0");
-            timeSinceSpawn = 0;
-        }
-
-        Iterator<Balloon> bIter = balloons.iterator();
-        while (bIter.hasNext()) {
-            Balloon b = bIter.next();
-            b.update(delta);
-            checkSpikeBalloonCollide(b);
-            if (b.getLayers() <= 0) {
-                bIter.remove();
-
-            }
-        }
-
+        checkSpikeBalloonCollision();
         checkTurretBalloonCollision();
-
-        balloons.removeIf(balloon -> balloon.getLayers() <= 0);
-
+        balloons.removeIf(balloon -> balloon.getLayers() < 0);
+        //todo remember we changed from equalor less to less
+        checkWaveOnGoing();
         checkProjectileInRange();
+        manageUpgradeButtons();
+
+        for (Balloon balloon : balloons){
+            balloon.update(delta);
+        }
 
 
         for (BaseTurret turret : turrets) {
@@ -174,20 +235,80 @@ public class Level {
         }
 
 
-
-
         for (Projectile projectile : projectiles) {
             projectile.update(delta);
         }
+
     }
 
-    private void checkProjectileInRange(){
-        Iterator <Projectile> projectileIterator = projectiles.iterator();
-        while (projectileIterator.hasNext()){
+    private void checkSpikeBalloonCollision(){
+
+        Iterator<Balloon> bIter = balloons.iterator();
+        while (bIter.hasNext()) {
+//            Balloon b = null;
+            try {
+                Balloon b = bIter.next();
+                checkSpikeBalloonCollide(b);
+
+
+            }catch (ConcurrentModificationException e){
+                System.out.println("here");
+                e.printStackTrace();
+            }
+//            b.update(delta);
+//            checkSpikeBalloonCollide(b);
+//            if (b.getLayers() <= 0) {
+//                bIter.remove();
+//
+//            }
+//            if (b.getLayers() < 0) {
+//                bIter.remove();
+//            }
+        }
+
+    }
+
+    private void manageUpgradeButtons() {
+        Button button1 =((Button) ScreenManager.getNode(1));
+        Button button2 =((Button) ScreenManager.getNode(2));
+
+
+
+        if (this.selectedTurret != null) {
+
+            if (this.selectedTurret.getCurrentUpgrade1()!=null) {
+                Upgrade upgrade = this.selectedTurret.getCurrentUpgrade1();
+                button1.setText(upgrade.getDescription() + "\n $" + upgrade.getCost());
+            }else {
+                button1.setText("");
+            }
+
+            if (this.selectedTurret.getCurrentUpgrade2() != null) {
+                Upgrade upgrade = this.selectedTurret.getCurrentUpgrade2();
+                button2.setText(upgrade.getDescription() + "\n $" + upgrade.getCost());
+            }else {
+                button2.setText("");
+            }
+        }else {
+            button1.setText("");
+            button2.setText("");
+        }
+    }
+
+    private void checkWaveOnGoing() {
+
+        if (balloons.size() <= 0 && balloonsToSpawn <= 0) {
+            this.waveOnGoing = false;
+        }
+    }
+
+    private void checkProjectileInRange() {
+        Iterator<Projectile> projectileIterator = projectiles.iterator();
+        while (projectileIterator.hasNext()) {
             Projectile projectile = projectileIterator.next();
-            if (projectile.getSource()!= null){
+            if (projectile.getSource() != null) {
                 //if it doesnt have a source its because theres no need for it to be used as its not gonna be limited in range
-                if (!App.currentGame.collides(projectile.getSource().getRangeBounds(), (Rectangle) projectile.getBounds())){
+                if (!App.currentGame.collides(projectile.getSource().getRangeBounds(), (Rectangle) projectile.getBounds())) {
                     projectileIterator.remove();
 
                 }
@@ -210,16 +331,48 @@ public class Level {
                 Canvas canvas = App.currentGame.getCanvas();
 
                 if (projectile.getBounds().intersects(b.getBounds().getLayoutBounds())) {
+//                    if (projectile.isHit()) {continue;}
+//                    projectile.setHit(true);
                     projectile.getSplashedBalloons().clear();
+
+                    String initialTexture = projectile.getTextureName();
                     projectile.handleCollision(b);
+                    String afterTexture = projectile.getTextureName();
+
+
                     balloonsToPop.put(projectile, projectile.getSplashedBalloons());
-                    projectileIterator.remove();
-                }
-                else if (projectile.getX() > canvas.getWidth() * 2 + 50 || projectile.getX() < -50 || projectile.getY() > canvas.getHeight() * 2 + 50 || projectile.getY() < -50) {
+
+                    if (projectile.getLives() < 0) {
+
+                        projectileIterator.remove();
+
+                        if (!initialTexture.equals(afterTexture)) {
+                            hitProjectiles.add(projectile);
+
+                            Timer timer = new Timer();
+
+                            timer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+
+                                    //instance variables are accessed by object reference so we can access them here without making final
+                                    //local variables are accessed because java makes a copy of them, and to stop the copy or original value changing it must be final
+
+                                    hitProjectiles.remove(projectile);
+                                    timer.cancel();
+                                }
+
+                            }, 200);
+
+
+                        }
+                    }
+
+                } else if (projectile.getX() > canvas.getWidth() * 2 + 50 || projectile.getX() < -50 || projectile.getY() > canvas.getHeight() * 2 + 50 || projectile.getY() < -50) {
                     projectileIterator.remove();
 
                 }
-                //todo warning illegal state exception
+
             }
 
         }
@@ -256,23 +409,30 @@ public class Level {
     }
 
     public void selectTurret(MouseEvent e) {
+
         for (BaseTurret turret : turrets) {
             if (checkTurretPressed(e, turret)) {
+                unSelectAllTurrets();
                 turret.select();
-//                App.currentGame.getCanvas().setOnMouseClicked(this::unSelectTurret);
+                this.selectedTurret = turret;
+                break;
+
+
             } else {
                 if (turret.isSelected()) {
                     turret.unSelect();
+                    this.selectedTurret = null;
                 }
             }
 
         }
     }
 
-    public void unSelectAllTurrets(){
-        for (BaseTurret turret: turrets){
+    public void unSelectAllTurrets() {
+        for (BaseTurret turret : turrets) {
             turret.unSelect();
         }
+        this.selectedTurret = null;
     }
 
 
@@ -298,7 +458,7 @@ public class Level {
         return levelID;
     }
 
-    public ArrayList<Line>  getPath() {
+    public ArrayList<Line> getPath() {
         return path;
     }
 
@@ -341,9 +501,6 @@ public class Level {
         projectiles.add(projectile);
     }
 
-    public void removeFromProjectiles(Projectile projectile) {
-        projectiles.remove(projectile);
-    }
 
     public ArrayList<Projectile> getProjectiles() {
         return projectiles;
@@ -371,4 +528,28 @@ public class Level {
         return projectileConstructors;
     }
 
+    public ArrayList<Projectile> getHitProjectiles() {
+        return hitProjectiles;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+
+    public boolean isWaveOnGoing() {
+        return waveOnGoing;
+    }
+
+    public void setWaveOnGoing(boolean waveOnGoing) {
+        this.waveOnGoing = waveOnGoing;
+    }
+
+    public BaseTurret getSelectedTurret() {
+        return selectedTurret;
+    }
 }

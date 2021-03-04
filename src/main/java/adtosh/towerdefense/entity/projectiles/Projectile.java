@@ -26,10 +26,14 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
     private double aimY;
     private double angle;
 
+    protected double correctiveAngle = 0;
+
     private double dx;
     private double dy;
 
-    private int lives;
+    private boolean hit = false;
+
+    protected int lives;
 
       //penetration
 
@@ -40,6 +44,7 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
     public void handleCollision(Balloon balloon) {
 
         splashedBalloons.add(balloon);
+        this.lives--;
 
     }
 
@@ -147,7 +152,7 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
     @Override
     public void render(GraphicsContext g) {
         g.save();
-        rotate(g, angle + 257, x, y);
+        rotate(g, angle + correctiveAngle, x, y);
         super.render(g);
         g.restore();
     }
@@ -161,8 +166,8 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
         dx /= scaleFactor;
         dy /= scaleFactor;
 
-        this.x += 50*dx;
-        this.y +=50*dy;
+        this.x += 45*dx;
+        this.y +=45*dy;
 //        this.x += dx ;
 //        this.y += dy ;
         //temp low values
@@ -188,5 +193,17 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
 
     public BaseTurret getSource() {
         return source;
+    }
+
+    public boolean isHit() {
+        return hit;
+    }
+
+    public void setHit(boolean hit) {
+        this.hit = hit;
+    }
+
+    public int getLives() {
+        return lives;
     }
 }

@@ -5,22 +5,22 @@ import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.turrets.BaseTurret;
+import adtosh.towerdefense.turrets.SplashDamage;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-public class MagicBall extends Projectile {
+public class MagicBall extends Projectile implements SplashDamage {
 
-//    public MagicBall(double x, double y, double angle, String textureName, Balloon target) {
-//        super(x, y, angle, textureName, target);
-//        this.power = 5;
-//
-//    }
+    private int spashDamageRange;
 
-    public MagicBall(double x, double y, double angle,int power,int lives, String textureName, Balloon target) {
+
+
+    public MagicBall(double x, double y, double angle,int power,int lives, int splashDamageRange, String textureName, Balloon target) {
         super(x, y, angle, power,lives, textureName, target);
+        this.spashDamageRange = splashDamageRange;
 
     }
 
@@ -39,15 +39,17 @@ public class MagicBall extends Projectile {
 
     @Override
     public void handleCollision(Balloon b) {
-        for (Balloon balloon : App.currentGame.getLevel().getBalloons()) {
-            if (balloon.getX()> b.getX() -150 && balloon.getX()< b.getX() +150) {
-                if (balloon.getY() > b.getY() - 150 && balloon.getY() < b.getY() +150) {
-                    splashedBalloons.add(balloon);
-
-                }
-            }
-
-        }
+        dealSplashDamage(b, splashedBalloons, spashDamageRange);
+        this.lives--;
+//        for (Balloon balloon : App.currentGame.getLevel().getBalloons()) {
+//            if (balloon.getX()> b.getX() -150 && balloon.getX()< b.getX() +150) {
+//                if (balloon.getY() > b.getY() - 150 && balloon.getY() < b.getY() +150) {
+//                    splashedBalloons.add(balloon);
+//
+//                }
+//            }
+//
+//        }
 
     }
 }

@@ -33,6 +33,7 @@ public class TextureManager {
         loadImage("machine gun", "machine-gun.png", 120, 0 , true);
         loadImage("multi shooter", "multi-shooter.png", 120, 0, true);
         loadImage("dart monkey", "dart-monkey.png", 100, 0, true);
+        loadImage("cannon", "cannon.png", 90, 0 , true);
 
 
 
@@ -40,11 +41,17 @@ public class TextureManager {
         loadImage("magic ball", "001-WizardProjectile.png", 100, 0 , true);
         loadImage("dart", "dart.png", 85, 0 , true);
         loadImage("small dart", "dart.png", 70, 0, true);
-        System.out.println("loaded grass");
+        loadImage("big dart", "dart.png", 100, 0, true);
+
+        loadImage("missile", "missile.png", 70, 0, true);
+
+        loadImage("explosion", "explosion.png", 105, 0, true);
+
+
 
         // loads the balloon 50 pixels wide and keeps the aspect ratio
 
-        loadImage("balloon-0", "balloon-0.png", 50, 0, true);
+//        loadImage("balloon-0", "balloon-0.png", 50, 0, true);
         System.out.println("loaded balloon-0");
 
 

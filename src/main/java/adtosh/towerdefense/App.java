@@ -19,8 +19,7 @@ public class App extends Application {
 
     public static Game currentGame;
     public static ClassLoader classloader;
-    public static int canvasHeight = 600;
-    public static int canvasWidth = 800;
+
     //todo is there a way to make a canvas in fxml and set dimensions
 
     @Override
@@ -41,6 +40,7 @@ public class App extends Application {
         stage.show();
 
 
+
         // todo decide what level to load
 
     }
@@ -58,6 +58,7 @@ public class App extends Application {
 
 
     private void loadPages(ClassLoader classloader) {
+
         for (String name : pages) {
             try {
                 // loads each page and adds it to screen manager

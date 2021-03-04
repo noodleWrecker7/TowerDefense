@@ -96,7 +96,7 @@ public class Balloon extends Entity {
 
     @Override
     public Rectangle getBounds() {
-        //shift because of everythhing is being rendered by this offset aswell
+
         Image balloonImage = TextureManager.getTexture(textureName);
         Rectangle rectangle = new Rectangle(x / 2 - balloonImage.getWidth()/2, y / 2 - balloonImage.getHeight()/2, width / 2, height / 2);
 //        ScreenManager.addRoot("game.fxml", rectangle);
@@ -147,6 +147,7 @@ public class Balloon extends Entity {
 
         double scaleFactor = sqrt(px * px + py * py);
         if (scaleFactor == 0) {
+            System.out.println("HERE");
 
         }
         px /= scaleFactor;
@@ -169,21 +170,16 @@ public class Balloon extends Entity {
 
 
 
-//        if (currentPathPoint >= App.currentGame.getLevel().pathLength()) {
-//            App.currentGame.takeLives(layers);
-//            layers = -1;
-//
-//        }
+
         if (xReached && yReached) {
             pointCoords = null;
         }
 
-//        distanceTravelled += Math.sqrt(px * px + py * py);
-        distanceTravelled= distanceTravelled +speed;
+        distanceTravelled+= speed * delta;
        
 
-//        this.x += px;
-//        this.y += py;
+        this.x += px;
+        this.y += py;
 
 
 //        if (py == 0) {
@@ -233,7 +229,7 @@ public class Balloon extends Entity {
 //            }
 //            return;
 //        }
-
+//
 //        x += dX;
 //        y += dY;
 
@@ -252,9 +248,7 @@ public class Balloon extends Entity {
         return distanceTravelled;
     }
 
-    public void setDistanceTravelled(double distanceTravelled) {
-        this.distanceTravelled = distanceTravelled;
-    }
+
 
     public int getLayers() {
         return layers;

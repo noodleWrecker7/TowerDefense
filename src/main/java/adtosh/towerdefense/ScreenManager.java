@@ -1,13 +1,18 @@
 package adtosh.towerdefense;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
-public class ScreenManager{
+public class ScreenManager {
     //MY VERSION OF STATE
     static private HashMap<String, Pane> screenMap = new HashMap<>();
     static private Scene main;
@@ -29,10 +34,11 @@ public class ScreenManager{
         return screenMap.get(name);
     }
 
-    public static void addRoot(String name, Node root){
+    public static void addRoot(String name, Node root) {
         screenMap.get(name).getChildren().add(root);
     }
-    public static void addAllRoots(String name, Node ... roots){
+
+    public static void addAllRoots(String name, Node... roots) {
         screenMap.get(name).getChildren().addAll(roots);
     }
 
@@ -47,13 +53,20 @@ public class ScreenManager{
 
 
 
+    public static Node getNode(int nodeID){
+        return getPane(currentPage).lookup("#" + nodeID);
+    }
+
+
     // calls enteredPage and leavingPage every time page is changed
     protected static void activate(String name) {
 
         //PROBLEM: WE NEED TO SWITCH SCENES TO HAVE THE ABILITY TO HAVE DIFFERENT SIZED WINDOWS
-        if(currentPage != null) App.leavingPage(currentPage);
+        if (currentPage != null) App.leavingPage(currentPage);
         main.setRoot(screenMap.get(name));
         currentPage = name;
         App.enteringPage(name);
     }
+
+
 }

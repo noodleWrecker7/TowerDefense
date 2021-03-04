@@ -23,10 +23,12 @@ public class Dart extends Projectile{
 
     public Dart(double x, double y, double angle, int power, int lives, String textureName, Balloon target) {
         super(x, y, angle, power, lives,textureName,  target);
+        this.correctiveAngle = 257;
     }
 
     public Dart(double x, double y, double angle, int power,int lives, BaseTurret source, String texture) {
         super(x, y,angle, power, lives, source,  texture);
+        this.correctiveAngle = 257;
     }
 
     @Override

@@ -3,13 +3,17 @@ package adtosh.towerdefense;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.levels.Level;
-import adtosh.towerdefense.turrets.BaseTurret;
-import adtosh.towerdefense.turrets.Spike;
+import adtosh.towerdefense.turrets.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.util.Iterator;
 
@@ -20,8 +24,9 @@ public class Game {
 
     private Canvas canvas;
     private GraphicsContext context;
-
     private Level level;
+
+    private Button upgradeButton1, upgradeButton2;
 
 
     // enum for states of game
@@ -133,7 +138,12 @@ public class Game {
     public void init() { // starts timer loop, calls update() every frame
         level.initialisePath();
         level.addProjectilesType();
+
+
+
     }
+
+
 
     public void start() {
         init();
@@ -159,17 +169,16 @@ public class Game {
 
     void update(float delta) {
         level.update(delta);
-//        checkCollision();
+
 
     }
 
 
 
     public void render() {
-//        System.out.println(level.getTurrets().size());
 
 
-//        this.context = canvas.getGraphicsContext2D();
+
         level.render(context);
         for (Balloon balloon : level.getBalloons()) {
             balloon.render(context);
@@ -185,11 +194,16 @@ public class Game {
         for(Projectile projectile: level.getProjectiles()){
             projectile.render(context);
         }
+        for (Projectile projectile: level.getHitProjectiles()){
+            projectile.render(context);
 
-//        for (Entity entity : entities) {
-//            entity.render(context);
-//        }
 
+        }
+
+
+        context.setFill(Color.BLACK);
+        context.setFont(new Font(45));
+        context.fillText("$" + level.getMoney(), 30, 34);
 
     }
 
@@ -206,5 +220,19 @@ public class Game {
         return canvas;
     }
 
+    public Button getUpgradeButton1() {
+        return upgradeButton1;
+    }
 
+    public void setUpgradeButton1(Button upgradeButton1) {
+        this.upgradeButton1 = upgradeButton1;
+    }
+
+    public Button getUpgradeButton2() {
+        return upgradeButton2;
+    }
+
+    public void setUpgradeButton2(Button upgradeButton2) {
+        this.upgradeButton2 = upgradeButton2;
+    }
 }

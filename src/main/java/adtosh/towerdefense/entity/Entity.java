@@ -47,6 +47,7 @@ public abstract class Entity {
     public abstract Shape getBounds();
 
     public void render(GraphicsContext g){
+
         g.drawImage(TextureManager.getTexture(textureName), x - width / 2, y - height / 2);
     }
 
