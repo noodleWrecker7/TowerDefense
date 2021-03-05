@@ -41,10 +41,11 @@ public class Game {
         NORMAL_SPEED{
             @Override
             public void createFunction() {
-                for (int i = 0; i <Balloon.getSPEEDS().length ; i++) {
-                    Balloon.setSpeed(i, Balloon.getSPEEDS()[i]);
+                for (BaseTurret baseTurret : App.currentGame.getLevel().getTurrets()){
+                    baseTurret.setTimeTilSpawn(baseTurret.getTimeTilSpawn()*2);
                 }
 
+                //balloons are sped up unside of balloon class. is this bad practice?
                 }
         },
         FAST_SPEED{
@@ -73,15 +74,18 @@ public class Game {
         return currentState;
     }
 
-    public void setCurrentState(GameState currentState) {
-        this.currentState = currentState;
+    public void setCurrentState(GameState state) {
+        if (this.currentState == state)return;
+
+        this.currentState = state;
         this.currentState.createFunction();
     }
 
-//    public void resume() {
-//        currentState = GameState.NORMAL_SPEED;
-//        currentState.createFunction();
-//    }
+    public void resume() {
+        currentState = GameState.NORMAL_SPEED;
+        currentState.createFunction();
+        //todo change remove
+    }
 
     public Game(Level _level) {
 

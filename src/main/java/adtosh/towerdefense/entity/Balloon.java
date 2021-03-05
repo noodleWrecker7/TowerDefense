@@ -1,6 +1,7 @@
 package adtosh.towerdefense.entity;
 
 import adtosh.towerdefense.App;
+import adtosh.towerdefense.Game;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import javafx.scene.image.Image;
@@ -137,6 +138,7 @@ public class Balloon extends Entity {
         }
 
         double speed = speeds[layers];
+        if (App.currentGame.getCurrentState() == Game.GameState.FAST_SPEED) speed *=2;
 
         double scaleFactor = sqrt(px * px + py * py);
         if (scaleFactor == 0) {

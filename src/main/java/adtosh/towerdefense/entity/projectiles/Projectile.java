@@ -1,6 +1,7 @@
 package adtosh.towerdefense.entity.projectiles;
 
 import adtosh.towerdefense.App;
+import adtosh.towerdefense.Game;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Collidable;
 import adtosh.towerdefense.entity.Entity;
@@ -34,6 +35,8 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
     private boolean hit = false;
 
     protected int lives;
+
+    private int speedMultiplier= 45;
 
       //penetration
 
@@ -166,8 +169,18 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
         dx /= scaleFactor;
         dy /= scaleFactor;
 
-        this.x += 45*dx;
-        this.y +=45*dy;
+        double distX = speedMultiplier * dx;
+        double distY = speedMultiplier * dy;
+
+        if (App.currentGame.getCurrentState() == Game.GameState.FAST_SPEED){
+            distX *=2;
+            distY*=2;
+        }
+
+
+
+        this.x +=distX;
+        this.y +=distY;
 //        this.x += dx ;
 //        this.y += dy ;
         //temp low values

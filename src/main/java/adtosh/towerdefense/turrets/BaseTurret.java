@@ -174,6 +174,7 @@ public abstract class BaseTurret extends Entity implements Rotatable {
         if(!isPlaced) return;
 
 
+
         if (target != null) {
             if (target.getLayers() <= 0) {
                 target= null;
@@ -315,5 +316,11 @@ public abstract class BaseTurret extends Entity implements Rotatable {
         return upgradeNumber2;
     }
 
+    public double getTimeTilSpawn() {
+        return timeTilSpawn;
+    }
 
+    public void setTimeTilSpawn(double timeTilSpawn) {
+        this.timeTilSpawn = timeTilSpawn;
+    }
 }
