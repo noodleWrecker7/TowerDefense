@@ -1,17 +1,10 @@
 package adtosh.towerdefense.entity;
 
 import adtosh.towerdefense.App;
-import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
-
-import java.awt.*;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static java.lang.Math.sqrt;
 
@@ -41,12 +34,12 @@ public class Balloon extends Entity {
     private double px, py;
 
 
-//        final static double[] SPEEDS = { // pixels per seconds
+//        final static double[] speeds = { // pixels per seconds
 //            7.5, 10.0, 12.5, 12.5, 20.0, 25.0, 70.0
 //
 //
 //    };
-    final static double[] SPEEDS = { // pixels per seconds
+    final static double[] speeds = { // pixels per seconds
             0.75, 1.00, 1.25, 1.25, 2.00, 2.50, 7.0
 
 
@@ -143,7 +136,7 @@ public class Balloon extends Entity {
 
         }
 
-        double speed = SPEEDS[layers];
+        double speed = speeds[layers];
 
         double scaleFactor = sqrt(px * px + py * py);
         if (scaleFactor == 0) {
@@ -242,7 +235,13 @@ public class Balloon extends Entity {
 
     }
 
+    public static double[] getSPEEDS() {
+        return speeds;
+    }
 
+   public static void setSpeed(int index, double speed){
+        speeds[index] = speed;
+   }
 
     public double getDistanceTravelled() {
         return distanceTravelled;
@@ -254,11 +253,6 @@ public class Balloon extends Entity {
         return layers;
     }
 
-    public boolean isLeader() {
-        return leader;
-    }
 
-    public void setLeader(boolean leader) {
-        this.leader = leader;
-    }
+
 }

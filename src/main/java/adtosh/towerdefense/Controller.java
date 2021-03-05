@@ -19,14 +19,6 @@ public class Controller   {
     public void loadLevel1(MouseEvent event) {
         loadLevel(0);
 
-        //       loads level and starts gameplay
-//        Level level = new Level();
-//        level.loadPath(0);
-//        App.currentGame = new Game(level);
-//        App.currentGame.start();
-//
-//        // then shows it
-//        ScreenManager.activate("game.fxml");
     }
 
     @FXML
@@ -190,9 +182,9 @@ public class Controller   {
     }
 
     public void startRound()  {
-        System.out.println(App.currentGame.getLevel().isWaveOnGoing());
         if (App.currentGame.getLevel().isWaveOnGoing()) return;
-        System.out.println("HERE");
+
+
         String line;
         ArrayList<String[]> lines = new ArrayList<>();
 
@@ -206,6 +198,10 @@ public class Controller   {
 
             }
             reader.close();
+
+            App.currentGame.setCurrentState(Game.GameState.NORMAL_SPEED);
+
+
         }catch (IOException e){
             e.printStackTrace();
         }

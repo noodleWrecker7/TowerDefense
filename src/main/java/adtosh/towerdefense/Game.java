@@ -31,27 +31,57 @@ public class Game {
 
     // enum for states of game
     public enum GameState {
-        PAUSED, NORMAL_SPEED, FAST_SPEED, ROUND_INACTIVE
-    }
-    //STORES WHAT PHASE THE ACTUAL GAME IS IN
 
-    // stores current GameState
+        PAUSED{
+            @Override
+            public void createFunction() {
+
+            }
+        },
+        NORMAL_SPEED{
+            @Override
+            public void createFunction() {
+                for (int i = 0; i <Balloon.getSPEEDS().length ; i++) {
+                    Balloon.setSpeed(i, Balloon.getSPEEDS()[i]);
+                }
+
+                }
+        },
+        FAST_SPEED{
+            @Override
+            public void createFunction() {
+
+            }
+        },
+        ROUND_INACTIVE{
+            @Override
+            public void createFunction() {
+                //nothing so far
+
+            }
+        };
+
+
+
+        public abstract void createFunction();
+
+    }
+
     private GameState currentState = GameState.ROUND_INACTIVE;
-    // map of all turrets currently in play, should all have unique id
-//    private ArrayList<BaseTurret> turrets = new ArrayList<>();
 
-
-//    public void addToTurrets(BaseTurret t){
-//        turrets.add(t);
-//    }
-
-    // standard new game from a level object
-
-//    private Image bg;
-
-    public void resume() {
-        currentState = GameState.NORMAL_SPEED;
+    public GameState getCurrentState() {
+        return currentState;
     }
+
+    public void setCurrentState(GameState currentState) {
+        this.currentState = currentState;
+        this.currentState.createFunction();
+    }
+
+//    public void resume() {
+//        currentState = GameState.NORMAL_SPEED;
+//        currentState.createFunction();
+//    }
 
     public Game(Level _level) {
 
