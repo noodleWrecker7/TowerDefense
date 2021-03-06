@@ -3,7 +3,6 @@ package adtosh.towerdefense.turrets;
 import adtosh.towerdefense.App;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.projectiles.Dart;
-import adtosh.towerdefense.turrets.BaseTurret;
 
 public class MultiShooter extends BaseTurret {
     public MultiShooter(double x, double y, String texture) {
@@ -40,7 +39,7 @@ public class MultiShooter extends BaseTurret {
     }
 
     @Override
-    public void update(float delta) {
+    public void update(double delta) {
         if(!isPlaced) return;
 
         timeSinceSpawn += delta;

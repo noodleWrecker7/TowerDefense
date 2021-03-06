@@ -51,7 +51,7 @@ public abstract class Entity {
         g.drawImage(TextureManager.getTexture(textureName), x - width / 2, y - height / 2);
     }
 
-    public abstract void update(float delta);
+    public abstract void update(double delta);
 
     public double getX() {
         return x;

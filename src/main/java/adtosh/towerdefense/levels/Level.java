@@ -1,6 +1,7 @@
 package adtosh.towerdefense.levels;
 
 import adtosh.towerdefense.App;
+import adtosh.towerdefense.Game;
 import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Balloon;
@@ -27,13 +28,12 @@ public class Level {
 
     // these are all fields that should be loaded from file
     private int wave;
-    private boolean waveOnGoing = false;
     private int lives;
     private boolean carryingItem = false;
 
     private ArrayList<Balloon> balloons = new ArrayList<>();
-    //    private ArrayList<String[]> balloonsToSpawn = new ArrayList<>();
-    private int balloonsToSpawn = 0;
+    private ArrayList<UnSpawnedBalloon> unSpawnedBalloons = new ArrayList<>();
+
 
     private ArrayList<Spike> spikes = new ArrayList<>();
     private ArrayList<BaseTurret> turrets = new ArrayList<>();
@@ -44,11 +44,6 @@ public class Level {
     private ArrayList<Projectile> hitProjectiles = new ArrayList<>();
 
     private int money = 10000;
-
-
-    //to
-
-    //todo possibly pass a level object to every class so entities doesnt have to be static
 
     private int[][] mapPathPoints;
     private ArrayList<Line> path = new ArrayList<>();
@@ -132,7 +127,7 @@ public class Level {
 
 
     public void drawPath(GraphicsContext g) {
-//         below is temporary for debugging
+
         g.setStroke(Color.DARKGOLDENROD);
         g.setLineWidth(115);
         g.beginPath();
@@ -154,45 +149,32 @@ public class Level {
 
     }
 
-    public void createBalloons(ArrayList<String[]> balloonQueue) {
+    public void setBalloonsSpawnQueue(ArrayList<String[]> balloonsSpawnQueue) {
 
-        Timer timer = new Timer();
-        for (String[] strings : balloonQueue) {
+        this.timeSinceSpawn = 0;
+        for (String[] line: balloonsSpawnQueue) {
 
-            int delay = Integer.parseInt(strings[3]) * 1000;
-            double timeBetweenSpawn = Double.parseDouble(strings[2]) * 1000;
-            int balloonCount = Integer.parseInt(strings[1]);
-            this.balloonsToSpawn += balloonCount;
-            int layers = Integer.parseInt(strings[0]);
+            int balloonCount = Integer.parseInt(line[1]);
+            int layers = Integer.parseInt(line[0]);
+            double delay = Integer.parseInt(line[3]) ;
+            double timeBetweenSpawn = Double.parseDouble(line[2]);
 
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    for (int i = 0; i < balloonCount; i++) {
 
-                        timer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
+            for (int i = 0; i <balloonCount ; i++) {
+                double spawnTimeMark = delay + i * timeBetweenSpawn;
+                unSpawnedBalloons.add(new UnSpawnedBalloon(layers, spawnTimeMark));
+            }
 
-                                Balloon balloon = new Balloon(layers, "balloon-0");
-                                balloonsToSpawn--;
-
-                            }
-                        }, (int) timeBetweenSpawn * i);
-
-                    }
-
-                }
-            }, delay);
         }
 
     }
 
-//    float timeSinceSpawn = 0;
-//    final float TimeTilSpawn = 0.5f;
 
 
-    public void update(float delta) {
+
+
+
+    public void update(double delta) {
 
 //        Iterator<Balloon> bIter = balloons.iterator();
 //        while (bIter.hasNext()) {
@@ -219,24 +201,34 @@ public class Level {
         checkSpikeBalloonCollision();
         checkTurretBalloonCollision();
         balloons.removeIf(balloon -> balloon.getLayers() < 0);
-        //todo remember we changed from equalor less to less
+
         checkWaveOnGoing();
         checkProjectileInRange();
         manageUpgradeButtons();
 
-        for (Balloon balloon : balloons){
-            balloon.update(delta);
-        }
 
 
-        for (BaseTurret turret : turrets) {
 
-            turret.update(delta);
-        }
+        if (App.currentGame.getCurrentState() == Game.GameState.FAST_SPEED) delta *=3;
+
+        checkBalloonSpawn(delta);
+
+        if (App.currentGame.getCurrentState() != Game.GameState.PAUSED) {
+
+            for (Balloon balloon : balloons) {
+                balloon.update(delta);
+            }
 
 
-        for (Projectile projectile : projectiles) {
-            projectile.update(delta);
+            for (BaseTurret turret : turrets) {
+
+                turret.update(delta);
+            }
+
+
+            for (Projectile projectile : projectiles) {
+                projectile.update(delta);
+            }
         }
 
     }
@@ -252,7 +244,7 @@ public class Level {
 
 
             }catch (ConcurrentModificationException e){
-                System.out.println("here");
+                System.out.println("error");
                 e.printStackTrace();
             }
 //            b.update(delta);
@@ -267,6 +259,31 @@ public class Level {
         }
 
     }
+
+
+    private double timeSinceSpawn;
+
+
+    private void checkBalloonSpawn(double delta){
+        timeSinceSpawn+= delta;
+
+
+
+            Iterator<UnSpawnedBalloon> queueIter = unSpawnedBalloons.iterator();
+            while (queueIter.hasNext()){
+
+                UnSpawnedBalloon unSpawnedBalloon = queueIter.next();
+                if (timeSinceSpawn >=unSpawnedBalloon.getSpawnTimeMark()) {
+
+                    unSpawnedBalloon.createBalloon();
+                    queueIter.remove();
+                }
+
+            }
+
+    }
+
+
 
     private void manageUpgradeButtons() {
         Button button1 =((Button) ScreenManager.getNode(1));
@@ -297,8 +314,9 @@ public class Level {
 
     private void checkWaveOnGoing() {
 
-        if (balloons.size() <= 0 && balloonsToSpawn <= 0) {
-            this.waveOnGoing = false;
+        if (balloons.size() <= 0 && unSpawnedBalloons.size() <= 0) {
+            App.currentGame.setCurrentState(Game.GameState.ROUND_INACTIVE);
+//            this.waveOnGoing = false;
         }
     }
 
@@ -512,9 +530,7 @@ public class Level {
         this.balloons.remove(balloon);
 
     }
-//    public void addToTurrets(BaseTurret t){
-//        turrets.add(t);
-//    }
+
 
     public boolean isCarryingItem() {
         return carryingItem;
@@ -541,13 +557,7 @@ public class Level {
     }
 
 
-    public boolean isWaveOnGoing() {
-        return waveOnGoing;
-    }
 
-    public void setWaveOnGoing(boolean waveOnGoing) {
-        this.waveOnGoing = waveOnGoing;
-    }
 
     public BaseTurret getSelectedTurret() {
         return selectedTurret;

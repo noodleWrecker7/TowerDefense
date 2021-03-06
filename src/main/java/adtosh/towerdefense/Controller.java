@@ -51,6 +51,11 @@ public class Controller   {
 
     }
 
+    @FXML
+    private void fastForward(){
+        App.currentGame.setCurrentState(Game.GameState.FAST_SPEED);
+    }
+
     public void buySpike(MouseEvent event) {
         int price = 50;
 
@@ -182,7 +187,9 @@ public class Controller   {
     }
 
     public void startRound()  {
-        if (App.currentGame.getLevel().isWaveOnGoing()) return;
+//        if (App.currentGame.getLevel().isWaveOnGoing()) return;
+
+        if (App.currentGame.getCurrentState() != Game.GameState.ROUND_INACTIVE) return;
 
 
         String line;
@@ -193,6 +200,7 @@ public class Controller   {
 
             BufferedReader reader = new BufferedReader(new FileReader("wave.txt"));
             while ((line = reader.readLine()) != null) {
+
                 String [] words = line.split(" ");
                 lines.add(words);
 
@@ -200,6 +208,8 @@ public class Controller   {
             reader.close();
 
             App.currentGame.setCurrentState(Game.GameState.NORMAL_SPEED);
+            App.currentGame.getLevel().setBalloonsSpawnQueue(lines);
+//            App.currentGame.getLevel().setWaveOnGoing(true);
 
 
         }catch (IOException e){
@@ -207,13 +217,34 @@ public class Controller   {
         }
 
 
-        App.currentGame.getLevel().createBalloons(lines);
-        App.currentGame.getLevel().setWaveOnGoing(true);
+//        App.currentGame.getLevel().createBalloons(lines);
+//        App.currentGame.getLevel().setBalloonsSpawnQueue(lines);
+//        App.currentGame.getLevel().setWaveOnGoing(true);
 
 
     }
 
 
     public void quitToMenu(MouseEvent event) {
+    }
+
+    public void normalSpeed() {
+        App.currentGame.setCurrentState(Game.GameState.NORMAL_SPEED);
+    }
+
+    private Game.GameState stateBeforePause;
+
+    public void pause() {
+        Game.GameState state = App.currentGame.getCurrentState();
+
+        if (state != Game.GameState.PAUSED) {
+            this.stateBeforePause = state;
+            App.currentGame.setCurrentState(Game.GameState.PAUSED);
+
+        }else {
+            App.currentGame.setCurrentState(stateBeforePause);
+
+        }
+
     }
 }

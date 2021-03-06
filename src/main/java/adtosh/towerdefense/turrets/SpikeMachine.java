@@ -43,7 +43,7 @@ public class SpikeMachine extends BaseTurret  {
     }
 
     @Override
-    public void update(float delta) {
+    public void update(double delta) {
         System.out.println(timeTilSpawn);
         if (!isPlaced())return;
         timeSinceSpawn += delta;

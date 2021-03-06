@@ -2,6 +2,7 @@ package adtosh.towerdefense.entity;
 
 import adtosh.towerdefense.App;
 import adtosh.towerdefense.Game;
+import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.projectiles.Projectile;
 import javafx.scene.image.Image;
@@ -25,9 +26,9 @@ public class Balloon extends Entity {
     private long startTime;
     private long elapsedTime;
 
-    private String relationX;
-    private String relationY;
-    private int[] pointCoords;
+    private String relationX = "equal";
+    private String relationY = "equal";
+    private int[] pointCoords = App.currentGame.getLevel().getPathPoint(0);
 
 //    private double dX =0;
 //    private double dY =0;
@@ -35,24 +36,14 @@ public class Balloon extends Entity {
     private double px, py;
 
 
-//        final static double[] speeds = { // pixels per seconds
-//            7.5, 10.0, 12.5, 12.5, 20.0, 25.0, 70.0
-//
-//
-//    };
-    final static double[] speeds = { // pixels per seconds
-            0.75, 1.00, 1.25, 1.25, 2.00, 2.50, 7.0
+        final static double[] speeds = { // pixels per seconds
+            75, 100, 125, 125, 200, 250, 500
 
 
     };
 
-//    public Balloon(double x, double y, int type) {
-////        super(x, y);
-////        layers = type;
-////        width = TextureManager.getTexture(balloonFilePrefix + type).getWidth();
-////        height = TextureManager.getTexture(balloonFilePrefix + type).getHeight();
-////
-////    }
+
+
 
     public Balloon(int layers, String texture) {
         super(texture);
@@ -73,11 +64,7 @@ public class Balloon extends Entity {
     }
 
 
-//    public void handleCollision() {
-//        this.layers--;
-//        this.textureName = balloonFilePrefix + layers;
-//
-//    }
+
 
 
     public void handleSpikeCollision() {
@@ -101,58 +88,54 @@ public class Balloon extends Entity {
 
 
     @Override
-    public void update(float delta) {
+    public void update(double delta) {
+        System.out.println(delta);
 
-        if (pointCoords == null) {
-
-            currentPathPoint++;
-            if (currentPathPoint >= App.currentGame.getLevel().pathLength()) {
-                App.currentGame.takeLives(layers);
-                layers = -1;
-                return;
-
-            }
-            pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
-
-            if (x > pointCoords[0]) {
-                //going left
-                relationX = "greater";
-            } else if (x < pointCoords[0]) {
-                relationX = "smaller";
-            } else {
-                relationX = "equal";
-            }
-
-            if (y > pointCoords[1]) {
-                //going left
-                relationY = "greater";
-            } else if (y < pointCoords[1]) {
-                relationY = "smaller";
-            } else {
-                relationY = "equal";
-            }
-
-            px = (pointCoords[0] - x) * delta;
-            py = (pointCoords[1] - y) * delta;
-
-        }
+//        if (pointCoords == null) {
+//
+//            currentPathPoint++;
+//            if (currentPathPoint >= App.currentGame.getLevel().pathLength()) {
+//                App.currentGame.takeLives(layers);
+//                layers = -1;
+//                return;
+//
+//            }
+//            pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
+//
+//            if (x > pointCoords[0]) {
+//                //going left
+//                relationX = "greater";
+//            } else if (x < pointCoords[0]) {
+//                relationX = "smaller";
+//            } else {
+//                relationX = "equal";
+//            }
+//
+//            if (y > pointCoords[1]) {
+//                //going left
+//                relationY = "greater";
+//            } else if (y < pointCoords[1]) {
+//                relationY = "smaller";
+//            } else {
+//                relationY = "equal";
+//            }
+//
+//            px = (pointCoords[0] - x) * delta;
+//            py = (pointCoords[1] - y) * delta;
+//
+//        }
 
         double speed = speeds[layers];
-        if (App.currentGame.getCurrentState() == Game.GameState.FAST_SPEED) speed *=2;
 
-        double scaleFactor = sqrt(px * px + py * py);
-        if (scaleFactor == 0) {
-            System.out.println("HERE");
 
-        }
-        px /= scaleFactor;
-        py /= scaleFactor;
 
-        this.x += px * speed ;
-        this.y += py * speed ;
+
+//        this.x += px * speed * fel;
+//        this.y += py * speed;
 
 
         boolean xReached = false, yReached = false;
+
 
         if (relationX.equals("greater") && x < pointCoords[0]) xReached = true;
         if (relationX.equals("smaller") && x > pointCoords[0]) xReached = true;
@@ -167,14 +150,21 @@ public class Balloon extends Entity {
 
 
         if (xReached && yReached) {
-            pointCoords = null;
+            this.x = pointCoords[0];
+            this.y = pointCoords[1];
+            increasePointCoords();
+//            pointCoords = null;
         }
 
         distanceTravelled+= speed * delta;
+
+        double scaleFactor = sqrt(px * px + py * py);
+        px /= scaleFactor;
+        py /= scaleFactor;
        
 
-        this.x += px;
-        this.y += py;
+        this.x += px * speed * delta;
+        this.y += py * speed * delta;
 
 
 //        if (py == 0) {
@@ -230,20 +220,43 @@ public class Balloon extends Entity {
 
         //todo remember distance
 
+    }
 
+    private void increasePointCoords(){
+        currentPathPoint++;
+        if (currentPathPoint >= App.currentGame.getLevel().pathLength()) {
+            App.currentGame.takeLives(layers);
+            layers = -1;
+            return;
 
+        }
+        pointCoords = App.currentGame.getLevel().getPathPoint(currentPathPoint);
 
+        if (x > pointCoords[0]) {
+            //going left
+            relationX = "greater";
+        } else if (x < pointCoords[0]) {
+            relationX = "smaller";
+        } else {
+            relationX = "equal";
+        }
 
+        if (y > pointCoords[1]) {
+            //going left
+            relationY = "greater";
+        } else if (y < pointCoords[1]) {
+            relationY = "smaller";
+        } else {
+            relationY = "equal";
+        }
+
+        px = (pointCoords[0] - x);
+        py = (pointCoords[1] - y);
 
     }
 
-    public static double[] getSPEEDS() {
-        return speeds;
-    }
 
-   public static void setSpeed(int index, double speed){
-        speeds[index] = speed;
-   }
+
 
     public double getDistanceTravelled() {
         return distanceTravelled;

@@ -4,13 +4,9 @@ import adtosh.towerdefense.App;
 import adtosh.towerdefense.Placeable;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Entity;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-
-import java.util.Iterator;
 
 public class Spike extends Entity implements Placeable {
     private int lives;
@@ -40,7 +36,7 @@ public class Spike extends Entity implements Placeable {
 }
 
     @Override
-    public void update(float delta) {
+    public void update(double delta) {
     }
 
 

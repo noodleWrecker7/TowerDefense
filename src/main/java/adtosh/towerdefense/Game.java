@@ -26,9 +26,6 @@ public class Game {
     private GraphicsContext context;
     private Level level;
 
-    private Button upgradeButton1, upgradeButton2;
-
-
     // enum for states of game
     public enum GameState {
 
@@ -41,9 +38,9 @@ public class Game {
         NORMAL_SPEED{
             @Override
             public void createFunction() {
-                for (BaseTurret baseTurret : App.currentGame.getLevel().getTurrets()){
-                    baseTurret.setTimeTilSpawn(baseTurret.getTimeTilSpawn()*2);
-                }
+//                for (BaseTurret baseTurret : App.currentGame.getLevel().getTurrets()){
+//                    baseTurret.setTimeTilSpawn(baseTurret.getTimeTilSpawn()/2);
+//                }
 
                 //balloons are sped up unside of balloon class. is this bad practice?
                 }
@@ -75,10 +72,9 @@ public class Game {
     }
 
     public void setCurrentState(GameState state) {
-        if (this.currentState == state)return;
-
+//        if (this.currentState == state)return;
         this.currentState = state;
-        this.currentState.createFunction();
+//        this.currentState.createFunction();
     }
 
     public void resume() {
@@ -185,12 +181,12 @@ public class Game {
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (running) {
+
                     update((float) (now - then) / 1000000000f);
                     //difference in time of excecuting one loop after the other // 10 x 10^9
                     render();
                     then = (now);
-                }
+
 
             }
         };
@@ -254,19 +250,5 @@ public class Game {
         return canvas;
     }
 
-    public Button getUpgradeButton1() {
-        return upgradeButton1;
-    }
 
-    public void setUpgradeButton1(Button upgradeButton1) {
-        this.upgradeButton1 = upgradeButton1;
-    }
-
-    public Button getUpgradeButton2() {
-        return upgradeButton2;
-    }
-
-    public void setUpgradeButton2(Button upgradeButton2) {
-        this.upgradeButton2 = upgradeButton2;
-    }
 }

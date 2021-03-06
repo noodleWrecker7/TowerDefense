@@ -1,7 +1,6 @@
 package adtosh.towerdefense.entity.projectiles;
 
 import adtosh.towerdefense.App;
-import adtosh.towerdefense.Game;
 import adtosh.towerdefense.entity.Balloon;
 import adtosh.towerdefense.entity.Collidable;
 import adtosh.towerdefense.entity.Entity;
@@ -36,7 +35,7 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
 
     protected int lives;
 
-    private int speedMultiplier= 45;
+
 
       //penetration
 
@@ -161,21 +160,23 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
     }
 
     @Override
-    public void update(float delta) {
+    public void update(double delta) {
 
 //        double dx = aimX - this.x;
 //        double dy = aimY-this.y;
-        double scaleFactor = sqrt(dx * dx + dy * dy);
+        double scaleFactor = sqrt(dx * dx + dy * dy) * delta;
         dx /= scaleFactor;
         dy /= scaleFactor;
 
-        double distX = speedMultiplier * dx;
-        double distY = speedMultiplier * dy;
+        int speedMultiplier = 80;
 
-        if (App.currentGame.getCurrentState() == Game.GameState.FAST_SPEED){
-            distX *=2;
-            distY*=2;
-        }
+        double distX = speedMultiplier * dx *delta;
+        double distY = speedMultiplier * dy *delta;
+
+//        if (App.currentGame.getCurrentState() == Game.GameState.FAST_SPEED){
+//            distX *=2;
+//            distY*=2;
+//        }
 
 
 

@@ -169,9 +169,10 @@ public abstract class BaseTurret extends Entity implements Rotatable {
     }
 
     @Override
-    public void update(float delta) {
+    public void update(double delta) {
 
         if(!isPlaced) return;
+
 
 
 
@@ -196,7 +197,12 @@ public abstract class BaseTurret extends Entity implements Rotatable {
             }
 
             findAngle();
+//            if (App.currentGame.getCurrentState() == Game.GameState.FAST_SPEED) {
+//                delta *= 2;
+//            }
+
             timeSinceSpawn += delta;
+
             if (timeSinceSpawn > timeTilSpawn) {
                 timeSinceSpawn = 0;
                 fire();
