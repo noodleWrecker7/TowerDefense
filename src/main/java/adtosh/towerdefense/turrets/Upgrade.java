@@ -4,7 +4,7 @@ import adtosh.towerdefense.App;
 
 import java.lang.reflect.Field;
 
-public class Upgrade implements  Upgradable{
+public class Upgrade {
     private String description;
     private int cost;
 
@@ -28,10 +28,7 @@ public class Upgrade implements  Upgradable{
         this.upgradable = u;
     }
 
-    @Override
-    public void createUpgrade() {
 
-    }
 
     public String getDescription() {
         return description;

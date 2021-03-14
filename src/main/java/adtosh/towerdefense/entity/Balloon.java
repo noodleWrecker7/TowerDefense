@@ -17,6 +17,7 @@ public class Balloon extends Entity {
 //    double height;
 
     private int layers;
+    private final int originalLayer;
     //    private int currentPathPoint = 1;
     private int currentPathPoint = 0;
 
@@ -37,7 +38,7 @@ public class Balloon extends Entity {
 
 
         final static double[] speeds = { // pixels per seconds
-            75, 100, 125, 125, 200, 250, 500
+            75, 100, 125, 125, 200, 250, 500, 300
 
 
     };
@@ -51,6 +52,7 @@ public class Balloon extends Entity {
         this.x = App.currentGame.getLevel().getPathPoint(0)[0];
         this.y = App.currentGame.getLevel().getPathPoint(0)[1];
         this.layers = layers;
+        this.originalLayer = layers;
         textureName = balloonFilePrefix + layers;
         this.startTime = System.nanoTime();
 
@@ -59,7 +61,17 @@ public class Balloon extends Entity {
     }
 
     public void handleCollision(Projectile p) {
+        int layerBefore = layers;
         this.layers -= p.getPower();
+        int currentBalance = App.currentGame.getLevel().getMoney();
+
+        if (layers<0){
+            App.currentGame.getLevel().setMoney(currentBalance+ layerBefore+1);
+            //layers are zero indexed so add 1
+        }else {
+            App.currentGame.getLevel().setMoney(currentBalance+ p.getPower());
+        }
+
         this.textureName = balloonFilePrefix + layers;
     }
 
@@ -71,6 +83,7 @@ public class Balloon extends Entity {
 
         this.layers--;
         this.textureName = balloonFilePrefix + layers;
+        App.currentGame.getLevel().setMoney(App.currentGame.getLevel().getMoney()+1);
 
 
     }
@@ -89,7 +102,6 @@ public class Balloon extends Entity {
 
     @Override
     public void update(double delta) {
-        System.out.println(delta);
 
 //        if (pointCoords == null) {
 //
@@ -126,14 +138,6 @@ public class Balloon extends Entity {
 //        }
 
         double speed = speeds[layers];
-
-
-
-
-//        this.x += px * speed * fel;
-//        this.y += py * speed;
-
-
         boolean xReached = false, yReached = false;
 
 
@@ -268,6 +272,7 @@ public class Balloon extends Entity {
         return layers;
     }
 
-
-
+    public int getOriginalLayer() {
+        return originalLayer;
+    }
 }

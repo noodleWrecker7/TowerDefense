@@ -37,14 +37,21 @@ public class Controller   {
     }
 
     private void loadLevel(int levelID) {
-        if (App.currentGame == null) {
-            Level level = new Level(levelID);
-            level.loadPath(levelID);
-            App.currentGame = new Game(level);
-            App.currentGame.start();
-        } else {
-            App.currentGame.resume();
-        }
+//        if (App.currentGame == null) {
+//            Level level = new Level(levelID);
+//            level.loadPath(levelID);
+//            App.currentGame = new Game(level);
+//            App.currentGame.start();
+//        } else {
+//            App.currentGame.resume();
+//        }
+
+
+        Level level = new Level(levelID);
+        level.loadPath(levelID);
+        App.currentGame = new Game(level);
+        App.currentGame.start();
+        //because there a null check when i press again  it only resumes ()
 
         // then shows it
         ScreenManager.activate("game.fxml");
@@ -111,6 +118,14 @@ public class Controller   {
 
 
     public void quitToMenu() {
+        App.currentGame.setRunning(false);
+        reset();
+        ScreenManager.activate("menu.fxml");
+
+
+    }
+
+    private void reset(){
 
     }
 
@@ -172,15 +187,19 @@ public class Controller   {
     public void upgrade1(){
         BaseTurret turret = App.currentGame.getLevel().getSelectedTurret();
         if (turret != null && turret.getUpgradeNumber1()<turret.getUpgradeList1().size()){
-            turret.applyUpgrade1();
+            if (turret.getCurrentUpgrade1().getCost() <= App.currentGame.getLevel().getMoney()) {
 
+                turret.applyUpgrade1();
+            }
         }
     }
 
     public void upgrade2(){
         BaseTurret turret = App.currentGame.getLevel().getSelectedTurret();
         if (turret != null  && turret.getUpgradeNumber2()<turret.getUpgradeList2().size()){
-            turret.applyUpgrade2();
+            if (turret.getCurrentUpgrade2().getCost() <= App.currentGame.getLevel().getMoney()) {
+                turret.applyUpgrade2();
+            }
 
 
         }
@@ -225,8 +244,9 @@ public class Controller   {
     }
 
 
-    public void quitToMenu(MouseEvent event) {
-    }
+//    public void quitToMenu(MouseEvent event) {
+//        ScreenManager.activate("game.fxml");
+//    }
 
     public void normalSpeed() {
         App.currentGame.setCurrentState(Game.GameState.NORMAL_SPEED);

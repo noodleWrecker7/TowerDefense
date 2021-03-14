@@ -322,6 +322,8 @@ public abstract class BaseTurret extends Entity implements Rotatable {
         return upgradeNumber2;
     }
 
+
+
     public double getTimeTilSpawn() {
         return timeTilSpawn;
     }

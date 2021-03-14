@@ -19,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
@@ -128,7 +129,7 @@ public class Level {
 
     public void drawPath(GraphicsContext g) {
 
-        g.setStroke(Color.DARKGOLDENROD);
+        g.setStroke(Color.DARKGREEN);
         g.setLineWidth(115);
         g.beginPath();
 
@@ -145,6 +146,36 @@ public class Level {
 
         g.drawImage(TextureManager.getTexture("grass"), 0, 0);
         this.drawPath(g);
+
+        for (Balloon balloon : balloons) {
+            balloon.render(g);
+        }
+        for (Spike spike : spikes) {
+            spike.render(g);
+        }
+
+        for (BaseTurret t: turrets) {
+            t.render(g);
+        }
+
+        for(Projectile projectile: projectiles){
+            projectile.render(g);
+        }
+
+        for (Projectile projectile: hitProjectiles){
+
+            if (projectile != null) {
+                projectile.render(g);
+            }
+
+
+
+        }
+
+
+        g.setFill(Color.BLACK);
+        g.setFont(new Font(45));
+        g.fillText("$" + money, 30, 34);
 
 
     }
@@ -200,6 +231,7 @@ public class Level {
 
         checkSpikeBalloonCollision();
         checkTurretBalloonCollision();
+//        checkBalloonRemove();
         balloons.removeIf(balloon -> balloon.getLayers() < 0);
 
         checkWaveOnGoing();
@@ -243,7 +275,7 @@ public class Level {
                 checkSpikeBalloonCollide(b);
 
 
-            }catch (ConcurrentModificationException e){
+            }catch (Exception e){
                 System.out.println("error");
                 e.printStackTrace();
             }
@@ -258,6 +290,16 @@ public class Level {
 //            }
         }
 
+    }
+
+    private void checkBalloonRemove(){
+        Iterator<Balloon> iterator = balloons.iterator();
+        while (iterator.hasNext()){
+            Balloon b = iterator.next();
+            if (b.getLayers() < 0){
+
+            }
+        }
     }
 
 
@@ -360,31 +402,47 @@ public class Level {
 
                     balloonsToPop.put(projectile, projectile.getSplashedBalloons());
 
-                    if (projectile.getLives() < 0) {
-
-                        projectileIterator.remove();
-
-                        if (!initialTexture.equals(afterTexture)) {
-                            hitProjectiles.add(projectile);
-
-                            Timer timer = new Timer();
-
-                            timer.schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-
-                                    //instance variables are accessed by object reference so we can access them here without making final
-                                    //local variables are accessed because java makes a copy of them, and to stop the copy or original value changing it must be final
-
-                                    hitProjectiles.remove(projectile);
-                                    timer.cancel();
-                                }
-
-                            }, 200);
-
-
-                        }
+                    if (!initialTexture.equals(afterTexture)){
+                        hitProjectiles.add(projectile);
+                        Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                hitProjectiles.remove(projectile);
+                                timer.cancel();
+                            }
+                        }, 200);
                     }
+                    if (projectile.getLives() <0){
+                        projectileIterator.remove();
+                    }
+
+
+//                    if (projectile.getLives() < 0) {
+//
+//                        projectileIterator.remove();
+//
+//                        if (!initialTexture.equals(afterTexture)) {
+//                            hitProjectiles.add(projectile);
+//
+//                            Timer timer = new Timer();
+//
+//                            timer.schedule(new TimerTask() {
+//                                @Override
+//                                public void run() {
+//
+//                                    //instance variables are accessed by object reference so we can access them here without making final
+//                                    //local variables are accessed because java makes a copy of them, and to stop the copy or original value changing it must be final
+//
+//                                    hitProjectiles.remove(projectile);
+//                                    timer.cancel();
+//                                }
+//
+//                            }, 200);
+//
+//
+//                        }
+//                    }
 
                 } else if (projectile.getX() > canvas.getWidth() * 2 + 50 || projectile.getX() < -50 || projectile.getY() > canvas.getHeight() * 2 + 50 || projectile.getY() < -50) {
                     projectileIterator.remove();
@@ -410,15 +468,24 @@ public class Level {
     }
 
     public void checkSpikeBalloonCollide(Balloon b) {
+
+        //if a balloon has been removed and its still checking  for other spikes then null pointed
+
         Iterator<Spike> spikeIterator = getSpikes().iterator();
         while (spikeIterator.hasNext()) {
             Spike spike = spikeIterator.next();
+
+//            if (b == null)return;
+
             if (b.getBounds().intersects(spike.getBounds().getLayoutBounds()) && spike.isPlaced()) {
                 spike.handleBalloonCollision();
                 if (spike.getLives() <= 0) {
                     spikeIterator.remove();
                 }
                 b.handleSpikeCollision();
+                if (b.getLayers()<0)return;
+
+
 
             }
 

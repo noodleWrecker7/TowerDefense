@@ -29,39 +29,10 @@ public class Game {
     // enum for states of game
     public enum GameState {
 
-        PAUSED{
-            @Override
-            public void createFunction() {
-
-            }
-        },
-        NORMAL_SPEED{
-            @Override
-            public void createFunction() {
-//                for (BaseTurret baseTurret : App.currentGame.getLevel().getTurrets()){
-//                    baseTurret.setTimeTilSpawn(baseTurret.getTimeTilSpawn()/2);
-//                }
-
-                //balloons are sped up unside of balloon class. is this bad practice?
-                }
-        },
-        FAST_SPEED{
-            @Override
-            public void createFunction() {
-
-            }
-        },
-        ROUND_INACTIVE{
-            @Override
-            public void createFunction() {
-                //nothing so far
-
-            }
-        };
-
-
-
-        public abstract void createFunction();
+        PAUSED,
+        NORMAL_SPEED,
+        FAST_SPEED,
+        ROUND_INACTIVE;
 
     }
 
@@ -72,15 +43,12 @@ public class Game {
     }
 
     public void setCurrentState(GameState state) {
-//        if (this.currentState == state)return;
         this.currentState = state;
-//        this.currentState.createFunction();
+
     }
 
     public void resume() {
         currentState = GameState.NORMAL_SPEED;
-        currentState.createFunction();
-        //todo change remove
     }
 
     public Game(Level _level) {
@@ -182,16 +150,21 @@ public class Game {
             @Override
             public void handle(long now) {
 
+                if (running) {
+
                     update((float) (now - then) / 1000000000f);
                     //difference in time of excecuting one loop after the other // 10 x 10^9
                     render();
                     then = (now);
+                }
 
 
             }
         };
         timer.start();
     }
+
+
 
 
 
@@ -210,35 +183,44 @@ public class Game {
 
 
         level.render(context);
-        for (Balloon balloon : level.getBalloons()) {
-            balloon.render(context);
-        }
-        for (Spike spike : level.getSpikes()) {
-            spike.render(context);
-        }
-
-        for (BaseTurret t: level.getTurrets()) {
-            t.render(context);
-        }
-
-        for(Projectile projectile: level.getProjectiles()){
-            projectile.render(context);
-        }
-        for (Projectile projectile: level.getHitProjectiles()){
-            projectile.render(context);
-
-
-        }
-
-
-        context.setFill(Color.BLACK);
-        context.setFont(new Font(45));
-        context.fillText("$" + level.getMoney(), 30, 34);
+//        for (Balloon balloon : level.getBalloons()) {
+//            balloon.render(context);
+//        }
+//        for (Spike spike : level.getSpikes()) {
+//            spike.render(context);
+//        }
+//
+//        for (BaseTurret t: level.getTurrets()) {
+//            t.render(context);
+//        }
+//
+//        for(Projectile projectile: level.getProjectiles()){
+//            projectile.render(context);
+//        }
+//
+//        for (Projectile projectile: level.getHitProjectiles()){
+//
+//                if (projectile != null) {
+//                    projectile.render(context);
+//                }
+//
+//
+//
+//        }
+//
+//
+//        context.setFill(Color.BLACK);
+//        context.setFont(new Font(45));
+//        context.fillText("$" + level.getMoney(), 30, 34);
 
     }
 
     public Level getLevel() {
         return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
     }
 
     public void takeLives(int lives) {
@@ -250,5 +232,7 @@ public class Game {
         return canvas;
     }
 
-
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
 }
