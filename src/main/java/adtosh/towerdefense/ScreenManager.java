@@ -1,16 +1,21 @@
 package adtosh.towerdefense;
 
+import adtosh.towerdefense.entity.Balloon;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ScreenManager {
     //MY VERSION OF STATE
@@ -41,6 +46,26 @@ public class ScreenManager {
     public static void addAllRoots(String name, Node... roots) {
         screenMap.get(name).getChildren().addAll(roots);
     }
+//    public static void removeAllNodes(String name){
+//        screenMap.get(name).getChildren().removeAll(screenMap.get(name).getChildren());
+//    }
+    public static  void retainNodes(String name, Class<?> t){
+
+
+        for (Node node: screenMap.get(name).getChildren()){
+            System.out.println(node.toString());
+
+        }
+
+        screenMap.get(name).getChildren().removeIf(node -> node instanceof Line );
+
+
+
+        for (Node node: screenMap.get(name).getChildren()){
+            System.out.println(node.toString());
+
+        }
+    }
 
 
     public static Scene getCurrentScene() {
@@ -51,11 +76,20 @@ public class ScreenManager {
         screenMap.remove(name);
     }
 
-
-
-    public static Node getNode(int nodeID){
+    public static Node getNode(String nodeID){
         return getPane(currentPage).lookup("#" + nodeID);
+
     }
+    public static Node getNode(String nodeID, String page){
+        return getPane(page).lookup("#" + nodeID);
+
+    }
+
+
+
+//    public static Node getNode(int nodeID){
+//        return getPane(currentPage).lookup("#" + nodeID);
+//    }
 
 
     // calls enteredPage and leavingPage every time page is changed

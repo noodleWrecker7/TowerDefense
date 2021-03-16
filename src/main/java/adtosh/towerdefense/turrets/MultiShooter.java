@@ -62,7 +62,7 @@ public class MultiShooter extends BaseTurret {
         if (timeSinceSpawn > timeTilSpawn){
             timeSinceSpawn = 0;
             for (int i = 0; i <360  ; i+= 45) {
-                new Dart(x, y, i, power, penetration, this, projectileName);
+                new Dart(x, y, i, power, penetration, canPopLead, this, projectileName);
 
             }
 

@@ -47,7 +47,7 @@ public class SuperMonkey extends BaseTurret implements ProjectileSplashes {
         if (this.projectileName .equals("dart")) {
             super.fire();
         }else {
-            fire(x, y, angle, power, penetration, splashDamageRange, projectileName,  target);
+            fire(x, y, angle, power, penetration, canPopLead, splashDamageRange, projectileName,  target);
 
 
         }

@@ -118,9 +118,10 @@ public class Controller   {
 
 
     public void quitToMenu() {
-        App.currentGame.setRunning(false);
-        reset();
-        ScreenManager.activate("menu.fxml");
+        App.currentGame.returnToMenu();
+//        App.currentGame.setRunning(false);
+//        reset();
+//        ScreenManager.activate("menu.fxml");
 
 
     }
@@ -266,5 +267,10 @@ public class Controller   {
 
         }
 
+    }
+
+    public void sell(MouseEvent event) {
+        BaseTurret turretToSell =App.currentGame.getLevel().getSelectedTurret();
+        App.currentGame.getLevel().getTurrets().remove(turretToSell);
     }
 }

@@ -9,10 +9,10 @@ import java.lang.reflect.InvocationTargetException;
 
 public interface ProjectileSplashes {
 
-    default void fire(double x, double y, double angle, int power, int penetration, int splashDamageRange, String projectileName, Balloon target) {
+    default void fire(double x, double y, double angle, int power, int penetration, boolean canPopLead, int splashDamageRange, String projectileName, Balloon target) {
         try {
             Constructor<? extends Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
-            constructor.newInstance(x, y, angle, power, penetration, splashDamageRange, projectileName,  target);
+            constructor.newInstance(x, y, angle, power, penetration, canPopLead, splashDamageRange, projectileName,  target);
 
 
         } catch ( InvocationTargetException | InstantiationException | IllegalAccessException e) {

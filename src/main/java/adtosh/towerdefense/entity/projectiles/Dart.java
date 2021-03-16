@@ -21,13 +21,13 @@ public class Dart extends Projectile{
 //        this.power = 2;
 //    }
 
-    public Dart(double x, double y, double angle, int power, int lives, String textureName, Balloon target) {
-        super(x, y, angle, power, lives,textureName,  target);
+    public Dart(double x, double y, double angle, int power, int lives, boolean canPopLead, String textureName, Balloon target) {
+        super(x, y, angle, power, lives, canPopLead, textureName ,  target);
         this.correctiveAngle = 257;
     }
 
-    public Dart(double x, double y, double angle, int power,int lives, BaseTurret source, String texture) {
-        super(x, y,angle, power, lives, source,  texture);
+    public Dart(double x, double y, double angle, int power,int lives, boolean canPopLead, BaseTurret source, String texture) {
+        super(x, y,angle, power, lives, canPopLead, source,  texture);
         this.correctiveAngle = 257;
     }
 

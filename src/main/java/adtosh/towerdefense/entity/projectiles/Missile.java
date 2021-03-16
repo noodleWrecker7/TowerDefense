@@ -14,8 +14,8 @@ public class Missile extends Projectile implements SplashDamage {
     private int splashDamageRange;
 
 
-    public Missile(double x, double y, double angle, int power, int lives, int splashDamageRange, String textureName, Balloon target) {
-        super(x, y, angle, power, lives, textureName, target);
+    public Missile(double x, double y, double angle, int power, int lives, boolean canPopLead, int splashDamageRange, String textureName, Balloon target) {
+        super(x, y, angle, power, lives, canPopLead, textureName, target);
         this.correctiveAngle = 110;
         this.splashDamageRange = splashDamageRange;
     }

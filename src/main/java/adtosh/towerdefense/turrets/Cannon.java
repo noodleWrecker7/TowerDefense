@@ -26,7 +26,7 @@ public class Cannon extends BaseTurret {
     protected void fire() {
         try {
             Constructor<? extends Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
-            constructor.newInstance(x, y, angle, power, penetration, splashDamageRange, projectileName, target);
+            constructor.newInstance(x, y, angle, power, penetration, canPopLead, splashDamageRange, projectileName, target);
 
 
         } catch ( InvocationTargetException | InstantiationException | IllegalAccessException e) {

@@ -18,8 +18,8 @@ public class MagicBall extends Projectile implements SplashDamage {
 
 
 
-    public MagicBall(double x, double y, double angle,int power,int lives, int splashDamageRange, String textureName, Balloon target) {
-        super(x, y, angle, power,lives, textureName, target);
+    public MagicBall(double x, double y, double angle,int power,int lives, boolean canPopLead, int splashDamageRange, String textureName, Balloon target) {
+        super(x, y, angle, power,lives,canPopLead, textureName, target);
         this.spashDamageRange = splashDamageRange;
 
     }

@@ -219,7 +219,7 @@ public abstract class BaseTurret extends Entity implements Rotatable {
     protected void fire(){
         try {
             Constructor<? extends  Projectile> constructor = App.currentGame.getLevel().getProjectileConstructors().get(projectileName);
-            constructor.newInstance(x, y, angle, power, penetration, projectileName, target);
+            constructor.newInstance(x, y, angle, power, penetration, canPopLead, projectileName, target);
 
 
         } catch ( InvocationTargetException | InstantiationException | IllegalAccessException e) {
@@ -322,7 +322,9 @@ public abstract class BaseTurret extends Entity implements Rotatable {
         return upgradeNumber2;
     }
 
-
+    public boolean isCanPopLead() {
+        return canPopLead;
+    }
 
     public double getTimeTilSpawn() {
         return timeTilSpawn;

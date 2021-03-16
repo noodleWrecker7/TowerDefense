@@ -16,7 +16,7 @@ import static java.lang.Math.*;
 public abstract class Projectile extends Entity implements Collidable, Rotatable {
 
     protected int power; // layers left that it can pop
-    boolean canPopLeads = false; // probably make more of these
+//    boolean canPopLeads = false; // probably make more of these
 //    private int lives=1;
 
     protected Balloon target;
@@ -35,6 +35,8 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
 
     protected int lives;
 
+    private boolean canPopLead;
+
 
 
       //penetration
@@ -51,13 +53,14 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
     }
 
 
-    Projectile(double x, double y, double angle, int power, int lives, String textureName, Balloon target) {
+    Projectile(double x, double y, double angle, int power, int lives,boolean canPopLead, String textureName, Balloon target) {
         super(x, y, textureName);
         App.currentGame.getLevel().addToProjectiles(this);
         this.target = target;
         this.angle = angle;
         this.power = power;
         this.lives = lives;
+        this.canPopLead = canPopLead;
 //        findAim();
         this.dx = target.getX() - this.x;
         this.dy = target.getY() - this.y;
@@ -67,13 +70,14 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
 
     private BaseTurret source;
 
-    public Projectile(double x, double y, double angle, int power, int lives, BaseTurret source, String texture) {
+    public Projectile(double x, double y, double angle, int power, int lives, boolean canPopLead, BaseTurret source, String texture) {
         super(x, y, texture);
         App.currentGame.getLevel().addToProjectiles(this);
         this.angle = angle;
         this.power = power;
         this.source = source;
         this.lives = lives;
+        this.canPopLead = canPopLead;
 
 
         findAim();
@@ -84,30 +88,7 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
 
     private void findAim() {
 
-        //this wont work because it should be when we do sin and cos the angle should be different (mostly 45)
-//        double gradient = (tan(toRadians(angle)));
-//        dy = cos(angle) * gradient;
-//        dx = sin(angle) * gradient;
 
-
-
-
-
-//        if (angle==90){
-//            dy = 0;
-//            dx = 1;
-//        }
-//        else if(angle == 270){
-//            dy = 0;
-//            dx=-1;
-//        }else {
-//
-//            double gradient = (tan(toRadians(angle)));
-//            dy = cos(angle) * gradient;
-//            dx = sin(angle) * gradient;
-//
-//            if(gradient ==0) dy=1;
-//        }
         //todo find a maths way to do this
         dy = 0;
         dx = 0;
@@ -219,5 +200,9 @@ public abstract class Projectile extends Entity implements Collidable, Rotatable
 
     public int getLives() {
         return lives;
+    }
+
+    public boolean isCanPopLead() {
+        return canPopLead;
     }
 }

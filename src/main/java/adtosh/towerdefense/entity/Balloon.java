@@ -61,6 +61,11 @@ public class Balloon extends Entity {
     }
 
     public void handleCollision(Projectile p) {
+        if (layers ==7){
+            if (!p.isCanPopLead()) return;
+
+
+        }
         int layerBefore = layers;
         this.layers -= p.getPower();
         int currentBalance = App.currentGame.getLevel().getMoney();
@@ -229,7 +234,8 @@ public class Balloon extends Entity {
     private void increasePointCoords(){
         currentPathPoint++;
         if (currentPathPoint >= App.currentGame.getLevel().pathLength()) {
-            App.currentGame.takeLives(layers);
+            App.currentGame.getLevel().takeLives(layers);
+            App.currentGame.getLevel().checkLives();
             layers = -1;
             return;
 

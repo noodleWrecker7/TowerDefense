@@ -29,7 +29,7 @@ public class Level {
 
     // these are all fields that should be loaded from file
     private int wave;
-    private int lives;
+    private int lives = 100;
     private boolean carryingItem = false;
 
     private ArrayList<Balloon> balloons = new ArrayList<>();
@@ -52,13 +52,7 @@ public class Level {
     private int levelID;
 
 
-    public int getLives() {
-        return lives;
-    }
 
-    public void setLives(int lives) {
-        this.lives = lives;
-    }
 
 
     private int startX;
@@ -112,15 +106,15 @@ public class Level {
 
     public void addProjectilesType() {
         try {
-            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, double.class, int.class, int.class,int.class, String.class, Balloon.class);
+            Constructor<MagicBall> magicBallConstructor = MagicBall.class.getConstructor(double.class, double.class, double.class, int.class, int.class, boolean.class, int.class,  String.class, Balloon.class);
             projectileConstructors.put("magic ball", magicBallConstructor);
 
-            Constructor<Dart> dartConstructor = Dart.class.getConstructor(double.class, double.class, double.class, int.class, int.class, String.class, Balloon.class);
+            Constructor<Dart> dartConstructor = Dart.class.getConstructor(double.class, double.class, double.class, int.class, int.class, boolean.class, String.class, Balloon.class);
             projectileConstructors.put("dart", dartConstructor);
 
-            projectileConstructors.put("big dart", Dart.class.getConstructor(double.class, double.class, double.class, int.class, int.class, String.class, Balloon.class));
+            projectileConstructors.put("big dart", Dart.class.getConstructor(double.class, double.class, double.class, int.class, int.class, boolean.class, String.class, Balloon.class));
 
-            projectileConstructors.put("missile", Missile.class.getConstructor(double.class, double.class, double.class, int.class, int.class, int.class, String.class, Balloon.class));
+            projectileConstructors.put("missile", Missile.class.getConstructor(double.class, double.class, double.class, int.class, int.class, boolean.class, int.class, String.class, Balloon.class));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -176,6 +170,7 @@ public class Level {
         g.setFill(Color.BLACK);
         g.setFont(new Font(45));
         g.fillText("$" + money, 30, 34);
+        g.fillText("lives: "+ lives, 200, 34 );
 
 
     }
@@ -229,6 +224,7 @@ public class Level {
 //            }
 //        }
 
+
         checkSpikeBalloonCollision();
         checkTurretBalloonCollision();
 //        checkBalloonRemove();
@@ -263,6 +259,12 @@ public class Level {
             }
         }
 
+    }
+
+    public void checkLives(){
+        if (lives<= 0){
+            App.currentGame.returnToMenu();
+        }
     }
 
     private void checkSpikeBalloonCollision(){
@@ -328,8 +330,9 @@ public class Level {
 
 
     private void manageUpgradeButtons() {
-        Button button1 =((Button) ScreenManager.getNode(1));
-        Button button2 =((Button) ScreenManager.getNode(2));
+        //todo TEST
+        Button button1 =((Button) ScreenManager.getNode("1"));
+        Button button2 =((Button) ScreenManager.getNode("2"));
 
 
 
@@ -622,6 +625,15 @@ public class Level {
     public void setMoney(int money) {
         this.money = money;
     }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void takeLives(int lives) {
+        this.lives -= lives;
+    }
+
 
 
 

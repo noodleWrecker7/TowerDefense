@@ -22,7 +22,7 @@ class Wizard  extends BaseTurret implements ProjectileSplashes{
 
     @Override
     protected void fire() {
-        fire(x, y, angle, power, penetration, splashDamageRange, projectileName,  target);
+        fire(x, y, angle, power, penetration, canPopLead, splashDamageRange, projectileName,  target);
 
     }
 

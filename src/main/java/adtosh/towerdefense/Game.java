@@ -1,21 +1,11 @@
 package adtosh.towerdefense;
 
-import adtosh.towerdefense.entity.Balloon;
-import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.levels.Level;
-import adtosh.towerdefense.turrets.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-
-import java.util.Iterator;
 
 public class Game {
 
@@ -55,7 +45,9 @@ public class Game {
 
         canvas = (Canvas) ScreenManager.getPane("game.fxml").lookup("#gameCanvas");
         context = canvas.getGraphicsContext2D();
-        context.scale(.5, .5);
+        context.save();
+        context.scale(0.5, 0.5);
+
         level = _level;
         loadSaveData("level" + level.getLevelID());
         // todo dynamic scaling to window size
@@ -65,6 +57,19 @@ public class Game {
 
 
     }
+
+    public void returnToMenu(){
+        App.currentGame.setRunning(false);
+        reset();
+        ScreenManager.activate("menu.fxml");
+    }
+
+    private void reset(){
+        //todo create reset method
+        context.restore(); //pops call to save so this is why we can call it multiple times
+        this.canvas = null; //todo anything that can be done for it to go to garbage collector
+    }
+
 
     public boolean collides(Circle circle, Rectangle rect) {
         //find nearest point of rectangle
@@ -223,10 +228,10 @@ public class Game {
         this.level = level;
     }
 
-    public void takeLives(int lives) {
-        level.setLives(level.getLives() - lives);
-        ;
-    }
+//    public void takeLives(int lives) {
+//        level.setLives(level.getLives() - lives);
+//        ;
+//    }
 
     public Canvas getCanvas() {
         return canvas;
