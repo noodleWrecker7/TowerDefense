@@ -8,120 +8,209 @@
 <?import javafx.scene.image.Image?>
 
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.geometry.Insets?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="800.0" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adtosh.towerdefense.Controller">
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adtosh.towerdefense.Controller">
-    <Canvas fx:id="gameCanvas" height="600" width="800" />
     <children>
-        <ScrollPane layoutX="796.0" layoutY="16.0" prefHeight="569.0" prefWidth="190.0">
-            <content>
-                <HBox prefHeight="716.0" prefWidth="170.0">
-                    <children>
-                        <VBox prefHeight="603.0" prefWidth="84.0">
-                            <children>
-                                <Button mnemonicParsing="false" prefHeight="75.0" onMouseClicked="#buySuperMonkey" prefWidth="75.0" >
-                                <graphic>
-                                    <ImageView fitHeight="38.0" fitWidth="59.0"  pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@SuperMonkey2.png" />
-                                        </image>
-                                    </ImageView>
-                                </graphic></Button>
+        <Canvas fx:id="gameCanvas" height="600" width="800" />
 
-
-                                <Button mnemonicParsing="false" prefHeight="75.0" onMouseClicked="#buySpikeMachine" prefWidth="75.0" >
-                                <graphic>
-                                    <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@spike-machine2.png" />
-                                        </image>
-                                    </ImageView>
-                                </graphic></Button>
-
-                                <Button mnemonicParsing="false" prefHeight="75.0" onMouseClicked="#buyMachineGun" prefWidth="75.0" >
-                                <graphic>
-                                    <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@machine-gun.png" />
-                                        </image>
-                                    </ImageView>
-                                </graphic></Button>
-
-                                <Button mnemonicParsing="false" prefHeight="75.0" onMouseClicked="#buyMultiShooter"  prefWidth="75.0" >
-                                <graphic>
-                                    <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@multi-shooter.png" />
-                                        </image>
-                                    </ImageView>
-                                </graphic></Button>
-
-                                <Button mnemonicParsing="false" text="SellSelectedTurret" onMouseClicked="#sell" prefHeight="75.0" prefWidth="75.0"/>
-
-                                <Button mnemonicParsing="false" text="Start Round" onMouseClicked="#startRound" prefHeight="75.0" prefWidth="75.0" />
-
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="632.0" prefWidth="88.0">
-                            <children>
-
-                                <Button mnemonicParsing="false" onMouseClicked="#buySpike" prefHeight="75.0" prefWidth="75.0">
-                                    <graphic>
-                                        <ImageView fitHeight="61.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@assets/Defenses/Spikes.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </Button>
-
-                                <Button mnemonicParsing="false"  onMouseClicked="#buyWizard" prefHeight="75.0" prefWidth="60.0">
-                                    <graphic>
-                                        <ImageView fitHeight="38.0" fitWidth="59.0"  pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@wizard2.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic></Button>
-
-                                <Button mnemonicParsing="false" onMouseClicked="#buyDartMonkey" prefHeight="75.0" prefWidth="75.0">
-                                <graphic>
-                                    <ImageView fitHeight="38.0" fitWidth="59.0"  pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@dart-monkey.png" />
-                                        </image>
-                                    </ImageView>
-                                </graphic></Button>
-
-                                <Button mnemonicParsing="false" onMouseClicked="#buyCannon" prefHeight="75.0" prefWidth="75.0" >
-                                    <graphic>
-                                        <ImageView fitHeight="38.0" fitWidth="59.0"  pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@cannon.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic></Button>
-
-                                <Button mnemonicParsing="false" onMouseClicked="#fastForward" prefHeight="75.0" prefWidth="75.0" text=">>" />
-                                <Button mnemonicParsing="false" onMouseClicked="#normalSpeed" prefHeight="75.0" prefWidth="75.0" text="normalSpeed" />
-                                <Button mnemonicParsing="false" onMouseClicked="#pause" prefHeight="75.0" prefWidth="75.0" text="||" />
-
-
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-            </content>
-        </ScrollPane>
-        <HBox layoutX="14.0" layoutY="596.0" prefHeight="190.0" prefWidth="769.0" spacing="50.0">
+        <HBox layoutX="14.0" layoutY="600.0" prefHeight="190.0" prefWidth="769.0" spacing="50.0">
             <children>
-                <Button mnemonicParsing="false"   id="1" onMouseClicked="#upgrade1" prefHeight="190.0" prefWidth="200.0"/>
-                <Button mnemonicParsing="false"   id="2" onMouseClicked="#upgrade2" prefHeight="190.0" prefWidth="200.0" />
-                <!--<Button mnemonicParsing="false" prefHeight="190.0" prefWidth="200.0" />-->
+                <Button mnemonicParsing="false" prefHeight="190.0" prefWidth="200.0" id="1" onMouseClicked="#upgrade1" />
+                <Button mnemonicParsing="false" prefHeight="190.0" prefWidth="200.0" id="2" onMouseClicked="#upgrade2" />
+                <Button mnemonicParsing="false" onMouseClicked="#quitToMenu" prefHeight="190.0" prefWidth="200.0" text="Quit" />
             </children>
         </HBox>
-        <Button layoutX="809.0" layoutY="653.0" mnemonicParsing="false" onMouseClicked="#quitToMenu" prefHeight="111.0" prefWidth="147.0" text="Quit" />
+        <HBox layoutX="800.0" layoutY="31.0" prefHeight="760.0" prefWidth="275.0">
+            <children>
+                <VBox prefHeight="705.0" prefWidth="137.0" spacing="10.0">
+                    <children>
+                        <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" onMouseClicked="#buyDartMonkey">
+                        <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
+
+                        <Image url="@dart-monkey.png" />
+                        </ImageView>
+                        </graphic></Button>
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" onMouseClicked="#buyWizard">
+                            <graphic>
+                                <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
+
+                                    <Image url="@wizard2.png" />
+                                </ImageView>
+                            </graphic></Button>
+
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" onMouseClicked="#buySpikeMachine">
+                        <graphic>
+                            <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
+                                <Image url="@spike-machine2.png" />
+                            </ImageView>
+                        </graphic></Button>
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" onMouseClicked="#buyMachineGun">
+                        <graphic>
+                            <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
+                                <Image url="@machine-gun.png" />
+                            </ImageView>
+                        </graphic></Button>
+
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" text="Play" onMouseClicked="#startRound" />
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" text="Pause" onMouseClicked="#pause"/>
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" text="Sell Selection" onMouseClicked="#sell" />
+                    </children>
+                </VBox>
+
+                <VBox prefHeight="705.0" prefWidth="137.0" spacing="10.0">
+                    <children>
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" onMouseClicked="#buySpike">
+                            <graphic>
+                                <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@spikes-11.png" />
+                                </ImageView>
+                            </graphic></Button>
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" onMouseClicked="#buyMultiShooter">
+                            <graphic>
+                                <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@multi-shooter.png" />
+                                </ImageView>
+                            </graphic></Button>
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" onMouseClicked="#buyCannon">
+                        <graphic>
+                            <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
+                                <Image url="@cannon.png" />
+                            </ImageView>
+                        </graphic></Button>
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth ="100.0" onMouseClicked="#buySuperMonkey">
+                        <graphic>
+                            <ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">
+                                <Image url="@SuperMonkey2.png" />
+                            </ImageView>
+                        </graphic></Button>
+
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" text="Speed up" onMouseClicked="#fastForward"/>
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" text="Normal speed"  onMouseClicked="#normalSpeed"/>
 
 
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
     </children>
 </Pane>
+
+
+<!--<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adtosh.towerdefense.Controller">-->
+    <!--<Canvas fx:id="gameCanvas" height="600" width="800" />-->
+    <!--<children>-->
+        <!--<ScrollPane layoutX="796.0" layoutY="16.0" prefHeight="569.0" prefWidth="190.0">-->
+            <!--<content>-->
+                <!--<HBox prefHeight="716.0" prefWidth="170.0">-->
+                    <!--<children>-->
+                        <!--<VBox prefHeight="603.0" prefWidth="84.0">-->
+                            <!--<children>-->
+                                <!--<Button mnemonicParsing="false" prefHeight="75.0" onMouseClicked="#buySuperMonkey" prefWidth="75.0" >-->
+                                <!--<graphic>-->
+                                    <!--<ImageView fitHeight="38.0" fitWidth="59.0"  pickOnBounds="true" preserveRatio="true">-->
+                                        <!--<image>-->
+                                            <!--<Image url="@SuperMonkey2.png" />-->
+                                        <!--</image>-->
+                                    <!--</ImageView>-->
+                                <!--</graphic></Button>-->
+
+
+                                <!--<Button mnemonicParsing="false" prefHeight="75.0" onMouseClicked="#buySpikeMachine" prefWidth="75.0" >-->
+                                <!--<graphic>-->
+                                    <!--<ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">-->
+                                        <!--<image>-->
+                                            <!--<Image url="@spike-machine2.png" />-->
+                                        <!--</image>-->
+                                    <!--</ImageView>-->
+                                <!--</graphic></Button>-->
+
+                                <!--<Button mnemonicParsing="false" prefHeight="75.0" onMouseClicked="#buyMachineGun" prefWidth="75.0" >-->
+                                <!--<graphic>-->
+                                    <!--<ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">-->
+                                        <!--<image>-->
+                                            <!--<Image url="@machine-gun.png" />-->
+                                        <!--</image>-->
+                                    <!--</ImageView>-->
+                                <!--</graphic></Button>-->
+
+                                <!--<Button mnemonicParsing="false" prefHeight="75.0" onMouseClicked="#buyMultiShooter"  prefWidth="75.0" >-->
+                                <!--<graphic>-->
+                                    <!--<ImageView fitHeight="38.0" fitWidth="59.0"   pickOnBounds="true" preserveRatio="true">-->
+                                        <!--<image>-->
+                                            <!--<Image url="@multi-shooter.png" />-->
+                                        <!--</image>-->
+                                    <!--</ImageView>-->
+                                <!--</graphic></Button>-->
+
+                                <!--<Button mnemonicParsing="false" text="SellSelectedTurret" onMouseClicked="#sell" prefHeight="75.0" prefWidth="75.0"/>-->
+
+                                <!--<Button mnemonicParsing="false" text="Start Round" onMouseClicked="#startRound" prefHeight="75.0" prefWidth="75.0" />-->
+
+                            <!--</children>-->
+                        <!--</VBox>-->
+                        <!--<VBox prefHeight="632.0" prefWidth="88.0">-->
+                            <!--<children>-->
+
+                                <!--<Button mnemonicParsing="false" onMouseClicked="#buySpike" prefHeight="75.0" prefWidth="75.0">-->
+                                    <!--<graphic>-->
+                                        <!--<ImageView fitHeight="61.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">-->
+                                            <!--<image>-->
+                                                <!--<Image url="@assets/Defenses/Spikes.png" />-->
+                                            <!--</image>-->
+                                        <!--</ImageView>-->
+                                    <!--</graphic>-->
+                                <!--</Button>-->
+
+                                <!--<Button mnemonicParsing="false"  onMouseClicked="#buyWizard" prefHeight="75.0" prefWidth="60.0">-->
+                                    <!--<graphic>-->
+                                        <!--<ImageView fitHeight="38.0" fitWidth="59.0"  pickOnBounds="true" preserveRatio="true">-->
+                                            <!--<image>-->
+                                                <!--<Image url="@wizard2.png" />-->
+                                            <!--</image>-->
+                                        <!--</ImageView>-->
+                                    <!--</graphic></Button>-->
+
+                                <!--<Button mnemonicParsing="false" onMouseClicked="#buyDartMonkey" prefHeight="75.0" prefWidth="75.0">-->
+                                <!--<graphic>-->
+                                    <!--<ImageView fitHeight="38.0" fitWidth="59.0"  pickOnBounds="true" preserveRatio="true">-->
+                                        <!--<image>-->
+                                            <!--<Image url="@dart-monkey.png" />-->
+                                        <!--</image>-->
+                                    <!--</ImageView>-->
+                                <!--</graphic></Button>-->
+
+                                <!--<Button mnemonicParsing="false" onMouseClicked="#buyCannon" prefHeight="75.0" prefWidth="75.0" >-->
+                                    <!--<graphic>-->
+                                        <!--<ImageView fitHeight="38.0" fitWidth="59.0"  pickOnBounds="true" preserveRatio="true">-->
+                                            <!--<image>-->
+                                                <!--<Image url="@cannon.png" />-->
+                                            <!--</image>-->
+                                        <!--</ImageView>-->
+                                    <!--</graphic></Button>-->
+
+                                <!--<Button mnemonicParsing="false" onMouseClicked="#fastForward" prefHeight="75.0" prefWidth="75.0" text=">>" />-->
+                                <!--<Button mnemonicParsing="false" onMouseClicked="#normalSpeed" prefHeight="75.0" prefWidth="75.0" text="normalSpeed" />-->
+                                <!--<Button mnemonicParsing="false" onMouseClicked="#pause" prefHeight="75.0" prefWidth="75.0" text="||" />-->
+
+
+                            <!--</children>-->
+                        <!--</VBox>-->
+                    <!--</children>-->
+                <!--</HBox>-->
+            <!--</content>-->
+        <!--</ScrollPane>-->
+        <!--<HBox layoutX="14.0" layoutY="596.0" prefHeight="190.0" prefWidth="769.0" spacing="50.0">-->
+            <!--<children>-->
+                <!--<Button mnemonicParsing="false"   id="1" onMouseClicked="#upgrade1" prefHeight="190.0" prefWidth="200.0"/>-->
+                <!--<Button mnemonicParsing="false"   id="2" onMouseClicked="#upgrade2" prefHeight="190.0" prefWidth="200.0" />-->
+
+            <!--</children>-->
+        <!--</HBox>-->
+        <!--<Button layoutX="809.0" layoutY="653.0" mnemonicParsing="false" onMouseClicked="#quitToMenu" prefHeight="111.0" prefWidth="147.0" text="Quit" />-->
+
+
+    <!--</children>-->
+<!--</Pane>-->
 
