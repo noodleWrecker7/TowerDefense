@@ -471,6 +471,7 @@ public class Level {
     }
 
     public void checkSpikeBalloonCollide(Balloon b) {
+        if (b.getLayers() == 7) return;
 
         //if a balloon has been removed and its still checking  for other spikes then null pointed
 

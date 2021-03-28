@@ -40,6 +40,8 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
     protected boolean canPopLead;
 
+    protected int value;
+
 
 
     private ArrayList<Upgrade> upgradeList1 = new ArrayList<>();
@@ -140,6 +142,7 @@ public abstract class BaseTurret extends Entity implements Rotatable {
     }
 
     protected abstract void initialiseUpgrades();
+
 
 
 
@@ -324,6 +327,14 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
     public boolean isCanPopLead() {
         return canPopLead;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public double getTimeTilSpawn() {

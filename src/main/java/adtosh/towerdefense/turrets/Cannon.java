@@ -18,6 +18,7 @@ public class Cannon extends BaseTurret {
         this.penetration = 0;
         this.canPopLead = true;
         this.splashDamageRange = 115;
+        this.value=800;
         initialiseUpgrades();
 
     }
@@ -36,21 +37,21 @@ public class Cannon extends BaseTurret {
 
     @Override
     protected void initialiseUpgrades() {
-        Upgrade upgrade1 = new Upgrade("increase range", 600);
+        Upgrade upgrade1 = new Upgrade("increase range", 600, this);
         upgrade1.createUpgrade(() ->{ this.range +=60; });
         this.addUpgradeList1(upgrade1);
 
-        Upgrade upgrade2 = new Upgrade("incredible range", 800);
+        Upgrade upgrade2 = new Upgrade("incredible range", 800, this);
         upgrade2.createUpgrade(() ->{ this.range +=90; });
         this.addUpgradeList1(upgrade2);
 
-        Upgrade upgrade3 = new Upgrade("increase splash damage range", 600);
+        Upgrade upgrade3 = new Upgrade("increase splash damage range", 600, this);
         upgrade3.createUpgrade(() -> this.splashDamageRange += 20);
         this.addUpgradeList2(upgrade3);
 
 
 
-        Upgrade upgrade4 = new Upgrade("more power", 900);
+        Upgrade upgrade4 = new Upgrade("more power", 900, this);
         upgrade4.createUpgrade(() -> power ++);
         this.addUpgradeList2(upgrade4);
 

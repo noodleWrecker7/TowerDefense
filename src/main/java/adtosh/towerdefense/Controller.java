@@ -271,6 +271,9 @@ public class Controller   {
 
     public void sell(MouseEvent event) {
         BaseTurret turretToSell =App.currentGame.getLevel().getSelectedTurret();
+        if (turretToSell == null) return;
+        Level currentLevel= App.currentGame.getLevel();
+        currentLevel.setMoney(currentLevel.getMoney()+turretToSell.getValue());
         App.currentGame.getLevel().getTurrets().remove(turretToSell);
     }
 }

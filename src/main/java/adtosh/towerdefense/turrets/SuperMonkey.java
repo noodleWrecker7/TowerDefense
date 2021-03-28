@@ -12,6 +12,7 @@ public class SuperMonkey extends BaseTurret implements ProjectileSplashes {
         this.penetration = 0;
         this.canPopLead = false;
         this.splashDamageRange = 50;
+        this.value = 2500;
 
         initialiseUpgrades();
 
@@ -21,22 +22,22 @@ public class SuperMonkey extends BaseTurret implements ProjectileSplashes {
     @Override
     protected void initialiseUpgrades() {
 
-        Upgrade upgrade1 = new Upgrade("increase range", 1500);
+        Upgrade upgrade1 = new Upgrade("increase range", 1500, this);
         upgrade1.createUpgrade(() ->{ this.range +=100; });
         this.addUpgradeList1(upgrade1);
 
-        Upgrade upgrade2 = new Upgrade("incredible range", 1800);
+        Upgrade upgrade2 = new Upgrade("incredible range", 1800, this);
         upgrade2.createUpgrade(() ->{ this.range +=100; });
         this.addUpgradeList1(upgrade2);
 
-        Upgrade upgrade3 = new Upgrade("can pop lead", 1000);
+        Upgrade upgrade3 = new Upgrade("can pop lead", 1000, this);
         upgrade3.createUpgrade(() -> {
             this.canPopLead = true;
             this.projectileName="magic ball";
         });
         this.addUpgradeList2(upgrade3);
 
-        Upgrade upgrade4 = new Upgrade("more power", 1500);
+        Upgrade upgrade4 = new Upgrade("more power", 1500, this);
         upgrade4.createUpgrade(() -> power ++);
         this.addUpgradeList2(upgrade4);
 

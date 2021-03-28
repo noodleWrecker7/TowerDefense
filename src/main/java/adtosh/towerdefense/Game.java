@@ -2,10 +2,13 @@ package adtosh.towerdefense;
 
 import adtosh.towerdefense.levels.Level;
 import javafx.animation.AnimationTimer;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 public class Game {
 
@@ -136,11 +139,14 @@ public class Game {
     private AnimationTimer timer;
     private boolean running = true;
 
-
-
     public void init() { // starts timer loop, calls update() every frame
         level.initialisePath();
         level.addProjectilesType();
+
+
+
+
+
 
 
 
@@ -156,6 +162,7 @@ public class Game {
             public void handle(long now) {
 
                 if (running) {
+
 
                     update((float) (now - then) / 1000000000f);
                     //difference in time of excecuting one loop after the other // 10 x 10^9

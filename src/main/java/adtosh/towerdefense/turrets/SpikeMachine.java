@@ -17,6 +17,7 @@ public class SpikeMachine extends BaseTurret {
         super(x, y, texture);
         this.range = 150;
         this.timeTilSpawn = 6d;
+        this.value= 1500;
         initialiseUpgrades();
 
 
@@ -24,19 +25,19 @@ public class SpikeMachine extends BaseTurret {
 
     @Override
     protected void initialiseUpgrades() {
-        Upgrade upgrade1 = new Upgrade("increase range", 600);
+        Upgrade upgrade1 = new Upgrade("increase range", 600, this);
         upgrade1.createUpgrade(() -> {
             this.range += 70;
         });
         this.addUpgradeList1(upgrade1);
 
-        Upgrade upgrade2 = new Upgrade("faster spike production", 700);
+        Upgrade upgrade2 = new Upgrade("faster spike production", 700, this);
         upgrade2.createUpgrade(() -> {
             this.timeTilSpawn -= 0.5;
         });
         this.addUpgradeList2(upgrade2);
 
-        Upgrade upgrade3 = new Upgrade("super fast spike production", 800);
+        Upgrade upgrade3 = new Upgrade("super fast spike production", 800, this);
         upgrade3.createUpgrade(() -> { this.timeTilSpawn -= 0.5; });
         this.addUpgradeList2(upgrade3);
 
