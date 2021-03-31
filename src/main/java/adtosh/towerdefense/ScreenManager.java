@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,9 +23,17 @@ public class ScreenManager {
     static private HashMap<String, Pane> screenMap = new HashMap<>();
     static private Scene main;
     static private String currentPage = null;
+    static private Stage stage;
 
     public static void setRootScene(Scene _main) {
         main = _main;
+    }
+    public static void setStage(Stage _stage){
+        stage = _stage;
+    }
+    public static void resizeStage(int width, int height){
+        stage.setWidth(width);
+        stage.setHeight(height);
     }
 
     protected static void addScreen(String name, Pane pane) {
@@ -39,8 +48,8 @@ public class ScreenManager {
         return screenMap.get(name);
     }
 
-    public static void addRoot(String name, Node root) {
-        screenMap.get(name).getChildren().add(root);
+    public static void addNode(String name, Node node) {
+        screenMap.get(name).getChildren().add(node);
     }
 
     public static void addAllRoots(String name, Node... roots) {
@@ -50,21 +59,7 @@ public class ScreenManager {
 //        screenMap.get(name).getChildren().removeAll(screenMap.get(name).getChildren());
 //    }
     public static  void retainNodes(String name, Class<?> t){
-
-
-        for (Node node: screenMap.get(name).getChildren()){
-            System.out.println(node.toString());
-
-        }
-
         screenMap.get(name).getChildren().removeIf(node -> node instanceof Line );
-
-
-
-        for (Node node: screenMap.get(name).getChildren()){
-            System.out.println(node.toString());
-
-        }
     }
 
 
@@ -93,13 +88,24 @@ public class ScreenManager {
 
 
     // calls enteredPage and leavingPage every time page is changed
-    protected static void activate(String name) {
+    public static void activate(String name) {
+
+
 
         if (currentPage != null) App.leavingPage(currentPage);
-        main.setRoot(screenMap.get(name));
+        Pane pane = screenMap.get(name);
+//        main.setRoot(screenMap.get(name));
+        main.setRoot(pane);
+        stage.setHeight(pane.getPrefHeight());
+        stage.setWidth(pane.getPrefWidth());
+
         currentPage = name;
         App.enteringPage(name);
+
+
     }
+
+
 
 
 }

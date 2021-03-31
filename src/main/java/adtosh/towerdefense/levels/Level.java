@@ -28,7 +28,7 @@ import java.util.*;
 public class Level {
 
     // these are all fields that should be loaded from file
-    private int wave;
+    private int wave =1;
     private int lives = 100;
     private boolean carryingItem = false;
 
@@ -358,10 +358,13 @@ public class Level {
     }
 
     private void checkWaveOnGoing() {
-
+        if (App.currentGame.getCurrentState() ==Game.GameState.ROUND_INACTIVE)return;
         if (balloons.size() <= 0 && unSpawnedBalloons.size() <= 0) {
             App.currentGame.setCurrentState(Game.GameState.ROUND_INACTIVE);
-//            this.waveOnGoing = false;
+            wave++;
+
+
+
         }
     }
 
@@ -635,9 +638,9 @@ public class Level {
         this.lives -= lives;
     }
 
-
-
-
+    public int getWave() {
+        return wave;
+    }
 
     public BaseTurret getSelectedTurret() {
         return selectedTurret;

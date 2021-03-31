@@ -3,11 +3,16 @@ package adtosh.towerdefense;
 import adtosh.towerdefense.levels.Level;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 public class Game {
@@ -18,6 +23,7 @@ public class Game {
     private Canvas canvas;
     private GraphicsContext context;
     private Level level;
+
 
     // enum for states of game
     public enum GameState {
@@ -44,7 +50,7 @@ public class Game {
         currentState = GameState.NORMAL_SPEED;
     }
 
-    public Game(Level _level) {
+    public  Game(Level _level) {
 
         canvas = (Canvas) ScreenManager.getPane("game.fxml").lookup("#gameCanvas");
         context = canvas.getGraphicsContext2D();
@@ -53,6 +59,13 @@ public class Game {
 
         level = _level;
         loadSaveData("level" + level.getLevelID());
+
+
+
+//        scale = new Scale(0, 0, 0, 0);
+//        ScreenManager.getPane("game.fxml").getTransforms().add(scale);
+//        resumeScaling();
+
         // todo dynamic scaling to window size
         // todo handle mouse input, maybe short cut keys?
 //        canvas.addEventHandler();
@@ -60,6 +73,26 @@ public class Game {
 
 
     }
+
+    private Scale scale;
+
+    public void resumeScaling(){
+
+        Pane root= ScreenManager.getPane("game.fxml");
+
+        scale = new Scale(0, 0, 0, 0);
+        scale.xProperty().bind(root.widthProperty().divide(root.getPrefWidth()));
+        scale.yProperty().bind(root.heightProperty().divide(root.getPrefHeight()));
+        root.getTransforms().add(scale);
+
+    }
+
+    public void pauseScaling(){
+        Pane root= ScreenManager.getPane("game.fxml");
+        root.getTransforms().remove(scale);
+
+    }
+
 
     public void returnToMenu(){
         App.currentGame.setRunning(false);
@@ -157,11 +190,16 @@ public class Game {
     public void start() {
         init();
         then = System.nanoTime();
+//        App.currentGame.resumeScaling();
+
+
+
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
 
                 if (running) {
+
 
 
                     update((float) (now - then) / 1000000000f);
@@ -174,6 +212,9 @@ public class Game {
             }
         };
         timer.start();
+        System.out.println(ScreenManager.getPane("game.fxml").getWidth());
+        //todo why does the pane get a width when the code runs the animation timer
+
     }
 
 
@@ -247,4 +288,6 @@ public class Game {
     public void setRunning(boolean running) {
         this.running = running;
     }
+
+
 }

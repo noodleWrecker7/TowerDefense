@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -37,9 +38,11 @@ public class App extends Application {
 
         classloader = Thread.currentThread().getContextClassLoader();
         // blank fxml for root why tho?
-        Parent root = new FXMLLoader().load(classloader.getResourceAsStream("root.fxml"));
+//        Parent root = new FXMLLoader().load(classloader.getResourceAsStream("root.fxml"));
+        Pane root = new Pane();
         Scene scene = new Scene(root);
         ScreenManager.setRootScene(scene);
+        ScreenManager.setStage(stage);
 //        // adds all pages to screen manager
         loadPages(classloader);
         TextureManager.init();
@@ -47,28 +50,30 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
 
-        double ratio = stage.getWidth()/stage.getHeight();
-        System.out.println(ratio);
 
-
-        widthChangeListener = ((observable, oldValue, newValue) -> {
-
-            stage.heightProperty().removeListener(heightChangeListener);
-
-            stage.setHeight(newValue.doubleValue() / 2.0);
-            System.out.println("WIDTH");
-            stage.heightProperty().addListener(heightChangeListener);
-        });
-        heightChangeListener = (observable, oldValue, newValue) -> {
-
-            stage.widthProperty().removeListener(widthChangeListener);
-            stage.setWidth(newValue.doubleValue()* 2);
-            System.out.println("HEIGHT");
-            stage.widthProperty().addListener(widthChangeListener);
-        };
+//
+//        double ratio = stage.getWidth()/stage.getHeight();
+//        System.out.println(ratio);
+//
+//
+//        widthChangeListener = ((observable, oldValue, newValue) -> {
+//
+//            stage.heightProperty().removeListener(heightChangeListener);
+//
+//            stage.setHeight(newValue.doubleValue() / 2.0);
+//            System.out.println("WIDTH");
+//            stage.heightProperty().addListener(heightChangeListener);
+//        });
+//        heightChangeListener = (observable, oldValue, newValue) -> {
+//
+//            stage.widthProperty().removeListener(widthChangeListener);
+//            stage.setWidth(newValue.doubleValue()* 2);
+//            System.out.println("HEIGHT");
+//            stage.widthProperty().addListener(widthChangeListener);
+//        };
 //        SceneSizeChangeListener width = new SceneSizeChangeListener(ratio, "WIDTH");
-        stage.widthProperty().addListener(widthChangeListener);
-        stage.heightProperty().addListener(heightChangeListener);
+//        stage.widthProperty().addListener(widthChangeListener);
+//        stage.heightProperty().addListener(heightChangeListener);
 
 
 
