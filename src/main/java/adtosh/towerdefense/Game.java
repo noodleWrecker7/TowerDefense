@@ -2,7 +2,9 @@ package adtosh.towerdefense;
 
 import adtosh.towerdefense.levels.Level;
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +16,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
 
 public class Game {
 
@@ -85,6 +90,14 @@ public class Game {
         scale.yProperty().bind(root.heightProperty().divide(root.getPrefHeight()));
         root.getTransforms().add(scale);
 
+
+
+    }
+    public void removeScalingEffect(){
+        Pane root= ScreenManager.getPane("game.fxml");
+        root.getTransforms().remove(scale);
+
+
     }
 
     public void pauseScaling(){
@@ -102,8 +115,9 @@ public class Game {
 
     private void reset(){
         //todo create reset method
+        removeScalingEffect();
         context.restore(); //pops call to save so this is why we can call it multiple times
-        this.canvas = null; //todo anything that can be done for it to go to garbage collector
+        this.canvas = null;
     }
 
 
@@ -217,6 +231,24 @@ public class Game {
 
     }
 
+    public int findMaxWave(String path)throws IOException {
+
+        File file = new File(path);
+        int maxWave = 0;
+        //todo why warning?
+
+
+            for (File file1: file.listFiles()){
+                String name = file1.getName();
+                int wave = Character.getNumericValue(name.charAt(5));
+                if (wave>maxWave)maxWave=wave;
+
+            }
+
+
+        return maxWave;
+    }
+
 
 
 
@@ -289,5 +321,7 @@ public class Game {
         this.running = running;
     }
 
-
+    public Scale getScale() {
+        return scale;
+    }
 }

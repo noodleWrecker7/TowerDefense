@@ -95,6 +95,7 @@ public class Balloon extends Entity {
 
     @Override
     public Rectangle getBounds() {
+        if (layers<0) System.out.println("ERROROR");
 
         Image balloonImage = TextureManager.getTexture(textureName);
         Rectangle rectangle = new Rectangle(x / 2 - balloonImage.getWidth()/2, y / 2 - balloonImage.getHeight()/2, width / 2, height / 2);

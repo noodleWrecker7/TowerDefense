@@ -3,9 +3,18 @@ package adtosh.towerdefense;
 
 import adtosh.towerdefense.turrets.*;
 import adtosh.towerdefense.levels.Level;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
+import javafx.util.Duration;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,48 +25,54 @@ import java.util.ArrayList;
 // main controller class for all fxml files to go through
 public class Controller {
 
+//    @FXML
+//    public void loadLevel1(MouseEvent event) {
+//        loadLevel(0);
+//
+//    }
+//
+//    @FXML
+//    public void loadLevel2(MouseEvent mouseEvent) {
+//        loadLevel(1);
+//
+//    }
+//
+//    @FXML
+//    public void loadLevel3(MouseEvent event) {
+//
+//    }
+//
+//    @FXML
+//    public void loadLevel4(MouseEvent event) {
+//    }
+//
+//    private void loadLevel(int levelID) {
+////        if (App.currentGame == null) {
+////            Level level = new Level(levelID);
+////            level.loadPath(levelID);
+////            App.currentGame = new Game(level);
+////            App.currentGame.start();
+////        } else {
+////            App.currentGame.resume();
+////        }
+//
+//
+//        Level level = new Level(levelID);
+//        level.loadPath(levelID);
+//        App.currentGame = new Game(level);
+//        App.currentGame.start();
+//        //because there a null check when i press again  it only resumes ()
+//
+//        ScreenManager.activate("game.fxml");
+//        App.currentGame.resumeScaling();
+//
+//    }
+
+    //    @FXML
+//    public Pane pane;
     @FXML
-    public void loadLevel1(MouseEvent event) {
-        loadLevel(0);
+    public HBox shopMenu;
 
-    }
-
-    @FXML
-    public void loadLevel2(MouseEvent mouseEvent) {
-        loadLevel(1);
-
-    }
-
-    @FXML
-    public void loadLevel3(MouseEvent event) {
-
-    }
-
-    @FXML
-    public void loadLevel4(MouseEvent event) {
-    }
-
-    private void loadLevel(int levelID) {
-//        if (App.currentGame == null) {
-//            Level level = new Level(levelID);
-//            level.loadPath(levelID);
-//            App.currentGame = new Game(level);
-//            App.currentGame.start();
-//        } else {
-//            App.currentGame.resume();
-//        }
-
-
-        Level level = new Level(levelID);
-        level.loadPath(levelID);
-        App.currentGame = new Game(level);
-        App.currentGame.start();
-        //because there a null check when i press again  it only resumes ()
-
-        ScreenManager.activate("game.fxml");
-        App.currentGame.resumeScaling();
-
-    }
 
     @FXML
     private void fastForward() {
@@ -88,6 +103,29 @@ public class Controller {
 //
 //        }
 
+    }
+
+    @FXML
+    public void initialize() {
+        System.out.println("INITIALISE");
+
+        for (Node genericVBox: shopMenu.getChildren()){
+            VBox vBox = (VBox)genericVBox;
+
+            for (Node genericButton: vBox.getChildren()){
+                if (!(genericButton instanceof PricedButton))break;
+                PricedButton pricedButton  = (PricedButton) genericButton;
+                System.out.println("here");
+
+                Tooltip tooltip = new Tooltip(String.valueOf(pricedButton.getPrice()));
+                tooltip.setShowDelay(Duration.millis(0));
+                pricedButton.setTooltip(tooltip);
+
+
+            }
+        }
+
+        //todo IMPROVE
     }
 
 
@@ -200,9 +238,10 @@ public class Controller {
 
         String line;
         ArrayList<String[]> lines = new ArrayList<>();
+        System.out.println("WAVE: " + App.currentGame.getLevel().getWave());
 
         try {
-            String fileName = "wave-" + App.currentGame.getLevel().getWave() + ".txt";
+            String fileName = "Waves/wave-" + App.currentGame.getLevel().getWave() + ".txt";
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             while ((line = reader.readLine()) != null) {
 

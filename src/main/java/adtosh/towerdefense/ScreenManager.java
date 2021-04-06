@@ -52,6 +52,10 @@ public class ScreenManager {
         screenMap.get(name).getChildren().add(node);
     }
 
+    public static void removeNode(String name, Node node) {
+        screenMap.get(name).getChildren().remove(node);
+    }
+
     public static void addAllRoots(String name, Node... roots) {
         screenMap.get(name).getChildren().addAll(roots);
     }

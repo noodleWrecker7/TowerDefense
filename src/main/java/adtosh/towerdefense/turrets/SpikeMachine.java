@@ -78,7 +78,6 @@ public class SpikeMachine extends BaseTurret {
                         //flip sign if other way rounds
                         if (this.getRangeBounds().contains(x, y)) {
                             points.add(new Point2D(x, y));
-                            System.out.println("ADED");
                         }
 
 

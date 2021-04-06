@@ -27,9 +27,7 @@ public class App extends Application {
 
 
 
-    //todo is there a way to make a canvas in fxml and set dimensions
-    private ChangeListener<? super Number> widthChangeListener;
-    private ChangeListener<? super Number> heightChangeListener;
+
 
 
     @Override

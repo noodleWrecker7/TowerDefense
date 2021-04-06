@@ -20,7 +20,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.*;
 
@@ -202,6 +206,8 @@ public class Level {
 
     public void update(double delta) {
 
+//        System.out.println(App.currentGame.getScale().xProperty().doubleValue() );
+
 //        Iterator<Balloon> bIter = balloons.iterator();
 //        while (bIter.hasNext()) {
 //            Balloon b = null;
@@ -226,8 +232,8 @@ public class Level {
 
 
         checkSpikeBalloonCollision();
+//        balloons.removeIf(balloon -> balloon.getLayers() < 0);
         checkTurretBalloonCollision();
-//        checkBalloonRemove();
         balloons.removeIf(balloon -> balloon.getLayers() < 0);
 
         checkWaveOnGoing();
@@ -365,6 +371,31 @@ public class Level {
 
 
 
+
+            try {
+                if (wave >App.currentGame.findMaxWave("Waves")){
+                    App.currentGame.setRunning(false);
+
+                    Text message = new Text("YOU WIN");
+                    message.setX(50);
+                    message.setY(250);
+                    message.setFont(Font.font("verdana", FontWeight.BOLD,
+                            FontPosture.REGULAR, 170));
+                    ScreenManager.addNode("game.fxml", message);
+
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            App.currentGame.returnToMenu();
+                            ScreenManager.removeNode("game.fxml", message);
+                        }
+                    }, 2000);
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -390,6 +421,7 @@ public class Level {
         HashMap<Projectile, ArrayList<Balloon>> balloonsToPop = new HashMap<>();
 
         for (Balloon b : balloons) {
+            if (b.getLayers()<0)return;
 
             Iterator<Projectile> projectileIterator = projectiles.iterator();
             while (projectileIterator.hasNext()) {
@@ -529,11 +561,17 @@ public class Level {
 
 
     private boolean checkTurretPressed(MouseEvent e, BaseTurret turret) {
-        if (e.getSceneX() * 2 < turret.getX() + TextureManager.getTexture(turret.getTextureName()).getWidth() / 2) {
-            if (e.getSceneX() * 2 > turret.getX() - TextureManager.getTexture(turret.getTextureName()).getWidth() / 2) {
+        System.out.println(turret.getX());
+        System.out.println(e.getSceneX() *2);
 
-                if (e.getSceneY() * 2 < turret.getY() + TextureManager.getTexture(turret.getTextureName()).getHeight() / 2) {
-                    if (e.getSceneY() * 2 > turret.getY() - TextureManager.getTexture(turret.getTextureName()).getHeight() / 2) {
+        double scaleMultiplierX = App.currentGame.getScale().xProperty().doubleValue();
+        double scaleMultiplierY = App.currentGame.getScale().yProperty().doubleValue();
+
+        if ((e.getSceneX() * 2) / scaleMultiplierX  < turret.getX() + (TextureManager.getTexture(turret.getTextureName()).getWidth() / 2)/ scaleMultiplierX ){
+            if ((e.getSceneX() * 2)/scaleMultiplierX > turret.getX() -( TextureManager.getTexture(turret.getTextureName()).getWidth() / 2) / scaleMultiplierX) {
+
+                if ((e.getSceneY() * 2) /scaleMultiplierY< turret.getY() + (TextureManager.getTexture(turret.getTextureName()).getHeight() / 2)/scaleMultiplierY) {
+                    if ((e.getSceneY() * 2)/scaleMultiplierY > turret.getY() - (TextureManager.getTexture(turret.getTextureName()).getHeight() / 2)/scaleMultiplierY) {
 
                         return true;
 
