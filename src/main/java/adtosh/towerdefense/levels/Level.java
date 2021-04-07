@@ -319,7 +319,7 @@ public class Level {
 
 
     private void manageUpgradeButtons() {
-        //todo TEST
+
         Button button1 =((Button) ScreenManager.getNode("1"));
         Button button2 =((Button) ScreenManager.getNode("2"));
 
