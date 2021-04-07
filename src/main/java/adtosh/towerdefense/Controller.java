@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 // main controller class for all fxml files to go through
 public class Controller {
@@ -246,10 +247,12 @@ public class Controller {
             while ((line = reader.readLine()) != null) {
 
                 String[] words = line.split(" ");
+                if (Arrays.asList(words).contains(""))continue;
                 lines.add(words);
-
             }
             reader.close();
+
+
 
             App.currentGame.setCurrentState(Game.GameState.NORMAL_SPEED);
             App.currentGame.getLevel().setBalloonsSpawnQueue(lines);
@@ -297,7 +300,7 @@ public class Controller {
         BaseTurret turretToSell = App.currentGame.getLevel().getSelectedTurret();
         if (turretToSell == null) return;
         Level currentLevel = App.currentGame.getLevel();
-        currentLevel.setMoney(currentLevel.getMoney() + turretToSell.getValue());
+        currentLevel.setMoney(currentLevel.getMoney() + ((turretToSell.getValue() *70)/100 ));
         App.currentGame.getLevel().getTurrets().remove(turretToSell);
     }
 }

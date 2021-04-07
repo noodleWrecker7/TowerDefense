@@ -8,7 +8,7 @@ public class MultiShooter extends BaseTurret {
     public MultiShooter(double x, double y, String texture) {
         super(x, y, texture);
         this.range = 200;
-        this.timeTilSpawn = 1.5d;
+        this.timeTilSpawn = 2d;
         this.power = 1;
         this.penetration =1;
         this.projectileName = "small dart";

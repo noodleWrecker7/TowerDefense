@@ -8,11 +8,11 @@ public class SuperMonkey extends BaseTurret implements ProjectileSplashes {
         this.range = 500;
         this.projectileName = "dart";
         this.timeTilSpawn = 0.2d;
-        this.power = 5;
+        this.power = 3;
         this.penetration = 0;
         this.canPopLead = false;
         this.splashDamageRange = 50;
-        this.value = 2500;
+//        this.value = 2500;
 
         initialiseUpgrades();
 

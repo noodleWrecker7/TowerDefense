@@ -32,7 +32,6 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        System.out.println("Wag Wan!");
 
         classloader = Thread.currentThread().getContextClassLoader();
         // blank fxml for root why tho?

@@ -38,7 +38,7 @@ public class Balloon extends Entity {
 
 
         final static double[] speeds = { // pixels per seconds
-            100, 120, 130, 150, 200, 250, 500, 300
+            130, 150, 190, 250, 300, 400, 600, 450
 
 
     };
@@ -235,7 +235,7 @@ public class Balloon extends Entity {
     private void increasePointCoords(){
         currentPathPoint++;
         if (currentPathPoint >= App.currentGame.getLevel().pathLength()) {
-            App.currentGame.getLevel().takeLives(layers);
+            App.currentGame.getLevel().takeLives(layers+1);
             App.currentGame.getLevel().checkLives();
             layers = -1;
             return;

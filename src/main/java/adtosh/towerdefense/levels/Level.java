@@ -12,6 +12,8 @@ import adtosh.towerdefense.entity.projectiles.Projectile;
 import adtosh.towerdefense.turrets.BaseTurret;
 import adtosh.towerdefense.turrets.Spike;
 import adtosh.towerdefense.turrets.Upgrade;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -23,6 +25,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -82,9 +85,6 @@ public class Level {
 
     public void loadDataFromFile() {
         //todo acc make a file
-        String fileName = "map-" + levelID;
-
-
         startX = 0;
         startY = 540;
 
@@ -175,6 +175,7 @@ public class Level {
         g.setFont(new Font(45));
         g.fillText("$" + money, 30, 34);
         g.fillText("lives: "+ lives, 200, 34 );
+        g.fillText("round: " + wave, 400, 34);
 
 
     }
@@ -188,7 +189,6 @@ public class Level {
             int layers = Integer.parseInt(line[0]);
             double delay = Integer.parseInt(line[3]) ;
             double timeBetweenSpawn = Double.parseDouble(line[2]);
-
 
             for (int i = 0; i <balloonCount ; i++) {
                 double spawnTimeMark = delay + i * timeBetweenSpawn;
@@ -269,7 +269,8 @@ public class Level {
 
     public void checkLives(){
         if (lives<= 0){
-            App.currentGame.returnToMenu();
+            endGameMessage("YOU LOOSE", 150);
+//            App.currentGame.returnToMenu();
         }
     }
 
@@ -284,31 +285,13 @@ public class Level {
 
 
             }catch (Exception e){
-                System.out.println("error");
                 e.printStackTrace();
             }
-//            b.update(delta);
-//            checkSpikeBalloonCollide(b);
-//            if (b.getLayers() <= 0) {
-//                bIter.remove();
-//
-//            }
-//            if (b.getLayers() < 0) {
-//                bIter.remove();
-//            }
         }
 
     }
 
-    private void checkBalloonRemove(){
-        Iterator<Balloon> iterator = balloons.iterator();
-        while (iterator.hasNext()){
-            Balloon b = iterator.next();
-            if (b.getLayers() < 0){
 
-            }
-        }
-    }
 
 
     private double timeSinceSpawn;
@@ -364,40 +347,66 @@ public class Level {
     }
 
     private void checkWaveOnGoing() {
+
         if (App.currentGame.getCurrentState() ==Game.GameState.ROUND_INACTIVE)return;
         if (balloons.size() <= 0 && unSpawnedBalloons.size() <= 0) {
             App.currentGame.setCurrentState(Game.GameState.ROUND_INACTIVE);
             wave++;
-
-
-
+            this.money+=7;
 
             try {
-                if (wave >App.currentGame.findMaxWave("Waves")){
-                    App.currentGame.setRunning(false);
-
-                    Text message = new Text("YOU WIN");
-                    message.setX(50);
-                    message.setY(250);
-                    message.setFont(Font.font("verdana", FontWeight.BOLD,
-                            FontPosture.REGULAR, 170));
-                    ScreenManager.addNode("game.fxml", message);
-
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            App.currentGame.returnToMenu();
-                            ScreenManager.removeNode("game.fxml", message);
-                        }
-                    }, 2000);
-
-                }
+                if (wave >App.currentGame.findMaxWave("Waves")) {
+                    endGameMessage("YOU WIN" , 170);
+                }else {showMessage("ROUND OVER ", 120);};
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+
+
+
+
+
         }
     }
+
+    private void endGameMessage(String text , int size){
+        App.currentGame.setRunning(false);
+
+        Text message = new Text(text);
+        message.setX(50);
+        message.setY(250);
+        message.setFont(Font.font("verdana", FontWeight.BOLD,
+                FontPosture.REGULAR, size));
+        ScreenManager.addNode("game.fxml", message);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), ev -> {
+            App.currentGame.returnToMenu();
+            ScreenManager.removeNode("game.fxml", message);
+
+        }));
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+
+    private void showMessage(String text , int size){
+
+        Text message = new Text(text);
+        message.setX(50);
+        message.setY(250);
+        message.setFont(Font.font("verdana", FontWeight.BOLD,
+                FontPosture.REGULAR, size));
+        ScreenManager.addNode("game.fxml", message);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), ev -> {
+            ScreenManager.removeNode("game.fxml", message);
+
+        }));
+        timeline.setCycleCount(1);
+        timeline.play();
+
+
+    }
+
 
     private void checkProjectileInRange() {
         Iterator<Projectile> projectileIterator = projectiles.iterator();

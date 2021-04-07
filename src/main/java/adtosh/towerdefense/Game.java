@@ -67,6 +67,7 @@ public class Game {
         loadSaveData("level" + level.getLevelID());
 
 
+
 //        scale = new Scale(0, 0, 0, 0);
 //        ScreenManager.getPane("game.fxml").getTransforms().add(scale);
 //        resumeScaling();
@@ -99,13 +100,6 @@ public class Game {
 
 
     }
-
-    public void pauseScaling() {
-        Pane root = ScreenManager.getPane("game.fxml");
-        root.getTransforms().remove(scale);
-
-    }
-
 
     public void returnToMenu() {
         App.currentGame.setRunning(false);
@@ -185,6 +179,7 @@ public class Game {
         level.addProjectilesType();
 
 
+
     }
 
 
@@ -211,31 +206,12 @@ public class Game {
             }
         };
         timer.start();
-        System.out.println(ScreenManager.getPane("game.fxml").getWidth());
         //todo why does the pane get a width when the code runs the animation timer
 
     }
 
     public int findMaxWave(String path) throws IOException {
-
-        File file = new File(path);
-//        int maxWave = 0;
-        //todo why warning?
-
-
-//        for (File file1 : file.listFiles()) {
-//            String name = file1.getName();
-//            int wave = Character.getNumericValue(name.charAt(5));
-//            if (wave > maxWave) maxWave = wave;
-//
-//        }
-//
-//        System.out.println(maxWave);
-//
-//        ArrayList<File> files = file.listFiles();
-        File[] files =file.listFiles();
-        System.out.println(files.length);
-        return files.length;
+        return new File(path).listFiles().length; //todo objects non null?
 
     }
 

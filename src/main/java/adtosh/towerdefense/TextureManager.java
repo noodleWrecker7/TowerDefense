@@ -52,7 +52,7 @@ public class TextureManager {
         // loads the balloon 50 pixels wide and keeps the aspect ratio
 
 //        loadImage("balloon-0", "balloon-0.png", 50, 0, true);
-        System.out.println("loaded balloon-0");
+
 
 
         for (int i = 0; i < 6; i++) {
