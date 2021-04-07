@@ -48,7 +48,7 @@ public class Level {
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     private ArrayList<Projectile> hitProjectiles = new ArrayList<>();
 
-    private int money = 10000;
+    private int money = 200;
 
     private int[][] mapPathPoints;
     private ArrayList<Line> path = new ArrayList<>();
@@ -540,8 +540,6 @@ public class Level {
                 turret.select();
                 this.selectedTurret = turret;
                 break;
-
-
             } else {
                 if (turret.isSelected()) {
                     turret.unSelect();
@@ -561,8 +559,7 @@ public class Level {
 
 
     private boolean checkTurretPressed(MouseEvent e, BaseTurret turret) {
-        System.out.println(turret.getX());
-        System.out.println(e.getSceneX() *2);
+
 
         double scaleMultiplierX = App.currentGame.getScale().xProperty().doubleValue();
         double scaleMultiplierY = App.currentGame.getScale().yProperty().doubleValue();

@@ -12,7 +12,7 @@ public class MachineGun extends BaseTurret {
         this.power = 1;
         this.penetration = 0;
         this.canPopLead = false;
-        this.value = 2000;
+//        this.value = 2000;
         initialiseUpgrades();
 
 

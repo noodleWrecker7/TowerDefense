@@ -38,7 +38,7 @@ public class Balloon extends Entity {
 
 
         final static double[] speeds = { // pixels per seconds
-            75, 100, 125, 125, 200, 250, 500, 300
+            100, 120, 130, 150, 200, 250, 500, 300
 
 
     };

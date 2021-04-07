@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Game {
 
@@ -55,7 +56,7 @@ public class Game {
         currentState = GameState.NORMAL_SPEED;
     }
 
-    public  Game(Level _level) {
+    public Game(Level _level) {
 
         canvas = (Canvas) ScreenManager.getPane("game.fxml").lookup("#gameCanvas");
         context = canvas.getGraphicsContext2D();
@@ -64,7 +65,6 @@ public class Game {
 
         level = _level;
         loadSaveData("level" + level.getLevelID());
-
 
 
 //        scale = new Scale(0, 0, 0, 0);
@@ -81,9 +81,9 @@ public class Game {
 
     private Scale scale;
 
-    public void resumeScaling(){
+    public void resumeScaling() {
 
-        Pane root= ScreenManager.getPane("game.fxml");
+        Pane root = ScreenManager.getPane("game.fxml");
 
         scale = new Scale(0, 0, 0, 0);
         scale.xProperty().bind(root.widthProperty().divide(root.getPrefWidth()));
@@ -91,29 +91,29 @@ public class Game {
         root.getTransforms().add(scale);
 
 
-
     }
-    public void removeScalingEffect(){
-        Pane root= ScreenManager.getPane("game.fxml");
+
+    public void removeScalingEffect() {
+        Pane root = ScreenManager.getPane("game.fxml");
         root.getTransforms().remove(scale);
 
 
     }
 
-    public void pauseScaling(){
-        Pane root= ScreenManager.getPane("game.fxml");
+    public void pauseScaling() {
+        Pane root = ScreenManager.getPane("game.fxml");
         root.getTransforms().remove(scale);
 
     }
 
 
-    public void returnToMenu(){
+    public void returnToMenu() {
         App.currentGame.setRunning(false);
         reset();
         ScreenManager.activate("menu.fxml");
     }
 
-    private void reset(){
+    private void reset() {
         //todo create reset method
         removeScalingEffect();
         context.restore(); //pops call to save so this is why we can call it multiple times
@@ -140,17 +140,16 @@ public class Game {
 //        return false;
 
 
-
 //        return (dx*dx + dy*dy) <= circle.getRadius()*circle.getRadius();
 
-        double [] pointsX = {rect.getX(), rect.getX()+rect.getWidth()};
-        double [] pointsY = {rect.getY(), rect.getY()+rect.getHeight()};
+        double[] pointsX = {rect.getX(), rect.getX() + rect.getWidth()};
+        double[] pointsY = {rect.getY(), rect.getY() + rect.getHeight()};
 
-        for (int x = 0; x <2 ; x++) {
-            for (int y = 0; y <2 ; y++) {
+        for (int x = 0; x < 2; x++) {
+            for (int y = 0; y < 2; y++) {
                 double dx = pointsX[x] - circle.getCenterX();
                 double dy = pointsY[y] - circle.getCenterY();
-                if (Math.sqrt(dx * dx + dy * dy) < circle.getRadius()){
+                if (Math.sqrt(dx * dx + dy * dy) < circle.getRadius()) {
                     return true;
                 }
 
@@ -160,11 +159,7 @@ public class Game {
         return false;
 
 
-
-
-
     }
-
 
 
     // used to create new game from level and saveFile
@@ -176,7 +171,6 @@ public class Game {
 
     // load save data from file and edit game vars
     private void loadSaveData(String file) {
-
 
 
     }
@@ -191,14 +185,7 @@ public class Game {
         level.addProjectilesType();
 
 
-
-
-
-
-
-
     }
-
 
 
     public void start() {
@@ -207,13 +194,11 @@ public class Game {
 //        App.currentGame.resumeScaling();
 
 
-
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
 
                 if (running) {
-
 
 
                     update((float) (now - then) / 1000000000f);
@@ -231,28 +216,28 @@ public class Game {
 
     }
 
-    public int findMaxWave(String path)throws IOException {
+    public int findMaxWave(String path) throws IOException {
 
         File file = new File(path);
-        int maxWave = 0;
+//        int maxWave = 0;
         //todo why warning?
 
 
-            for (File file1: file.listFiles()){
-                String name = file1.getName();
-                int wave = Character.getNumericValue(name.charAt(5));
-                if (wave>maxWave)maxWave=wave;
+//        for (File file1 : file.listFiles()) {
+//            String name = file1.getName();
+//            int wave = Character.getNumericValue(name.charAt(5));
+//            if (wave > maxWave) maxWave = wave;
+//
+//        }
+//
+//        System.out.println(maxWave);
+//
+//        ArrayList<File> files = file.listFiles();
+        File[] files =file.listFiles();
+        System.out.println(files.length);
+        return files.length;
 
-            }
-
-
-        return maxWave;
     }
-
-
-
-
-
 
 
     void update(float delta) {
@@ -262,9 +247,7 @@ public class Game {
     }
 
 
-
     public void render() {
-
 
 
         level.render(context);

@@ -83,6 +83,7 @@ public class Spike extends Entity implements Placeable {
         for (Line line : App.currentGame.getLevel().getPath()) {
             if (this.getBounds().intersects(line.getLayoutBounds())) {
                 App.currentGame.getCanvas().setOnMouseMoved(e -> { });
+                App.currentGame.getCanvas().setOnMouseClicked(App.currentGame.getLevel()::selectTurret);
                 isPlaced = true;
                 App.currentGame.getLevel().setCarryingItem(false);
                 break;

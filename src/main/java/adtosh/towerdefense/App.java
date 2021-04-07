@@ -49,33 +49,6 @@ public class App extends Application {
         stage.show();
 
 
-//
-//        double ratio = stage.getWidth()/stage.getHeight();
-//        System.out.println(ratio);
-//
-//
-//        widthChangeListener = ((observable, oldValue, newValue) -> {
-//
-//            stage.heightProperty().removeListener(heightChangeListener);
-//
-//            stage.setHeight(newValue.doubleValue() / 2.0);
-//            System.out.println("WIDTH");
-//            stage.heightProperty().addListener(heightChangeListener);
-//        });
-//        heightChangeListener = (observable, oldValue, newValue) -> {
-//
-//            stage.widthProperty().removeListener(widthChangeListener);
-//            stage.setWidth(newValue.doubleValue()* 2);
-//            System.out.println("HEIGHT");
-//            stage.widthProperty().addListener(widthChangeListener);
-//        };
-//        SceneSizeChangeListener width = new SceneSizeChangeListener(ratio, "WIDTH");
-//        stage.widthProperty().addListener(widthChangeListener);
-//        stage.heightProperty().addListener(heightChangeListener);
-
-
-
-        // todo decide what level to load
 
     }
 

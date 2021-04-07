@@ -18,7 +18,7 @@ public class Cannon extends BaseTurret {
         this.penetration = 0;
         this.canPopLead = true;
         this.splashDamageRange = 115;
-        this.value=800;
+//        this.value=800;
         initialiseUpgrades();
 
     }

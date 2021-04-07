@@ -10,7 +10,7 @@ public class DartMonkey extends BaseTurret {
         this.timeTilSpawn = 1.3d;
         this.penetration =0;
         this.canPopLead = false;
-        this.value = 50;
+//        this.value = 50;
         initialiseUpgrades();
 
 

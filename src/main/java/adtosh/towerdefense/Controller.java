@@ -4,6 +4,7 @@ package adtosh.towerdefense;
 import adtosh.towerdefense.turrets.*;
 import adtosh.towerdefense.levels.Level;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -80,7 +81,7 @@ public class Controller {
     }
 
     public void buySpike(MouseEvent event) {
-        int price = 50;
+        int price = ((PricedButton) event.getSource()).getPrice();
 
         if (!App.currentGame.getLevel().isCarryingItem()) {
             if (price <= App.currentGame.getLevel().getMoney()) {
@@ -107,15 +108,15 @@ public class Controller {
 
     @FXML
     public void initialize() {
-        System.out.println("INITIALISE");
 
         for (Node genericVBox: shopMenu.getChildren()){
+            if (!(genericVBox instanceof VBox))break;
             VBox vBox = (VBox)genericVBox;
 
             for (Node genericButton: vBox.getChildren()){
+
                 if (!(genericButton instanceof PricedButton))break;
                 PricedButton pricedButton  = (PricedButton) genericButton;
-                System.out.println("here");
 
                 Tooltip tooltip = new Tooltip(String.valueOf(pricedButton.getPrice()));
                 tooltip.setShowDelay(Duration.millis(0));
@@ -140,6 +141,7 @@ public class Controller {
                     App.currentGame.getLevel().setCarryingItem(true);
                     BaseTurret baseTurret = clazz.getConstructor(double.class, double.class, String.class).newInstance(event.getSceneX() * 2, event.getSceneY() * 2, texture);
                     baseTurret.setMouseMoveListener();
+                    baseTurret.setValue(price);
                     App.currentGame.getLevel().setMoney(App.currentGame.getLevel().getMoney() - price);
 
                 }
@@ -166,46 +168,44 @@ public class Controller {
     }
 
     public void buyWizard(MouseEvent event) {
-        canBuy(event, Wizard.class, "wizard", 1200);
+        canBuy(event, Wizard.class, "wizard",  ((PricedButton) event.getSource()).getPrice());
 
 
     }
 
     public void buySuperMonkey(MouseEvent event) {
-        canBuy(event, SuperMonkey.class, "super monkey", 2500);
+        canBuy(event, SuperMonkey.class, "super monkey",  ((PricedButton) event.getSource()).getPrice());
 
 
     }
 
     public void buySpikeMachine(MouseEvent event) {
-        canBuy(event, SpikeMachine.class, "spike machine", 1500);
+        canBuy(event, SpikeMachine.class, "spike machine",  ((PricedButton) event.getSource()).getPrice());
 
     }
 
 
     public void buyMachineGun(MouseEvent event) {
-        canBuy(event, MachineGun.class, "machine gun", 2000);
+        canBuy(event, MachineGun.class, "machine gun",  ((PricedButton) event.getSource()).getPrice());
 
 
     }
 
 
     public void buyMultiShooter(MouseEvent event) {
-        canBuy(event, MultiShooter.class, "multi shooter", 300);
+        canBuy(event, MultiShooter.class, "multi shooter",  ((PricedButton) event.getSource()).getPrice());
 
 
     }
 
     public void buyDartMonkey(MouseEvent event) {
-        canBuy(event, DartMonkey.class, "dart monkey", 50);
+        canBuy(event, DartMonkey.class, "dart monkey",  ((PricedButton) event.getSource()).getPrice());
 
 
     }
 
     public void buyCannon(MouseEvent event) {
-        canBuy(event, Cannon.class, "cannon", 800);
-
-
+        canBuy(event, Cannon.class, "cannon",  ((PricedButton) event.getSource()).getPrice());
     }
 
 

@@ -115,6 +115,7 @@ public abstract class BaseTurret extends Entity implements Rotatable {
 
     }
 
+
     public void setMouseMoveListener() {
 
         Canvas canvas = App.currentGame.getCanvas();
@@ -131,10 +132,12 @@ public abstract class BaseTurret extends Entity implements Rotatable {
             if (this.getBounds().intersects(line.getLayoutBounds())) {
                 return;
             }
-
         }
-        App.currentGame.getCanvas().setOnMouseMoved(event -> {
-        });
+        for (BaseTurret turret: App.currentGame.getLevel().getTurrets()){
+            if (this == turret) break;
+            if (this.getBounds().intersects(turret.getBounds().getLayoutBounds()))return;
+        }
+        App.currentGame.getCanvas().setOnMouseMoved(event -> {});
         isPlaced = true;
         App.currentGame.getLevel().setCarryingItem(false);
         App.currentGame.getCanvas().setOnMouseClicked(App.currentGame.getLevel()::selectTurret);

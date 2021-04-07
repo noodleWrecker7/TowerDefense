@@ -12,7 +12,7 @@ public class MultiShooter extends BaseTurret {
         this.power = 1;
         this.penetration =1;
         this.projectileName = "small dart";
-        this.value = 300;
+//        this.value = 300;
         initialiseUpgrades();
     }
 
