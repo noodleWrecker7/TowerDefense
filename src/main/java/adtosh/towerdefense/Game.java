@@ -64,13 +64,6 @@ public class Game {
         context.scale(0.5, 0.5);
 
         level = _level;
-        loadSaveData("level" + level.getLevelID());
-
-
-
-//        scale = new Scale(0, 0, 0, 0);
-//        ScreenManager.getPane("game.fxml").getTransforms().add(scale);
-//        resumeScaling();
 
         // todo dynamic scaling to window size
         // todo handle mouse input, maybe short cut keys?
