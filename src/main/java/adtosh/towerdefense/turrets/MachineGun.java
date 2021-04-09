@@ -30,7 +30,7 @@ public class MachineGun extends BaseTurret {
         this.addUpgradeList1(upgrade2);
 
         Upgrade upgrade3 = new Upgrade("shoot faster", 1100, this);
-        upgrade3.createUpgrade(() ->{ this.timeTilSpawn -= 0.1; });
+        upgrade3.createUpgrade(() ->{ this.timeTilSpawn -= 0.05; });
         this.addUpgradeList2(upgrade3);
 
         Upgrade upgrade4 = new Upgrade("increase power", 1500, this);

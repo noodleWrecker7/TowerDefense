@@ -5,9 +5,9 @@ public class SuperMonkey extends BaseTurret implements ProjectileSplashes {
     private int splashDamageRange;
     public SuperMonkey(double x, double y, String texture) {
         super(x, y, texture);
-        this.range = 500;
+        this.range = 400;
         this.projectileName = "dart";
-        this.timeTilSpawn = 0.2d;
+        this.timeTilSpawn = 0.2d; //0.2
         this.power = 3;
         this.penetration = 0;
         this.canPopLead = false;
@@ -22,11 +22,11 @@ public class SuperMonkey extends BaseTurret implements ProjectileSplashes {
     @Override
     protected void initialiseUpgrades() {
 
-        Upgrade upgrade1 = new Upgrade("increase range", 1500, this);
+        Upgrade upgrade1 = new Upgrade("increase range", 1100, this);
         upgrade1.createUpgrade(() ->{ this.range +=100; });
         this.addUpgradeList1(upgrade1);
 
-        Upgrade upgrade2 = new Upgrade("incredible range", 1800, this);
+        Upgrade upgrade2 = new Upgrade("incredible range", 1400, this);
         upgrade2.createUpgrade(() ->{ this.range +=100; });
         this.addUpgradeList1(upgrade2);
 

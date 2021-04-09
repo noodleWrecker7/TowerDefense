@@ -30,7 +30,7 @@ public class MultiShooter extends BaseTurret {
         this.addUpgradeList1(upgrade2);
 
         Upgrade upgrade3 = new Upgrade("increase fire rate", 100, this);
-        upgrade3.createUpgrade(() -> this.timeSinceSpawn -= 0.3);
+        upgrade3.createUpgrade(() -> this.timeSinceSpawn -= 0.5);
         this.addUpgradeList2(upgrade3);
 
         Upgrade upgrade4 = new Upgrade("more power", 175, this);

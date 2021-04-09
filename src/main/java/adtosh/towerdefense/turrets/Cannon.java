@@ -14,7 +14,7 @@ public class Cannon extends BaseTurret {
         this.range = 300;
         this.projectileName = "missile";
         this.timeTilSpawn = 1d;
-        this.power = 4;
+        this.power = 3;
         this.penetration = 0;
         this.canPopLead = true;
         this.splashDamageRange = 115;

@@ -78,6 +78,7 @@ public class Controller {
 
     @FXML
     private void fastForward() {
+        if (App.currentGame.getCurrentState()== Game.GameState.ROUND_INACTIVE) return;
         App.currentGame.setCurrentState(Game.GameState.FAST_SPEED);
     }
 
@@ -277,6 +278,7 @@ public class Controller {
 //    }
 
     public void normalSpeed() {
+        if (App.currentGame.getCurrentState()== Game.GameState.ROUND_INACTIVE) return;
         App.currentGame.setCurrentState(Game.GameState.NORMAL_SPEED);
     }
 
@@ -284,6 +286,7 @@ public class Controller {
 
     public void pause() {
         Game.GameState state = App.currentGame.getCurrentState();
+        if (state == Game.GameState.ROUND_INACTIVE) return;
 
         if (state != Game.GameState.PAUSED) {
             this.stateBeforePause = state;
@@ -298,7 +301,9 @@ public class Controller {
 
     public void sell(MouseEvent event) {
         BaseTurret turretToSell = App.currentGame.getLevel().getSelectedTurret();
+
         if (turretToSell == null) return;
+
         Level currentLevel = App.currentGame.getLevel();
         currentLevel.setMoney(currentLevel.getMoney() + ((turretToSell.getValue() *70)/100 ));
         App.currentGame.getLevel().getTurrets().remove(turretToSell);
