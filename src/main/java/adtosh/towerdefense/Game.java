@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Game {
 
@@ -204,7 +205,9 @@ public class Game {
     }
 
     public int findMaxWave(String path) throws IOException {
-        return new File(path).listFiles().length; //todo objects non null?
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(Objects.requireNonNull(classLoader.getResource(path)).getFile());
+        return Objects.requireNonNull(file.listFiles()).length;
 
     }
 

@@ -74,9 +74,9 @@
         </plugins>
 
         <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-        </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
         </resources>
     </build>
 
@@ -86,6 +86,7 @@
         <maven.compiler.release>10</maven.compiler.release>
         <javafx.version>11</javafx.version>
     </properties>
+
 
     <dependencies>
         <dependency>

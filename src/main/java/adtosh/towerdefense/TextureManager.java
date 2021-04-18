@@ -2,6 +2,8 @@ package adtosh.towerdefense;
 
 import javafx.scene.image.Image;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashMap;
 
 
@@ -34,7 +36,6 @@ public class TextureManager {
         loadImage("multi shooter", "multi-shooter.png", 120, 0, true);
         loadImage("dart monkey", "dart-monkey.png", 100, 0, true);
         loadImage("cannon", "cannon.png", 90, 0 , true);
-
 
 
 

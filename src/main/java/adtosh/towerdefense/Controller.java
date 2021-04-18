@@ -17,10 +17,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -241,19 +240,23 @@ public class Controller {
         String line;
         ArrayList<String[]> lines = new ArrayList<>();
         System.out.println("WAVE: " + App.currentGame.getLevel().getWave());
+        String fileName = "wave-" + App.currentGame.getLevel().getWave() + ".txt";
 
-        try {
-            String fileName = "Waves/wave-" + App.currentGame.getLevel().getWave() + ".txt";
-            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+
+
+        try(InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        ) {
+//        try{
+//            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+
             while ((line = reader.readLine()) != null) {
-
                 String[] words = line.split(" ");
                 if (Arrays.asList(words).contains(""))continue;
                 lines.add(words);
             }
+
             reader.close();
-
-
 
             App.currentGame.setCurrentState(Game.GameState.NORMAL_SPEED);
             App.currentGame.getLevel().setBalloonsSpawnQueue(lines);

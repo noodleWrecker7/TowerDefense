@@ -62,7 +62,7 @@
                         </graphic></PricedButton>
 
                         <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" text="Play" onMouseClicked="#startRound" />
-                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" text="Pause" onMouseClicked="#pause"/>
+                        <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" wrapText="true" text="Pause              /Un Pause" onMouseClicked="#pause"/>
                         <Button mnemonicParsing="false" prefHeight="100.0"  maxHeight="100.0" prefWidth="100.0" text="Sell Selection" onMouseClicked="#sell" />
                     </children>
                 </VBox>

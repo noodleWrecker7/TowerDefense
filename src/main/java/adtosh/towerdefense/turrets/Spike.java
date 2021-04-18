@@ -2,11 +2,15 @@ package adtosh.towerdefense.turrets;
 
 import adtosh.towerdefense.App;
 import adtosh.towerdefense.Placeable;
+import adtosh.towerdefense.ScreenManager;
 import adtosh.towerdefense.TextureManager;
 import adtosh.towerdefense.entity.Entity;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+
+import java.awt.font.TextMeasurer;
 
 public class Spike extends Entity implements Placeable {
     private int lives;
@@ -31,7 +35,13 @@ public class Spike extends Entity implements Placeable {
     @Override
     public Circle getBounds() {
         double radius = TextureManager.getTexture(this.textureName).getWidth() / 2;
-        return new Circle(x / 2, y / 2, radius / 2);
+        if (isPlaced) {
+            return new Circle(x / 2, y / 2, radius / 1.5);
+        }else {
+            return new Circle(x / 2, y / 2, radius / 6);
+
+
+        }
 
 }
 

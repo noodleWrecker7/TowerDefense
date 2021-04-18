@@ -66,6 +66,8 @@ public class Level {
     private int startY;
 
     public Level(int levelID) {
+        this.wave=10; //todo REMOVE
+        this.money = 1000;
         this.levelID = levelID;
         loadDataFromFile();
 
@@ -354,13 +356,11 @@ public class Level {
             wave++;
             this.money+=7;
 
-            try {
-                if (wave >App.currentGame.findMaxWave("Waves")) {
+
+                if (wave >31) {
                     endGameMessage("YOU WIN" , 170);
                 }else {showMessage("ROUND OVER ", 120);};
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
 
 
 

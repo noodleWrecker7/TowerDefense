@@ -12,13 +12,7 @@
          <children>
             <Button mnemonicParsing="false" onMouseClicked="#loadLevel1" prefHeight="50.0" prefWidth="101.0" text="Level 1" />
             <Button mnemonicParsing="false" onMouseClicked="#loadLevel2" prefHeight="50.0" prefWidth="102.0" text="Level 2" />
-            <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#loadLevel3" prefHeight="50.0" prefWidth="147.0" text="Level 3">
-               //800, 1050
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
-<!--            <Button mnemonicParsing="false" onAction="#loadLevel4" prefHeight="50.0" prefWidth="104.0" text="Level 4" />-->
+
          </children>
       </VBox>
    </children>
